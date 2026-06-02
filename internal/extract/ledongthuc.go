@@ -20,7 +20,7 @@ func (PureGo) Extract(path string) ([]Page, error) {
 	if err != nil {
 		return nil, fmt.Errorf("purego: open %q: %w", path, err)
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	n := r.NumPage()
 	pages := make([]Page, 0, n)

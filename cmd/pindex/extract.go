@@ -33,7 +33,7 @@ func newExtractCmd() *cobra.Command {
 			}
 			out := c.OutOrStdout()
 			for _, p := range pages {
-				fmt.Fprintf(out, "===== page %d (%s) =====\n%s\n\n", p.Index, ex.Name(), p.Text)
+				_, _ = fmt.Fprintf(out, "===== page %d (%s) =====\n%s\n\n", p.Index, ex.Name(), p.Text)
 			}
 			return nil
 		},

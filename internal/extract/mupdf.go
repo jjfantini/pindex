@@ -31,7 +31,7 @@ func (MuPDF) Extract(path string) ([]Page, error) {
 	if err != nil {
 		return nil, fmt.Errorf("mupdf: open %q: %w", path, err)
 	}
-	defer doc.Close()
+	defer func() { _ = doc.Close() }()
 
 	n := doc.NumPage()
 	pages := make([]Page, 0, n)
