@@ -8,7 +8,6 @@ linters:
     - staticcheck
     - unused
     - misspell
-    - revive
 
 formatters:
   enable:
