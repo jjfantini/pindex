@@ -1,11 +1,12 @@
 module github.com/jjfantini/pindex
 
-go 1.25
+go 1.25.0
 
 require (
 	github.com/gen2brain/go-fitz v1.24.15
 	github.com/ledongthuc/pdf v0.0.0-20250511090121-5959a4027728
 	github.com/spf13/cobra v1.10.2
+	golang.org/x/sync v0.20.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
