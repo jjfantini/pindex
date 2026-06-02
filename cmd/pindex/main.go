@@ -68,12 +68,3 @@ func newEvalCmd() *cobra.Command {
 		RunE:  func(*cobra.Command, []string) error { return notImplemented("eval") },
 	}
 }
-
-func newExtractCmd() *cobra.Command {
-	return &cobra.Command{
-		Use:   "extract <pdf>",
-		Short: "Debug: dump per-page extracted text for a PDF",
-		Args:  cobra.MaximumNArgs(1),
-		RunE:  func(*cobra.Command, []string) error { return notImplemented("extract") },
-	}
-}
