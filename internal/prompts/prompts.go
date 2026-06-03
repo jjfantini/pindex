@@ -149,6 +149,100 @@ func TOCDetector(content string) string {
     Please note: abstract,summary, notation list, figure list, table list, etc. are not table of contents.`, content)
 }
 
+// PageIndexGiven is the reply schema for DetectPageIndex.
+type PageIndexGiven struct {
+	Thinking            string `json:"thinking"`
+	PageIndexGivenInTOC string `json:"page_index_given_in_toc"` // "yes" | "no"
+}
+
+// TOCPageEntry is one transformed TOC line: a dotted structure code, a title, and
+// the PRINTED page label (nil when the line has no page number).
+type TOCPageEntry struct {
+	Structure string `json:"structure"`
+	Title     string `json:"title"`
+	Page      *int   `json:"page"`
+}
+
+// TOCTransformOut wraps the transformer's reply.
+type TOCTransformOut struct {
+	TableOfContents []TOCPageEntry `json:"table_of_contents"`
+}
+
+// DetectPageIndex asks whether a table of contents lists page numbers.
+func DetectPageIndex(tocContent string) string {
+	return fmt.Sprintf(`You will be given a table of contents.
+
+Your job is to detect if there are page numbers/indices given within the table of contents.
+
+Given text: %s
+
+Reply format:
+{
+    "thinking": <why do you think there are page numbers/indices given within the table of contents>
+    "page_index_given_in_toc": "<yes or no>"
+}
+Directly return the final JSON structure. Do not output anything else.`, tocContent)
+}
+
+// TOCTransform converts a raw table of contents into structured JSON entries with
+// their printed page numbers.
+func TOCTransform(tocContent string) string {
+	return fmt.Sprintf(`You are given a table of contents. Your job is to transform the whole table of contents
+into a JSON format included in table_of_contents.
+
+structure is the numeric system which represents the index of the hierarchy section in the table of
+contents. For example, the first section has structure index 1, the first subsection has structure
+index 1.1, the second subsection has structure index 1.2, etc.
+
+The response should be in the following JSON format:
+{
+    "table_of_contents": [
+        {
+            "structure": <structure index, "x.x.x" or null> (string),
+            "title": <title of the section>,
+            "page": <page number or null>
+        },
+        ...
+    ]
+}
+Transform the full table of contents in one go. Directly return the final JSON structure, do not
+output anything else.
+
+Table of contents:
+%s`, tocContent)
+}
+
+// TOCIndexExtract maps TOC titles to physical page indices using tagged pages.
+func TOCIndexExtract(tocJSON, taggedPages string) string {
+	return fmt.Sprintf(`You are given a table of contents in JSON format and several pages of a document. Your
+job is to add the physical_index to the table of contents.
+
+The provided pages contain tags like <physical_index_X> and <physical_index_X> to indicate the
+physical location of page X.
+
+The structure variable is the numeric hierarchy index (e.g. 1, 1.1, 1.2).
+
+The response should be in the following JSON format:
+[
+    {
+        "structure": <structure index, "x.x.x" or null> (string),
+        "title": <title of the section>,
+        "physical_index": "<physical_index_X>" (keep the format)
+    },
+    ...
+]
+
+Only add the physical_index to sections that are in the provided pages. If a section is not in the
+provided pages, do not add a physical_index to it. Directly return the final JSON structure. Do not
+output anything else.
+
+Table of contents (JSON):
+%s
+
+Document pages:
+%s`, tocJSON, taggedPages)
+}
+
 // NodeSummary asks for a short description of a section's text. Returns plain text.
 func NodeSummary(text string) string {
 	return fmt.Sprintf(`You are given a part of a document, your task is to generate a description of the partial document about what are main points covered in the partial document.

@@ -41,6 +41,10 @@ type Document struct {
 	LineCount      int           `json:"line_count,omitempty"`
 	Structure      []TreeNode    `json:"structure"`
 	Pages          []PageContent `json:"pages,omitempty"`
+	// PageOffset maps a printed page label to its physical page index
+	// (physical = printed + PageOffset), recovered from a page-numbered table of
+	// contents. Zero when unknown / no TOC was used.
+	PageOffset int `json:"page_offset,omitempty"`
 }
 
 // CatalogEntry is the lightweight per-document record kept in the workspace

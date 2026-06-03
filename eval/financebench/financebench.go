@@ -93,9 +93,25 @@ func GoldPages(q Question) []int {
 	return out
 }
 
+// RecallAtPageOffset reports recall@page after aligning FinanceBench's printed
+// page labels to pindex's physical page indices via the document's page offset
+// (physical = printed + offset, recovered from a page-numbered TOC). When the
+// offset is unknown (0 / no TOC) it degrades to the raw comparison.
+func RecallAtPageOffset(gold, retrieved []int, offset int) bool {
+	if offset == 0 {
+		return RecallAtPage(gold, retrieved)
+	}
+	shifted := make([]int, len(gold))
+	for i, g := range gold {
+		shifted[i] = g + offset
+	}
+	return RecallAtPage(shifted, retrieved)
+}
+
 // RecallAtPage reports whether any gold page was among the retrieved pages.
 // (Caveat: pindex's physical page index may differ from FinanceBench's printed
-// page label; align before trusting this on a full run — see docs/PLAN.md.)
+// page label; prefer RecallAtPageOffset, which aligns via the document's TOC
+// page offset when one was recovered.)
 func RecallAtPage(gold, retrieved []int) bool {
 	if len(gold) == 0 {
 		return false
@@ -288,7 +304,7 @@ func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel s
 		}
 		r.Predicted = ans.Text
 		r.Cited = ans.CitedPages
-		r.PageHit = RecallAtPage(r.GoldPages, ans.CitedPages)
+		r.PageHit = RecallAtPageOffset(r.GoldPages, ans.CitedPages, doc.PageOffset)
 		r.EvidenceHit = EvidenceHit(doc, ans.CitedPages, q)
 		r.EvidenceInDoc = EvidenceInDoc(doc, q)
 		correct, jerr := Judge(ctx, judge, judgeModel, q, ans.Text)
