@@ -69,3 +69,55 @@ func TestAskRetriesInvalidPageSelector(t *testing.T) {
 		t.Errorf("calls = %d want 3 (one select retry)", mock.CallCount())
 	}
 }
+
+func TestParseEffort(t *testing.T) {
+	for in, want := range map[string]Effort{"": EffortLow, "LOW": EffortLow, "medium": EffortMedium, "high": EffortHigh, "ultra": EffortUltra} {
+		if got, err := ParseEffort(in); err != nil || got != want {
+			t.Errorf("ParseEffort(%q) = %v,%v want %v", in, got, err, want)
+		}
+	}
+	if _, err := ParseEffort("bogus"); err == nil {
+		t.Error("bogus effort should error")
+	}
+}
+
+func TestAskMediumFetchMoreRecoversRefusal(t *testing.T) {
+	mock := llm.NewMock("m",
+		llm.MockResponse{Content: `{"pages":"1"}`},                                     // select
+		llm.MockResponse{Content: `{"answer":"I cannot find it.","pages_used":"1"}`},   // answer: refusal
+		llm.MockResponse{Content: `{"pages":"2"}`},                                     // select-more
+		llm.MockResponse{Content: `{"answer":"Revenue was $1,234.","pages_used":"2"}`}, // answer: success
+	)
+	a := New(mock, "m")
+	a.Effort = EffortMedium
+	ans, err := a.Ask(context.Background(), sampleDoc(), "What was revenue?")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ans.Text != "Revenue was $1,234." {
+		t.Errorf("answer = %q (medium should recover via fetch-more)", ans.Text)
+	}
+	if ans.SelectedPages != "1,2" {
+		t.Errorf("selected = %q want 1,2", ans.SelectedPages)
+	}
+	if mock.CallCount() != 4 {
+		t.Errorf("calls = %d want 4 (select, answer-refusal, select-more, answer)", mock.CallCount())
+	}
+}
+
+func TestAskLowDoesNotFetchMore(t *testing.T) {
+	mock := llm.NewMock("m",
+		llm.MockResponse{Content: `{"pages":"1"}`},
+		llm.MockResponse{Content: `{"answer":"I cannot find it.","pages_used":"1"}`},
+	)
+	ans, err := New(mock, "m").Ask(context.Background(), sampleDoc(), "q") // low default
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(ans.Text, "cannot find") {
+		t.Errorf("low effort should return the honest refusal as-is, got %q", ans.Text)
+	}
+	if mock.CallCount() != 2 {
+		t.Errorf("calls = %d want 2 (no fetch-more at low)", mock.CallCount())
+	}
+}
