@@ -16,15 +16,3 @@ func TestRootHasSubcommands(t *testing.T) {
 		}
 	}
 }
-
-func TestStubsReturnNotImplemented(t *testing.T) {
-	stubs := map[string]bool{"eval": true}
-	for _, cmd := range newRootCmd().Commands() {
-		if !stubs[cmd.Name()] || cmd.RunE == nil {
-			continue
-		}
-		if err := cmd.RunE(cmd, nil); err == nil {
-			t.Errorf("%s: expected a not-implemented error from scaffold stub", cmd.Name())
-		}
-	}
-}
