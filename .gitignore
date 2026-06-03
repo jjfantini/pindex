@@ -28,3 +28,4 @@ coverage.*
 .DS_Store
 Thumbs.db
 *.swp
+eval/financebench/_generated_trees/

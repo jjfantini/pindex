@@ -47,8 +47,6 @@ type Builder struct {
 	// Short docs rarely carry a formal page-numbered TOC, and detection costs up to
 	// TOCCheckPageNum probe calls before falling back — so we skip it for them.
 	TOCMinPages int
-	// TOCVerifySample is how many TOC sections to sample when verifying the branch.
-	TOCVerifySample int
 	// TOCVerifyThreshold is the minimum verified-title fraction to trust the TOC
 	// branch; below it the build falls back to the no-TOC path.
 	TOCVerifyThreshold float64
@@ -67,7 +65,6 @@ func NewBuilder(cfg config.Config, p llm.Provider) *Builder {
 		SummaryTokenThreshold: 200,
 		DetectTOC:             false, // opt-in until TOC-path accuracy parity is measured
 		TOCMinPages:           25,
-		TOCVerifySample:       5,
 		TOCVerifyThreshold:    0.6,
 	}
 }
@@ -111,6 +108,7 @@ func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, erro
 	if err := b.splitLargeNodes(ctx, nodes, pages, 0); err != nil {
 		return Result{}, err
 	}
+	tree.CoverChildren(nodes) // keep parent spans covering split-added children
 	tree.WriteNodeIDs(nodes)
 
 	if b.cfg.AddNodeSummary {
@@ -129,15 +127,14 @@ func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, erro
 
 // sections produces the flat, resolved section list plus a page offset. It tries
 // the table-of-contents fast path (cheaper, and it recovers the printed->physical
-// offset); if there is no page-numbered TOC, the branch fails, or sampled titles
-// don't verify, it falls back to the general structure-generation path.
+// offset); if there is no page-numbered TOC, the branch fails, or too few sections
+// verify after repair, it falls back to the general structure-generation path.
+// structureFromTOC does the per-section verify+repair and gates on the threshold.
 func (b *Builder) sections(ctx context.Context, pages []extract.Page) ([]item, int, error) {
 	if b.DetectTOC && b.cfg.TOCCheckPageNum > 0 && len(pages) >= b.TOCMinPages {
 		if toc, found, err := b.detectTOC(ctx, pages); err == nil && found && toc.hasPageNumbers {
 			if items, offset, terr := b.structureFromTOC(ctx, pages, toc); terr == nil {
-				if b.verifyItems(ctx, items, pages) >= b.TOCVerifyThreshold {
-					return items, offset, nil
-				}
+				return items, offset, nil
 			}
 		}
 	}

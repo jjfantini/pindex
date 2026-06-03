@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/jjfantini/pindex/internal/extract"
@@ -164,6 +165,13 @@ func (b *Builder) structureFromTOC(ctx context.Context, pages []extract.Page, to
 	if len(items) == 0 {
 		return nil, 0, fmt.Errorf("toc: no resolvable sections after offset")
 	}
+	// Verify each section against its page and repair the mis-mapped ones (the
+	// global offset drifts across front/back matter); fall back to the no-TOC path
+	// if too few sections still verify.
+	items, frac := b.verifyAndRepair(ctx, items, pages)
+	if frac < b.TOCVerifyThreshold {
+		return nil, 0, fmt.Errorf("toc: only %.0f%% of sections verified after repair", frac*100)
+	}
 	return items, offset, nil
 }
 
@@ -233,25 +241,75 @@ func applyOffset(entries []prompts.TOCPageEntry, offset, maxPage int) []item {
 	return out
 }
 
-// verifyItems samples sections and checks each title appears on its computed page,
-// returning the fraction correct (verify_toc).
-func (b *Builder) verifyItems(ctx context.Context, items []item, pages []extract.Page) float64 {
-	if len(items) == 0 {
-		return 0
+// titleAt reports whether a section title actually appears on the given physical
+// page (check_title_appearance).
+func (b *Builder) titleAt(ctx context.Context, title string, idx int, pages []extract.Page) bool {
+	txt, ok := pageText(pages, idx)
+	if !ok {
+		return false
 	}
-	n := min(b.TOCVerifySample, len(items))
-	correct := 0
-	for i := 0; i < n; i++ {
-		it := items[i*len(items)/n] // even spread
-		txt, ok := pageText(pages, it.physicalIdx)
-		if !ok {
+	out, err := llm.CompleteJSON[prompts.Appearance](ctx, b.provider,
+		llm.UserPrompt(b.cfg.Model, prompts.CheckTitleAppearance(title, txt)), b.StructuredAttempts, nil)
+	return err == nil && strings.EqualFold(strings.TrimSpace(out.Answer), "yes")
+}
+
+// verifyAndRepair checks each section's title against its offset-derived page and
+// re-locates the ones that don't match by searching the window bounded by the
+// surrounding verified sections (PageIndex verify_toc + fix_incorrect_toc +
+// single_toc_item_index_fixer). Items that can't be verified or repaired keep
+// their original page (never dropped — that would lose coverage). Returns the
+// page-sorted items and the post-repair correct fraction (the fallback gate).
+func (b *Builder) verifyAndRepair(ctx context.Context, items []item, pages []extract.Page) ([]item, float64) {
+	if len(items) == 0 {
+		return items, 0
+	}
+	maxP := maxIndex(pages)
+	correct := make([]bool, len(items))
+	for i := range items {
+		correct[i] = b.titleAt(ctx, items[i].title, items[i].physicalIdx, pages)
+	}
+	for i := range items {
+		if correct[i] {
 			continue
 		}
-		out, err := llm.CompleteJSON[prompts.Appearance](ctx, b.provider,
-			llm.UserPrompt(b.cfg.Model, prompts.CheckTitleAppearance(it.title, txt)), b.StructuredAttempts, nil)
-		if err == nil && strings.EqualFold(strings.TrimSpace(out.Answer), "yes") {
-			correct++
+		lo, hi := 1, maxP
+		for j := i - 1; j >= 0; j-- {
+			if correct[j] {
+				lo = items[j].physicalIdx
+				break
+			}
+		}
+		for j := i + 1; j < len(items); j++ {
+			if correct[j] {
+				hi = items[j].physicalIdx
+				break
+			}
+		}
+		if lo > hi {
+			continue
+		}
+		var tagged strings.Builder
+		for _, p := range pages {
+			if p.Index >= lo && p.Index <= hi {
+				tagged.WriteString(llm.WrapPage(llm.Page{Index: p.Index, Text: p.Text}))
+			}
+		}
+		out, err := llm.CompleteJSON[prompts.PhysicalIndexFix](ctx, b.provider,
+			llm.UserPrompt(b.cfg.Model, prompts.SingleTOCItemIndex(items[i].title, tagged.String())), b.StructuredAttempts, nil)
+		if err != nil {
+			continue
+		}
+		if n, ok := parsePhysical(out.PhysicalIndex); ok && n >= lo && n <= hi {
+			items[i].physicalIdx = n
+			correct[i] = b.titleAt(ctx, items[i].title, n, pages)
 		}
 	}
-	return float64(correct) / float64(n)
+	nc := 0
+	for _, c := range correct {
+		if c {
+			nc++
+		}
+	}
+	sort.SliceStable(items, func(a, b int) bool { return items[a].physicalIdx < items[b].physicalIdx })
+	return items, float64(nc) / float64(len(items))
 }

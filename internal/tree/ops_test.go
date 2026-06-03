@@ -38,6 +38,25 @@ func TestListToTreeDeepNesting(t *testing.T) {
 	}
 }
 
+func TestListToTreeParentCoversChildren(t *testing.T) {
+	// A child mapped to a page outside its parent's [start,end] must widen the
+	// parent (regression: financials nested under MD&A left the parent at p31-32
+	// while a child spanned to p118).
+	got := ListToTree([]FlatItem{
+		{Structure: "7", Title: "MD&A", StartIndex: 31, EndIndex: 32},
+		{Structure: "7.1", Title: "Financials", StartIndex: 62, EndIndex: 118},
+	})
+	if len(got) != 1 {
+		t.Fatalf("want 1 root, got %d", len(got))
+	}
+	if got[0].EndIndex != 118 {
+		t.Errorf("parent EndIndex = %d, want 118 (must cover child)", got[0].EndIndex)
+	}
+	if got[0].StartIndex != 31 {
+		t.Errorf("parent StartIndex = %d, want 31", got[0].StartIndex)
+	}
+}
+
 func TestListToTreeOrphanBecomesRoot(t *testing.T) {
 	// "2.1" appears before its parent "2" exists -> it must become a root.
 	got := ListToTree([]FlatItem{
@@ -109,5 +128,24 @@ func TestStripTextDeepCopies(t *testing.T) {
 	}
 	if in[0].Text != "secret" || in[0].Nodes[0].Text != "more" {
 		t.Errorf("input was mutated: %+v", in)
+	}
+}
+
+func TestCoverChildren(t *testing.T) {
+	nodes := []TreeNode{{
+		Title: "Item 16", StartIndex: 121, EndIndex: 121,
+		Nodes: []TreeNode{
+			{Title: "Exhibit 21", StartIndex: 482, EndIndex: 485},
+			{Title: "Notes", StartIndex: 131, EndIndex: 200, Nodes: []TreeNode{
+				{Title: "Note 1", StartIndex: 131, EndIndex: 503},
+			}},
+		},
+	}}
+	CoverChildren(nodes)
+	if nodes[0].EndIndex != 503 {
+		t.Errorf("root EndIndex = %d, want 503 (must span deepest descendant)", nodes[0].EndIndex)
+	}
+	if nodes[0].Nodes[1].EndIndex != 503 {
+		t.Errorf("child EndIndex = %d, want 503 (grandchild pushes it)", nodes[0].Nodes[1].EndIndex)
 	}
 }
