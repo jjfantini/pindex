@@ -59,8 +59,12 @@ func newIndexCmd() *cobra.Command {
 				}
 				defer func() { _ = st.Close() }()
 			}
+			builder := index.NewBuilder(cfg, provider)
+			if detectTOC, _ := c.Flags().GetBool("detect-toc"); detectTOC {
+				builder.DetectTOC = true
+			}
 			fi := &pipeline.FileIndexer{
-				Builder:   index.NewBuilder(cfg, provider),
+				Builder:   builder,
 				Extractor: ex,
 				Store:     st,
 			}
@@ -99,6 +103,7 @@ func newIndexCmd() *cobra.Command {
 	cmd.Flags().String("workspace", ".pindex/workspace", "persist the index here (empty to only print)")
 	cmd.Flags().Int("concurrency", 4, "parallel documents when indexing a directory")
 	cmd.Flags().Bool("force", false, "re-index documents already in the workspace")
+	cmd.Flags().Bool("detect-toc", false, "use the table-of-contents fast path for page-numbered docs (opt-in; recovers a page offset)")
 	return cmd
 }
 

@@ -39,8 +39,14 @@ type Builder struct {
 	// summary instead of spending an LLM call (mirrors PageIndex's 200-token rule).
 	SummaryTokenThreshold int
 	// DetectTOC enables the table-of-contents fast path before falling back to the
-	// general structure-generation path.
+	// general structure-generation path. Off by default: it changes the derived
+	// tree for TOC-bearing docs, so it stays opt-in until accuracy parity is
+	// re-measured against the no-TOC baseline.
 	DetectTOC bool
+	// TOCMinPages gates TOC detection to documents with at least this many pages.
+	// Short docs rarely carry a formal page-numbered TOC, and detection costs up to
+	// TOCCheckPageNum probe calls before falling back — so we skip it for them.
+	TOCMinPages int
 	// TOCVerifySample is how many TOC sections to sample when verifying the branch.
 	TOCVerifySample int
 	// TOCVerifyThreshold is the minimum verified-title fraction to trust the TOC
@@ -59,7 +65,8 @@ func NewBuilder(cfg config.Config, p llm.Provider) *Builder {
 		MaxRecursionDepth:     4,
 		StructuredAttempts:    3,
 		SummaryTokenThreshold: 200,
-		DetectTOC:             true,
+		DetectTOC:             false, // opt-in until TOC-path accuracy parity is measured
+		TOCMinPages:           25,
 		TOCVerifySample:       5,
 		TOCVerifyThreshold:    0.6,
 	}
@@ -125,7 +132,7 @@ func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, erro
 // offset); if there is no page-numbered TOC, the branch fails, or sampled titles
 // don't verify, it falls back to the general structure-generation path.
 func (b *Builder) sections(ctx context.Context, pages []extract.Page) ([]item, int, error) {
-	if b.DetectTOC && b.cfg.TOCCheckPageNum > 0 {
+	if b.DetectTOC && b.cfg.TOCCheckPageNum > 0 && len(pages) >= b.TOCMinPages {
 		if toc, found, err := b.detectTOC(ctx, pages); err == nil && found && toc.hasPageNumbers {
 			if items, offset, terr := b.structureFromTOC(ctx, pages, toc); terr == nil {
 				if b.verifyItems(ctx, items, pages) >= b.TOCVerifyThreshold {

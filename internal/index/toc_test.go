@@ -154,7 +154,9 @@ func ptr(i int) *int { return &i }
 
 func tocTestBuilder(p llm.Provider) *Builder {
 	b := NewBuilder(config.Default(), p)
-	b.Concurrency = 1 // DetectTOC stays true
+	b.Concurrency = 1
+	b.DetectTOC = true // opt-in default is off; exercise the path here
+	b.TOCMinPages = 0  // the test docs are small; don't gate them out
 	return b
 }
 
