@@ -70,24 +70,35 @@ func newEvalCmd() *cobra.Command {
 			asker := ask.New(retrieveProvider, cfg.RetrieveModelOrDefault())
 			results, agg := financebench.Run(c.Context(), asker, judgeProvider, judgeModel, questions, lookup)
 
+			flag := func(b bool, yes string) string {
+				if b {
+					return yes
+				}
+				return "-"
+			}
 			for _, r := range results {
 				if r.Err != nil {
-					_, _ = fmt.Fprintf(c.ErrOrStderr(), "[err ] %s: %v\n", r.Question.ID, r.Err)
+					_, _ = fmt.Fprintf(c.ErrOrStderr(), "[err] %s: %v\n", r.Question.ID, r.Err)
 					continue
 				}
-				ans, rec := "WRONG", "ev-miss"
-				if r.Correct {
-					ans = "RIGHT"
+				hal := ""
+				if r.Hallucinated {
+					hal = " HALLUC"
 				}
-				if r.EvidenceHit {
-					rec = "ev-hit"
-				}
-				_, _ = fmt.Fprintf(c.ErrOrStderr(), "[%s|%s] %s  gold=%q pred=%q cited=%v\n",
-					ans, rec, r.Question.ID, clip(r.Question.Answer, 50), clip(r.Predicted, 80), r.Cited)
+				// Per-question stage flags: extraction / retrieval / answer.
+				_, _ = fmt.Fprintf(c.ErrOrStderr(), "[ext:%s ret:%s ans:%s%s] %s  gold=%q pred=%q cited=%v\n",
+					flag(r.EvidenceInDoc, "Y"), flag(r.EvidenceHit, "Y"), flag(r.Correct, "Y"), hal,
+					r.Question.ID, clip(r.Question.Answer, 50), clip(r.Predicted, 80), r.Cited)
 			}
-			_, _ = fmt.Fprintf(c.OutOrStdout(),
-				"scored=%d/%d  answer_accuracy=%.1f%%  evidence_recall=%.1f%%  (page-number recall=%.1f%%, alignment-sensitive)\n",
-				agg.Scored, agg.Total, agg.AnswerAccuracy()*100, agg.EvidenceRecall()*100, agg.RecallAtPage()*100)
+
+			ext, ret, ansr, hal := agg.Funnel()
+			out := c.OutOrStdout()
+			_, _ = fmt.Fprintf(out, "\n=== stage funnel (scored %d/%d) ===\n", agg.Scored, agg.Total)
+			_, _ = fmt.Fprintf(out, "  extraction (evidence in extracted text): %5.1f%%\n", ext*100)
+			_, _ = fmt.Fprintf(out, "  retrieval  (cited page holds evidence):  %5.1f%%   [evidence-recall]\n", ret*100)
+			_, _ = fmt.Fprintf(out, "  answer     (judged correct):             %5.1f%%   [answer-accuracy]\n", ansr*100)
+			_, _ = fmt.Fprintf(out, "  hallucination (confident-wrong):         %5.1f%%\n", hal*100)
+			_, _ = fmt.Fprintf(out, "  (page-number recall %.1f%%, alignment-sensitive)\n", agg.RecallAtPage()*100)
 			return nil
 		},
 	}

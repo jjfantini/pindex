@@ -170,6 +170,34 @@ func wordSet(s string) map[string]bool {
 	return set
 }
 
+// EvidenceInDoc reports whether the gold evidence text appears ANYWHERE in the
+// document's extracted pages. This is the extraction gate: if false, the answer
+// was never recoverable (bad extraction or evidence the word-overlap can't match);
+// if true, any failure is downstream (retrieval or answer reasoning).
+func EvidenceInDoc(doc tree.Document, q Question) bool {
+	all := make([]int, 0, len(doc.Pages))
+	for _, p := range doc.Pages {
+		all = append(all, p.Page)
+	}
+	return EvidenceHit(doc, all, q)
+}
+
+// isRefusal reports whether an answer is an honest "I cannot find it" rather than
+// a confident wrong answer. Used to separate honest misses from hallucinations.
+func isRefusal(answer string) bool {
+	a := strings.ToLower(answer)
+	for _, p := range []string{
+		"cannot find", "can't find", "could not find", "not provided", "not found",
+		"unable to", "no information", "does not provide", "not present", "not available",
+		"insufficient information", "not stated", "not disclosed",
+	} {
+		if strings.Contains(a, p) {
+			return true
+		}
+	}
+	return false
+}
+
 // Judge grades predicted against the gold answer via the permissive equivalence
 // rubric.
 func Judge(ctx context.Context, judge llm.Provider, model string, q Question, predicted string) (bool, error) {
@@ -181,21 +209,37 @@ func Judge(ctx context.Context, judge llm.Provider, model string, q Question, pr
 	return out.Correct, nil
 }
 
-// RunResult is the per-question outcome.
+// RunResult is the per-question outcome, decomposed by pipeline stage.
 type RunResult struct {
-	Question    Question
-	Predicted   string
-	Cited       []int
-	GoldPages   []int
-	Correct     bool
-	PageHit     bool // gold printed page == cited physical page (alignment-sensitive)
-	EvidenceHit bool // cited page text contains the gold evidence (alignment-free)
-	Err         error
+	Question      Question
+	Predicted     string
+	Cited         []int
+	GoldPages     []int
+	EvidenceInDoc bool // stage 1: evidence present in the extracted text at all (extraction gate)
+	EvidenceHit   bool // stage 2: a cited page contains the gold evidence (retrieval gate)
+	Correct       bool // stage 3: judged correct (answer gate)
+	Hallucinated  bool // wrong AND not an honest refusal (confident-wrong)
+	PageHit       bool // gold printed page == cited physical page (alignment-sensitive)
+	Err           error
 }
 
-// Aggregate holds run-level metrics.
+// Aggregate holds run-level metrics for the stage funnel.
 type Aggregate struct {
-	Total, Scored, CorrectCount, PageHitCount, EvidenceHitCount int
+	Total, Scored                                                                       int
+	CorrectCount, PageHitCount, EvidenceHitCount, EvidenceInDocCount, HallucinatedCount int
+}
+
+// Funnel returns the per-stage rates over scored questions: extraction (evidence
+// is in the extracted text), retrieval (a cited page holds the evidence), answer
+// (judged correct), and hallucination (confident-wrong). This localizes where
+// accuracy is lost.
+func (a Aggregate) Funnel() (extraction, retrieval, answer, hallucination float64) {
+	if a.Scored == 0 {
+		return 0, 0, 0, 0
+	}
+	s := float64(a.Scored)
+	return float64(a.EvidenceInDocCount) / s, float64(a.EvidenceHitCount) / s,
+		float64(a.CorrectCount) / s, float64(a.HallucinatedCount) / s
 }
 
 // AnswerAccuracy is correct/scored.
@@ -246,6 +290,7 @@ func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel s
 		r.Cited = ans.CitedPages
 		r.PageHit = RecallAtPage(r.GoldPages, ans.CitedPages)
 		r.EvidenceHit = EvidenceHit(doc, ans.CitedPages, q)
+		r.EvidenceInDoc = EvidenceInDoc(doc, q)
 		correct, jerr := Judge(ctx, judge, judgeModel, q, ans.Text)
 		if jerr != nil {
 			r.Err = jerr
@@ -253,6 +298,8 @@ func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel s
 			continue
 		}
 		r.Correct = correct
+		r.Hallucinated = !correct && !isRefusal(r.Predicted)
+
 		agg.Scored++
 		if correct {
 			agg.CorrectCount++
@@ -262,6 +309,12 @@ func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel s
 		}
 		if r.EvidenceHit {
 			agg.EvidenceHitCount++
+		}
+		if r.EvidenceInDoc {
+			agg.EvidenceInDocCount++
+		}
+		if r.Hallucinated {
+			agg.HallucinatedCount++
 		}
 		results = append(results, r)
 	}
