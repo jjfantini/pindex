@@ -199,6 +199,34 @@ Reply JSON:
 Directly return the JSON. Do not output anything else.`, structure, question)
 }
 
+// Equivalence is the reply schema for JudgeEquivalence.
+type Equivalence struct {
+	Thinking string `json:"thinking"`
+	Correct  bool   `json:"correct"`
+}
+
+// JudgeEquivalence grades a predicted answer against a gold answer with the
+// permissive equivalence rubric PageIndex's Mafin 2.5 FinanceBench eval uses
+// (rounding/format/superset tolerated), for apples-to-apples comparability.
+func JudgeEquivalence(question, gold, predicted string) string {
+	return fmt.Sprintf(`You are grading a financial question-answering response.
+Mark it CORRECT if the golden answer (or any equivalent of it) can be inferred from
+the AI-generated answer. Apply these rules:
+- Ignore differences from rounding (e.g. "11 of 14" == "79%%").
+- Fractions, percentages, and numerics that are similar count as equivalent
+  (e.g. "$1.2B" == "1,200 million").
+- An AI answer that contains MORE detail than the golden answer is still CORRECT
+  as long as it conveys the golden answer.
+- Judge meaning/conclusion, not wording.
+
+Question: %s
+Golden answer: %s
+AI-generated answer: %s
+
+Reply JSON: { "thinking": <brief reasoning>, "correct": true or false }
+Directly return the JSON. Do not output anything else.`, question, gold, predicted)
+}
+
 // AskAnswer asks the model to answer strictly from the fetched page content and
 // cite the pages it used.
 func AskAnswer(question, pagesJSON string) string {

@@ -1,9 +1,7 @@
 // Command pindex is the CLI for a vectorless, reasoning-based RAG engine: it
-// builds hierarchical tree indexes from PDFs/Markdown and answers questions by
-// LLM reasoning over that structure (no vectors, no fixed chunking).
-//
-// The subcommands below are scaffolding stubs; each is implemented in its own
-// phase (see docs/PLAN.md).
+// builds hierarchical tree indexes from PDFs and answers questions by LLM
+// reasoning over that structure (no vectors, no fixed chunking). Subcommands:
+// index, ask, eval, extract.
 package main
 
 import (
@@ -37,16 +35,4 @@ func newRootCmd() *cobra.Command {
 	root.PersistentFlags().String("config", "", "path to a pindex config YAML (optional)")
 	root.AddCommand(newIndexCmd(), newAskCmd(), newEvalCmd(), newExtractCmd())
 	return root
-}
-
-func notImplemented(name string) error {
-	return fmt.Errorf("%s: not implemented yet (scaffold — see docs/PLAN.md)", name)
-}
-
-func newEvalCmd() *cobra.Command {
-	return &cobra.Command{
-		Use:   "eval",
-		Short: "Run the FinanceBench evaluation harness",
-		RunE:  func(*cobra.Command, []string) error { return notImplemented("eval") },
-	}
 }
