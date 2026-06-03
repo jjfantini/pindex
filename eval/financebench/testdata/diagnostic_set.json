@@ -1,0 +1,24 @@
+{
+  "description": "pindex accuracy diagnostic set: 15 short FinanceBench docs (4-72 pages, 29 questions). Tune the pipeline on `train`, report on the unseen `heldout` split to avoid overfitting. Only doc names + the split are stored here; the questions themselves are fetched from FinanceBench (CC-BY-NC-4.0) at eval time. See README.md.",
+  "source_questions": "https://raw.githubusercontent.com/patronus-ai/financebench/main/data/financebench_open_source.jsonl",
+  "source_pdfs": "https://raw.githubusercontent.com/patronus-ai/financebench/main/pdfs/<doc_name>.pdf",
+  "train": [
+    "ULTABEAUTY_2023Q4_EARNINGS",
+    "MGMRESORTS_2022Q4_EARNINGS",
+    "AMCOR_2023Q4_EARNINGS",
+    "JOHNSON_JOHNSON_2022Q4_EARNINGS",
+    "PEPSICO_2023Q1_EARNINGS",
+    "Pfizer_2023Q2_10Q",
+    "AMCOR_2023Q2_10Q",
+    "MGMRESORTS_2023Q2_10Q",
+    "PEPSICO_2023_8K_dated-2023-05-05",
+    "AMCOR_2022_8K_dated-2022-07-01"
+  ],
+  "heldout": [
+    "BESTBUY_2024Q2_10Q",
+    "JOHNSON_JOHNSON_2023_8K_dated-2023-08-30",
+    "JOHNSON_JOHNSON_2023Q2_EARNINGS",
+    "FOOTLOCKER_2022_8K_dated-2022-05-20",
+    "FOOTLOCKER_2022_8K_dated_2022-08-19"
+  ]
+}

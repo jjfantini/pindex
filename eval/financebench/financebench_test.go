@@ -66,8 +66,9 @@ func TestRunScoresAccuracyAndRecall(t *testing.T) {
 	lookup := func(string) (tree.Document, bool) { return doc, true }
 
 	results, agg := Run(context.Background(), ask.New(askProvider, "m"), judge, "j", qs, lookup)
-	if len(results) != 1 || !results[0].Correct || !results[0].PageHit || !results[0].EvidenceHit {
-		t.Fatalf("result = %+v", results[0])
+	r := results[0]
+	if len(results) != 1 || !r.Correct || !r.PageHit || !r.EvidenceHit || !r.EvidenceInDoc || r.Hallucinated {
+		t.Fatalf("result = %+v", r)
 	}
 	if agg.AnswerAccuracy() != 1.0 || agg.RecallAtPage() != 1.0 || agg.EvidenceRecall() != 1.0 {
 		t.Errorf("accuracy=%.2f page=%.2f evidence=%.2f want 1.0/1.0/1.0",
@@ -100,5 +101,74 @@ func TestRunMissingDocIsNotScored(t *testing.T) {
 	}
 	if agg.Scored != 0 {
 		t.Errorf("missing doc should not be scored, got scored=%d", agg.Scored)
+	}
+}
+
+func TestEvidenceInDoc(t *testing.T) {
+	doc := tree.Document{Pages: []tree.PageContent{
+		{Page: 1, Content: "intro text"},
+		{Page: 7, Content: "net sales of 1234 million dollars in fiscal 2022"},
+	}}
+	if !EvidenceInDoc(doc, Question{Evidence: []Evidence{{Text: "net sales of 1234 million dollars fiscal 2022"}}}) {
+		t.Error("evidence on page 7 should be found in the doc")
+	}
+	if EvidenceInDoc(doc, Question{Evidence: []Evidence{{Text: "unrelated phrase about widgets gadgets sprockets"}}}) {
+		t.Error("absent evidence should not be in the doc")
+	}
+}
+
+func TestIsRefusal(t *testing.T) {
+	for _, s := range []string{"I cannot find it.", "The document does not provide this.", "Unable to determine."} {
+		if !isRefusal(s) {
+			t.Errorf("%q should be a refusal", s)
+		}
+	}
+	if isRefusal("Revenue was $1,234 million.") {
+		t.Error("a real answer must not count as a refusal")
+	}
+}
+
+func TestFunnelAndHallucination(t *testing.T) {
+	doc := tree.Document{
+		Type: tree.DocPDF, DocName: "D.pdf",
+		Structure: []tree.TreeNode{{Title: "A", StartIndex: 1, EndIndex: 1}},
+		Pages:     []tree.PageContent{{Page: 1, Content: "net sales were 1234 million dollars this fiscal year"}},
+	}
+	lookup := func(string) (tree.Document, bool) { return doc, true }
+	ev := []Evidence{{Text: "net sales were 1234 million dollars fiscal year", Page: 1}}
+
+	// q1 correct; q2 confident-wrong (hallucination); q3 honest refusal (not a hallucination).
+	askProvider := llm.NewMock("ask",
+		llm.MockResponse{Content: `{"pages":"1"}`}, llm.MockResponse{Content: `{"answer":"Net sales were 1234 million.","pages_used":"1"}`},
+		llm.MockResponse{Content: `{"pages":"1"}`}, llm.MockResponse{Content: `{"answer":"Profit was 500 million.","pages_used":"1"}`},
+		llm.MockResponse{Content: `{"pages":"1"}`}, llm.MockResponse{Content: `{"answer":"I cannot find it.","pages_used":"1"}`},
+	)
+	judge := llm.NewMock("judge",
+		llm.MockResponse{Content: `{"correct":true}`},
+		llm.MockResponse{Content: `{"correct":false}`},
+		llm.MockResponse{Content: `{"correct":false}`},
+	)
+	qs := []Question{
+		{ID: "q1", DocName: "D", Question: "sales?", Answer: "1234m", Evidence: ev},
+		{ID: "q2", DocName: "D", Question: "profit?", Answer: "300m", Evidence: ev},
+		{ID: "q3", DocName: "D", Question: "capex?", Answer: "42m", Evidence: ev},
+	}
+	results, agg := Run(context.Background(), ask.New(askProvider, "m"), judge, "j", qs, lookup)
+
+	if !results[1].Hallucinated {
+		t.Error("q2 (confident wrong) should be flagged hallucinated")
+	}
+	if results[2].Hallucinated {
+		t.Error("q3 (honest refusal) must NOT be flagged hallucinated")
+	}
+	ext, ret, ans, hal := agg.Funnel()
+	if ext != 1.0 || ret != 1.0 {
+		t.Errorf("extraction/retrieval funnel = %.2f/%.2f want 1.0/1.0", ext, ret)
+	}
+	if ans < 0.33 || ans > 0.34 {
+		t.Errorf("answer rate = %.2f want ~0.33 (1 of 3)", ans)
+	}
+	if hal < 0.33 || hal > 0.34 {
+		t.Errorf("hallucination rate = %.2f want ~0.33 (1 of 3)", hal)
 	}
 }
