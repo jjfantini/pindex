@@ -70,7 +70,7 @@ func TestRunScoresAccuracyAndRecall(t *testing.T) {
 	}
 	askProvider := llm.NewMock("ask",
 		llm.MockResponse{Content: `{"pages":"42"}`},
-		llm.MockResponse{Content: `{"answer":"Revenue was $1,234.","pages_used":"42"}`},
+		llm.MockResponse{Content: `{"thinking":"Page 42 shows total revenue of 1234 million.","answer":"Revenue was $1,234.","pages_used":"42"}`},
 	)
 	judge := llm.NewMock("judge", llm.MockResponse{Content: `{"correct":true}`})
 
@@ -84,6 +84,13 @@ func TestRunScoresAccuracyAndRecall(t *testing.T) {
 	r := results[0]
 	if len(results) != 1 || !r.Correct || !r.PageHit || !r.EvidenceHit || !r.EvidenceInDoc || r.Hallucinated {
 		t.Fatalf("result = %+v", r)
+	}
+	// The pages selected and the answer reasoning must be surfaced (not discarded).
+	if r.SelectedPages != "42" {
+		t.Errorf("SelectedPages = %q, want %q", r.SelectedPages, "42")
+	}
+	if r.Reasoning == "" {
+		t.Error("Reasoning should be populated from the answer's thinking field")
 	}
 	if agg.AnswerAccuracy() != 1.0 || agg.RecallAtPage() != 1.0 || agg.EvidenceRecall() != 1.0 {
 		t.Errorf("accuracy=%.2f page=%.2f evidence=%.2f want 1.0/1.0/1.0",
