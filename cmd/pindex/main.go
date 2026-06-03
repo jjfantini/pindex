@@ -43,15 +43,6 @@ func notImplemented(name string) error {
 	return fmt.Errorf("%s: not implemented yet (scaffold — see docs/PLAN.md)", name)
 }
 
-func newIndexCmd() *cobra.Command {
-	return &cobra.Command{
-		Use:   "index <path>",
-		Short: "Index a PDF/Markdown file or directory into a tree index",
-		Args:  cobra.MaximumNArgs(1),
-		RunE:  func(*cobra.Command, []string) error { return notImplemented("index") },
-	}
-}
-
 func newAskCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "ask <question>",

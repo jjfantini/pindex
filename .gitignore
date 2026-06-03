@@ -21,6 +21,9 @@ coverage.*
 .env.*
 !.env.example
 
+# pindex local workspace / response cache
+.pindex/
+
 # OS / editor cruft
 .DS_Store
 Thumbs.db
