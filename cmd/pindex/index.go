@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"path/filepath"
+	"os"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -12,14 +12,15 @@ import (
 	"github.com/jjfantini/pindex/internal/extract"
 	"github.com/jjfantini/pindex/internal/index"
 	"github.com/jjfantini/pindex/internal/llm"
+	"github.com/jjfantini/pindex/internal/pipeline"
 	"github.com/jjfantini/pindex/internal/store"
 	"github.com/jjfantini/pindex/internal/tree"
 )
 
 func newIndexCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "index <pdf>",
-		Short: "Index a PDF into a hierarchical tree (prints the tree JSON)",
+		Use:   "index <pdf-or-dir>",
+		Short: "Index a PDF (prints its tree) or a directory of PDFs (batch, resumable)",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(c *cobra.Command, args []string) error {
 			envFile, _ := c.Flags().GetString("env-file")
@@ -38,40 +39,52 @@ func newIndexCmd() *cobra.Command {
 				cfg.Extractor = b
 			}
 			cacheDir, _ := c.Flags().GetString("cache-dir")
+			ws, _ := c.Flags().GetString("workspace")
 
 			ex, err := extract.New(cfg.Extractor)
 			if err != nil {
 				return err
 			}
-			pages, err := ex.Extract(args[0])
-			if err != nil {
-				return err
-			}
-
 			provider, err := buildProvider(cfg.Model, cacheDir)
 			if err != nil {
 				return err
 			}
 
-			res, err := index.NewBuilder(cfg, provider).Build(c.Context(), pages)
+			var st *store.Store
+			if ws != "" {
+				if st, err = store.Open(ws); err != nil {
+					return err
+				}
+				defer func() { _ = st.Close() }()
+			}
+			fi := &pipeline.FileIndexer{
+				Builder:   index.NewBuilder(cfg, provider),
+				Extractor: ex,
+				Store:     st,
+			}
+
+			info, err := os.Stat(args[0])
 			if err != nil {
 				return err
 			}
-
-			if ws, _ := c.Flags().GetString("workspace"); ws != "" {
-				if err := persist(ws, args[0], pages, res); err != nil {
-					return err
-				}
-				_, _ = fmt.Fprintf(c.ErrOrStderr(), "saved to workspace %s (doc id %s)\n", ws, store.DocID(args[0]))
+			if info.IsDir() {
+				return runBatch(c, fi, args[0])
 			}
 
-			out, err := (tree.JSONRenderer{Indent: true}).Render(res.Structure)
+			doc, err := fi.IndexOne(c.Context(), args[0])
+			if err != nil {
+				return err
+			}
+			out, err := (tree.JSONRenderer{Indent: true}).Render(doc.Structure)
 			if err != nil {
 				return err
 			}
 			_, _ = fmt.Fprintln(c.OutOrStdout(), out)
-			if res.Description != "" {
-				_, _ = fmt.Fprintln(c.ErrOrStderr(), "description:", res.Description)
+			if st != nil {
+				_, _ = fmt.Fprintf(c.ErrOrStderr(), "saved to %s (doc id %s)\n", ws, doc.ID)
+			}
+			if doc.DocDescription != "" {
+				_, _ = fmt.Fprintln(c.ErrOrStderr(), "description:", doc.DocDescription)
 			}
 			return nil
 		},
@@ -81,35 +94,40 @@ func newIndexCmd() *cobra.Command {
 	cmd.Flags().String("cache-dir", ".pindex/cache", "prompt-hash response cache dir (empty to disable)")
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file (overrides the environment)")
 	cmd.Flags().String("workspace", ".pindex/workspace", "persist the index here (empty to only print)")
+	cmd.Flags().Int("concurrency", 4, "parallel documents when indexing a directory")
+	cmd.Flags().Bool("force", false, "re-index documents already in the workspace")
 	return cmd
 }
 
-// persist saves the built index as a document in the workspace store.
-func persist(workspace, path string, pages []extract.Page, res index.Result) error {
-	s, err := store.Open(workspace)
+func runBatch(c *cobra.Command, fi *pipeline.FileIndexer, dir string) error {
+	if fi.Store == nil {
+		return fmt.Errorf("indexing a directory requires a --workspace to persist into")
+	}
+	paths, err := pipeline.FindPDFs(dir)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = s.Close() }()
-
-	abs, err := filepath.Abs(path)
-	if err != nil {
-		abs = path
+	if len(paths) == 0 {
+		return fmt.Errorf("no .pdf files found under %s", dir)
 	}
-	pcs := make([]tree.PageContent, len(pages))
-	for i, p := range pages {
-		pcs[i] = tree.PageContent{Page: p.Index, Content: p.Text}
-	}
-	return s.Save(tree.Document{
-		ID:             store.DocID(path),
-		Type:           tree.DocPDF,
-		Path:           abs,
-		DocName:        filepath.Base(path),
-		DocDescription: res.Description,
-		PageCount:      len(pages),
-		Structure:      res.Structure,
-		Pages:          pcs,
+	conc, _ := c.Flags().GetInt("concurrency")
+	force, _ := c.Flags().GetBool("force")
+	results := pipeline.BatchIndex(c.Context(), fi, paths, conc, force, func(r pipeline.Result) {
+		status := "indexed"
+		switch {
+		case r.Err != nil:
+			status = "FAILED: " + r.Err.Error()
+		case r.Skipped:
+			status = "skipped"
+		}
+		_, _ = fmt.Fprintf(c.ErrOrStderr(), "[%s] %s\n", status, r.Path)
 	})
+	indexed, skipped, failed := pipeline.Summarize(results)
+	_, _ = fmt.Fprintf(c.OutOrStdout(), "indexed=%d skipped=%d failed=%d total=%d\n", indexed, skipped, failed, len(results))
+	if failed > 0 {
+		return fmt.Errorf("%d document(s) failed to index", failed)
+	}
+	return nil
 }
 
 // buildProvider returns a live provider wrapped in resilience and (optionally) a
