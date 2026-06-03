@@ -50,7 +50,8 @@ func newAskCmd() *cobra.Command {
 				return err
 			}
 
-			provider, err := buildProvider(cfg.RetrieveModelOrDefault(), cacheDir)
+			rpm, _ := c.Flags().GetInt("rpm")
+			provider, err := buildProvider(cfg.RetrieveModelOrDefault(), cacheDir, rpm)
 			if err != nil {
 				return err
 			}
@@ -72,6 +73,7 @@ func newAskCmd() *cobra.Command {
 	cmd.Flags().String("doc", "", "document id or path (default: the only indexed doc)")
 	cmd.Flags().String("cache-dir", ".pindex/cache", "prompt-hash response cache dir (empty to disable)")
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file")
+	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited)")
 	return cmd
 }
 

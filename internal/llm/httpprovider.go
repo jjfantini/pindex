@@ -25,7 +25,7 @@ func classifyStatus(status int, body string) error {
 			strings.Contains(lb, "exceeded your current quota") {
 			return msg // permanent: a credits/billing problem won't fix itself
 		}
-		return Retryable(msg)
+		return RateLimited(msg) // backpressure: retry, but don't trip the breaker
 	}
 	if status >= 500 {
 		return Retryable(msg)

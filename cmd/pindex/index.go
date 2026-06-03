@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	"golang.org/x/time/rate"
 
 	"github.com/jjfantini/pindex/internal/config"
 	"github.com/jjfantini/pindex/internal/envfile"
@@ -45,7 +46,8 @@ func newIndexCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			provider, err := buildProvider(cfg.Model, cacheDir)
+			rpm, _ := c.Flags().GetInt("rpm")
+			provider, err := buildProvider(cfg.Model, cacheDir, rpm)
 			if err != nil {
 				return err
 			}
@@ -93,6 +95,7 @@ func newIndexCmd() *cobra.Command {
 	cmd.Flags().String("backend", "", "extractor backend (default from config)")
 	cmd.Flags().String("cache-dir", ".pindex/cache", "prompt-hash response cache dir (empty to disable)")
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file (overrides the environment)")
+	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited; set on low rate-limit tiers)")
 	cmd.Flags().String("workspace", ".pindex/workspace", "persist the index here (empty to only print)")
 	cmd.Flags().Int("concurrency", 4, "parallel documents when indexing a directory")
 	cmd.Flags().Bool("force", false, "re-index documents already in the workspace")
@@ -132,14 +135,20 @@ func runBatch(c *cobra.Command, fi *pipeline.FileIndexer, dir string) error {
 
 // buildProvider returns a live provider wrapped in resilience and (optionally) a
 // read-through cache. Cache is outermost so a hit avoids the network entirely.
-func buildProvider(model, cacheDir string) (llm.Provider, error) {
+// rpm > 0 enables a request-rate limiter (useful on low TPM tiers); the deeper
+// retry budget + rate-limit-aware breaker ride out 429s without cascading.
+func buildProvider(model, cacheDir string, rpm int) (llm.Provider, error) {
 	base, err := llm.NewHTTPProvider(model)
 	if err != nil {
 		return nil, err
 	}
+	opts := []llm.Option{llm.WithBreaker(5, 30*time.Second)}
+	if rpm > 0 {
+		opts = append(opts, llm.WithLimiter(rate.NewLimiter(rate.Limit(float64(rpm)/60.0), 1)))
+	}
 	var p llm.Provider = llm.NewResilient(base,
-		llm.RetryPolicy{MaxAttempts: 4, BaseDelay: time.Second, MaxDelay: 30 * time.Second},
-		llm.WithBreaker(5, 30*time.Second))
+		llm.RetryPolicy{MaxAttempts: 8, BaseDelay: time.Second, MaxDelay: 60 * time.Second},
+		opts...)
 	if cacheDir != "" {
 		fc, err := llm.NewFileCache(cacheDir)
 		if err != nil {

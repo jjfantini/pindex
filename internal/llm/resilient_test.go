@@ -108,3 +108,40 @@ func TestBackoffDelayCapsAndGrows(t *testing.T) {
 		}
 	}
 }
+
+func TestRateLimitedErrorSemantics(t *testing.T) {
+	rl := RateLimited(errors.New("429"))
+	if !IsRateLimited(rl) {
+		t.Error("RateLimited should report IsRateLimited")
+	}
+	if !IsRetryable(rl) {
+		t.Error("a rate-limited error should be retryable")
+	}
+	if IsRateLimited(Retryable(errors.New("x"))) {
+		t.Error("a plain retryable error is not rate-limited")
+	}
+	if IsRateLimited(nil) || RateLimited(nil) != nil {
+		t.Error("nil handling")
+	}
+}
+
+func TestBreakerIgnoresRateLimits(t *testing.T) {
+	inner := NewMock("m")
+	inner.Default = MockResponse{Err: RateLimited(errors.New("429"))}
+	p := NewResilient(inner, RetryPolicy{MaxAttempts: 6}, WithBreaker(2, time.Minute))
+	noWait(p)
+	p.breaker.now = func() time.Time { return time.Unix(0, 0) } // frozen
+
+	_, err := p.Complete(context.Background(), UserPrompt("m", "hi"))
+	// Rate limits must NOT open the breaker, so every attempt runs and we end on
+	// the rate-limit error — never ErrCircuitOpen (which would cascade a batch).
+	if errors.Is(err, ErrCircuitOpen) {
+		t.Fatal("rate limits must not trip the circuit breaker")
+	}
+	if !IsRateLimited(err) {
+		t.Errorf("final error should be the rate-limit, got %v", err)
+	}
+	if inner.CallCount() != 6 {
+		t.Errorf("calls=%d want 6 (all retries used; breaker stayed closed)", inner.CallCount())
+	}
+}
