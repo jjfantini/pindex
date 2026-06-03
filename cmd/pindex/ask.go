@@ -10,6 +10,7 @@ import (
 	"github.com/jjfantini/pindex/internal/ask"
 	"github.com/jjfantini/pindex/internal/config"
 	"github.com/jjfantini/pindex/internal/envfile"
+	"github.com/jjfantini/pindex/internal/exportout"
 	"github.com/jjfantini/pindex/internal/store"
 )
 
@@ -72,6 +73,25 @@ func newAskCmd() *cobra.Command {
 			if len(ans.CitedPages) > 0 {
 				_, _ = fmt.Fprintf(c.ErrOrStderr(), "cited pages: %v  (doc: %s)\n", ans.CitedPages, doc.DocName)
 			}
+
+			if outDir, _ := c.Flags().GetString("out"); outDir != "" {
+				inclPages, _ := c.Flags().GetBool("include-pages")
+				if _, werr := exportout.WriteTree(outDir, doc, inclPages); werr != nil {
+					return werr
+				}
+				path, werr := exportout.WriteAnswer(outDir, exportout.AnswerRecord{
+					DocName:       doc.DocName,
+					Question:      args[0],
+					Predicted:     ans.Text,
+					Reasoning:     ans.Reasoning,
+					SelectedPages: ans.SelectedPages,
+					CitedPages:    ans.CitedPages,
+				})
+				if werr != nil {
+					return werr
+				}
+				_, _ = fmt.Fprintf(c.ErrOrStderr(), "wrote answer to %s\n", path)
+			}
 			return nil
 		},
 	}
@@ -82,6 +102,8 @@ func newAskCmd() *cobra.Command {
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file")
 	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited)")
 	cmd.Flags().String("effort", "low", "reasoning effort: low|medium|high|ultra")
+	cmd.Flags().String("out", "", "append this Q&A (and the doc's tree) to a browsable output directory")
+	cmd.Flags().Bool("include-pages", false, "include raw page text in the exported tree")
 	return cmd
 }
 

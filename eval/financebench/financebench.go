@@ -229,6 +229,8 @@ func Judge(ctx context.Context, judge llm.Provider, model string, q Question, pr
 type RunResult struct {
 	Question      Question
 	Predicted     string
+	SelectedPages string // pages the asker chose to read (pre-citation) — for diagnosis
+	Reasoning     string // the answer model's chain-of-thought — for diagnosis
 	Cited         []int
 	GoldPages     []int
 	EvidenceInDoc bool // stage 1: evidence present in the extracted text at all (extraction gate)
@@ -303,6 +305,8 @@ func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel s
 			continue
 		}
 		r.Predicted = ans.Text
+		r.SelectedPages = ans.SelectedPages
+		r.Reasoning = ans.Reasoning
 		r.Cited = ans.CitedPages
 		r.PageHit = RecallAtPageOffset(r.GoldPages, ans.CitedPages, doc.PageOffset)
 		r.EvidenceHit = EvidenceHit(doc, ans.CitedPages, q)

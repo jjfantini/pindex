@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/jjfantini/pindex/internal/ask"
 	"github.com/jjfantini/pindex/internal/config"
 	"github.com/jjfantini/pindex/internal/envfile"
+	"github.com/jjfantini/pindex/internal/exportout"
 	"github.com/jjfantini/pindex/internal/store"
 	"github.com/jjfantini/pindex/internal/tree"
 )
@@ -19,6 +21,25 @@ func newEvalCmd() *cobra.Command {
 		Use:   "eval",
 		Short: "Run the FinanceBench evaluation over a pre-indexed workspace",
 		RunE: func(c *cobra.Command, _ []string) error {
+			// --rescore: read back a (possibly human-edited) result_<model>.json,
+			// recompute adjusted accuracy from the labels, and return. No API needed.
+			if rescore, _ := c.Flags().GetString("rescore"); rescore != "" {
+				raw, adjusted, counts, rawKnown, rerr := exportout.Rescore(rescore)
+				if rerr != nil {
+					return rerr
+				}
+				out := c.OutOrStdout()
+				_, _ = fmt.Fprintf(out, "=== rescore %s ===\n", rescore)
+				if rawKnown {
+					_, _ = fmt.Fprintf(out, "  raw answer accuracy (judge only): %5.1f%%\n", raw*100)
+				} else {
+					_, _ = fmt.Fprintln(out, "  raw answer accuracy (judge only): n/a (no sibling summary.json)")
+				}
+				_, _ = fmt.Fprintf(out, "  adjusted accuracy (AL+MVA+BE):    %5.1f%%\n", adjusted*100)
+				_, _ = fmt.Fprintf(out, "  labels: %v\n", counts)
+				return nil
+			}
+
 			envFile, _ := c.Flags().GetString("env-file")
 			if err := envfile.Load(envFile); err != nil {
 				return err
@@ -40,6 +61,9 @@ func newEvalCmd() *cobra.Command {
 				judgeModel = cfg.RetrieveModelOrDefault()
 			}
 
+			if qpath == "" {
+				return fmt.Errorf("eval: --questions is required (or use --rescore <file>)")
+			}
 			questions, err := financebench.LoadQuestions(qpath)
 			if err != nil {
 				return err
@@ -106,6 +130,29 @@ func newEvalCmd() *cobra.Command {
 			_, _ = fmt.Fprintf(out, "  answer     (judged correct):             %5.1f%%   [answer-accuracy]\n", ansr*100)
 			_, _ = fmt.Fprintf(out, "  hallucination (confident-wrong):         %5.1f%%\n", hal*100)
 			_, _ = fmt.Fprintf(out, "  (page-number recall %.1f%%, alignment-sensitive)\n", agg.RecallAtPage()*100)
+
+			if outDir, _ := c.Flags().GetString("out"); outDir != "" {
+				inclPages, _ := c.Flags().GetBool("include-pages")
+				model := cfg.RetrieveModelOrDefault()
+				sum := exportout.Summary{
+					GeneratedAt:       time.Now().UTC().Format(time.RFC3339),
+					Model:             model,
+					JudgeModel:        judgeModel,
+					Effort:            string(effort),
+					RPM:               rpm,
+					QuestionsTotal:    agg.Total,
+					Scored:            agg.Scored,
+					ExtractionRate:    ext,
+					RetrievalRate:     ret,
+					AnswerAccuracyRaw: ansr,
+					HallucinationRate: hal,
+					RecallAtPage:      agg.RecallAtPage(),
+				}
+				if err := exportout.ExportEval(outDir, sum, questions, results, lookup, inclPages, model); err != nil {
+					return err
+				}
+				_, _ = fmt.Fprintf(c.ErrOrStderr(), "wrote browsable output to %s\n", outDir)
+			}
 			return nil
 		},
 	}
@@ -118,7 +165,9 @@ func newEvalCmd() *cobra.Command {
 	cmd.Flags().Int("limit", 0, "only run the first N questions (0 = all)")
 	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited; set on low rate-limit tiers)")
 	cmd.Flags().String("effort", "low", "ask reasoning effort: low|medium|high|ultra")
-	_ = cmd.MarkFlagRequired("questions")
+	cmd.Flags().String("out", "", "write a browsable output dir (per-doc trees, questions, answers, Mafin-compatible result_<model>.json + human-eval CSV, summary)")
+	cmd.Flags().Bool("include-pages", false, "include raw page text in exported trees (larger, less readable)")
+	cmd.Flags().String("rescore", "", "recompute adjusted accuracy from a (human-edited) result_<model>.json and exit")
 	return cmd
 }
 
