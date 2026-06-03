@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"path/filepath"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -11,6 +12,7 @@ import (
 	"github.com/jjfantini/pindex/internal/extract"
 	"github.com/jjfantini/pindex/internal/index"
 	"github.com/jjfantini/pindex/internal/llm"
+	"github.com/jjfantini/pindex/internal/store"
 	"github.com/jjfantini/pindex/internal/tree"
 )
 
@@ -56,6 +58,13 @@ func newIndexCmd() *cobra.Command {
 				return err
 			}
 
+			if ws, _ := c.Flags().GetString("workspace"); ws != "" {
+				if err := persist(ws, args[0], pages, res); err != nil {
+					return err
+				}
+				_, _ = fmt.Fprintf(c.ErrOrStderr(), "saved to workspace %s (doc id %s)\n", ws, store.DocID(args[0]))
+			}
+
 			out, err := (tree.JSONRenderer{Indent: true}).Render(res.Structure)
 			if err != nil {
 				return err
@@ -71,7 +80,36 @@ func newIndexCmd() *cobra.Command {
 	cmd.Flags().String("backend", "", "extractor backend (default from config)")
 	cmd.Flags().String("cache-dir", ".pindex/cache", "prompt-hash response cache dir (empty to disable)")
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file (overrides the environment)")
+	cmd.Flags().String("workspace", ".pindex/workspace", "persist the index here (empty to only print)")
 	return cmd
+}
+
+// persist saves the built index as a document in the workspace store.
+func persist(workspace, path string, pages []extract.Page, res index.Result) error {
+	s, err := store.Open(workspace)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = s.Close() }()
+
+	abs, err := filepath.Abs(path)
+	if err != nil {
+		abs = path
+	}
+	pcs := make([]tree.PageContent, len(pages))
+	for i, p := range pages {
+		pcs[i] = tree.PageContent{Page: p.Index, Content: p.Text}
+	}
+	return s.Save(tree.Document{
+		ID:             store.DocID(path),
+		Type:           tree.DocPDF,
+		Path:           abs,
+		DocName:        filepath.Base(path),
+		DocDescription: res.Description,
+		PageCount:      len(pages),
+		Structure:      res.Structure,
+		Pages:          pcs,
+	})
 }
 
 // buildProvider returns a live provider wrapped in resilience and (optionally) a

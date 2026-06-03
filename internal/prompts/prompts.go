@@ -168,3 +168,49 @@ Document Structure: %s
 
 Directly return the description, do not include any other text.`, structureJSON)
 }
+
+// PageSelection is the reply schema for AskSelectPages.
+type PageSelection struct {
+	Thinking string `json:"thinking"`
+	Pages    string `json:"pages"` // a page selector like "5-7,12"
+}
+
+// AnswerOut is the reply schema for AskAnswer.
+type AnswerOut struct {
+	Thinking  string `json:"thinking"`
+	Answer    string `json:"answer"`
+	PagesUsed string `json:"pages_used"`
+}
+
+// AskSelectPages asks the model to pick the tightest page ranges likely to hold
+// the answer, given the text-stripped structure (the tree-search step).
+func AskSelectPages(structure, question string) string {
+	return fmt.Sprintf(`You are navigating a document to answer a question. You are given the document's
+hierarchical structure (titles, summaries, and page ranges — no full text) and a question.
+Choose the TIGHTEST set of page ranges most likely to contain the answer. Prefer a few pages over many.
+
+Document structure:
+%s
+
+Question: %s
+
+Reply JSON:
+{ "thinking": <which sections are relevant and why>, "pages": "<page ranges like 5-7,12>" }
+Directly return the JSON. Do not output anything else.`, structure, question)
+}
+
+// AskAnswer asks the model to answer strictly from the fetched page content and
+// cite the pages it used.
+func AskAnswer(question, pagesJSON string) string {
+	return fmt.Sprintf(`Answer the question using ONLY the provided page content. Cite the page numbers you used.
+If the answer is not present in the pages, say you cannot find it.
+
+Question: %s
+
+Pages (JSON list of {page, content}):
+%s
+
+Reply JSON:
+{ "thinking": <reasoning>, "answer": <concise answer>, "pages_used": "<page numbers like 5,7>" }
+Directly return the JSON. Do not output anything else.`, question, pagesJSON)
+}
