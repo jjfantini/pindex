@@ -47,6 +47,21 @@ func TestRecallAtPage(t *testing.T) {
 	}
 }
 
+func TestRecallAtPageOffset(t *testing.T) {
+	// printed page 5 -> physical 7 with a +2 offset; the cited physical page 7 hits.
+	if !RecallAtPageOffset([]int{5}, []int{7}, 2) {
+		t.Error("offset-aligned gold should hit the cited physical page")
+	}
+	// without the alignment the same comparison misses.
+	if RecallAtPage([]int{5}, []int{7}) {
+		t.Error("raw (unaligned) comparison should miss")
+	}
+	// offset 0 degrades to the raw comparison.
+	if !RecallAtPageOffset([]int{7}, []int{7}, 0) {
+		t.Error("offset 0 should behave like RecallAtPage")
+	}
+}
+
 func TestRunScoresAccuracyAndRecall(t *testing.T) {
 	doc := tree.Document{
 		Type: tree.DocPDF, DocName: "ACME_2023_10K.pdf", PageCount: 50,

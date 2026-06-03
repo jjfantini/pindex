@@ -1,8 +1,10 @@
 // Package index is pindex's indexing engine: it turns extracted pages into an
-// enriched hierarchical tree. This file implements the no-TOC path (generate
-// structure over token-bounded page groups -> resolve spans -> nest -> split
-// oversized nodes -> enrich), which is both the general case and the fallback.
-// TOC-detection branches and verify/fix land in a follow-up.
+// enriched hierarchical tree. This file implements the build pipeline and the
+// general no-TOC path (generate structure over token-bounded page groups ->
+// resolve spans -> nest -> split oversized nodes -> enrich). The cheaper
+// table-of-contents fast path (toc.go) runs first when a page-numbered TOC is
+// present; this path is its fallback. Span resolution, nesting, splitting and
+// enrichment are shared by both.
 package index
 
 import (
@@ -36,6 +38,14 @@ type Builder struct {
 	// SummaryTokenThreshold: nodes whose text is below this keep their text as the
 	// summary instead of spending an LLM call (mirrors PageIndex's 200-token rule).
 	SummaryTokenThreshold int
+	// DetectTOC enables the table-of-contents fast path before falling back to the
+	// general structure-generation path.
+	DetectTOC bool
+	// TOCVerifySample is how many TOC sections to sample when verifying the branch.
+	TOCVerifySample int
+	// TOCVerifyThreshold is the minimum verified-title fraction to trust the TOC
+	// branch; below it the build falls back to the no-TOC path.
+	TOCVerifyThreshold float64
 }
 
 // NewBuilder returns a Builder with sensible defaults.
@@ -49,6 +59,9 @@ func NewBuilder(cfg config.Config, p llm.Provider) *Builder {
 		MaxRecursionDepth:     4,
 		StructuredAttempts:    3,
 		SummaryTokenThreshold: 200,
+		DetectTOC:             true,
+		TOCVerifySample:       5,
+		TOCVerifyThreshold:    0.6,
 	}
 }
 
@@ -56,6 +69,9 @@ func NewBuilder(cfg config.Config, p llm.Provider) *Builder {
 type Result struct {
 	Structure   []tree.TreeNode
 	Description string
+	// PageOffset is the printed-label -> physical-index offset recovered from a
+	// page-numbered table of contents (0 when the no-TOC path was used).
+	PageOffset int
 }
 
 // item is a working TOC entry during the build.
@@ -72,11 +88,11 @@ func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, erro
 		return Result{}, fmt.Errorf("index: no pages to index")
 	}
 
-	raw, err := b.generateStructure(ctx, pages)
+	rawItems, offset, err := b.sections(ctx, pages)
 	if err != nil {
 		return Result{}, err
 	}
-	items := addPreface(b.resolveAndFilter(raw, pages))
+	items := addPreface(rawItems)
 	if len(items) == 0 {
 		return Result{}, fmt.Errorf("index: no valid sections extracted from %d pages", len(pages))
 	}
@@ -101,7 +117,28 @@ func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, erro
 			return Result{}, err
 		}
 	}
-	return Result{Structure: nodes, Description: desc}, nil
+	return Result{Structure: nodes, Description: desc, PageOffset: offset}, nil
+}
+
+// sections produces the flat, resolved section list plus a page offset. It tries
+// the table-of-contents fast path (cheaper, and it recovers the printed->physical
+// offset); if there is no page-numbered TOC, the branch fails, or sampled titles
+// don't verify, it falls back to the general structure-generation path.
+func (b *Builder) sections(ctx context.Context, pages []extract.Page) ([]item, int, error) {
+	if b.DetectTOC && b.cfg.TOCCheckPageNum > 0 {
+		if toc, found, err := b.detectTOC(ctx, pages); err == nil && found && toc.hasPageNumbers {
+			if items, offset, terr := b.structureFromTOC(ctx, pages, toc); terr == nil {
+				if b.verifyItems(ctx, items, pages) >= b.TOCVerifyThreshold {
+					return items, offset, nil
+				}
+			}
+		}
+	}
+	raw, err := b.generateStructure(ctx, pages)
+	if err != nil {
+		return nil, 0, err
+	}
+	return b.resolveAndFilter(raw, pages), 0, nil
 }
 
 // generateStructure runs generate_toc_init then generate_toc_continue across
