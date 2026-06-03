@@ -75,10 +75,36 @@ func Retryable(err error) error {
 	return &RetryableError{Err: err}
 }
 
-// IsRetryable reports whether err, or anything it wraps, is a RetryableError.
+// RateLimitedError marks a 429 rate-limit: expected backpressure, not provider
+// death. It is retryable, but the circuit breaker must NOT count it toward
+// opening — otherwise a busy provider looks like a dead one and cascades.
+type RateLimitedError struct{ Err error }
+
+func (e *RateLimitedError) Error() string { return "rate limited: " + e.Err.Error() }
+func (e *RateLimitedError) Unwrap() error { return e.Err }
+
+// RateLimited wraps err as a rate-limit (nil stays nil).
+func RateLimited(err error) error {
+	if err == nil {
+		return nil
+	}
+	return &RateLimitedError{Err: err}
+}
+
+// IsRateLimited reports whether err, or anything it wraps, is a RateLimitedError.
+func IsRateLimited(err error) bool {
+	var r *RateLimitedError
+	return errors.As(err, &r)
+}
+
+// IsRetryable reports whether err is transient — a RetryableError or a
+// RateLimitedError (both worth retrying).
 func IsRetryable(err error) bool {
 	var r *RetryableError
-	return errors.As(err, &r)
+	if errors.As(err, &r) {
+		return true
+	}
+	return IsRateLimited(err)
 }
 
 // ErrCircuitOpen is returned when a provider's circuit breaker is open, so the

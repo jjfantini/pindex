@@ -141,7 +141,10 @@ func (p *ResilientProvider) Complete(ctx context.Context, req Request) (Response
 			}
 			return resp, nil
 		}
-		if p.breaker != nil {
+		// Rate-limit 429s are backpressure, not provider death — retry them but
+		// do NOT count them toward opening the breaker (else a busy provider
+		// cascades into ErrCircuitOpen across a whole batch).
+		if p.breaker != nil && !IsRateLimited(err) {
 			p.breaker.onFailure()
 		}
 		lastErr = err

@@ -58,11 +58,12 @@ func newEvalCmd() *cobra.Command {
 				return err
 			}
 
-			retrieveProvider, err := buildProvider(cfg.RetrieveModelOrDefault(), cacheDir)
+			rpm, _ := c.Flags().GetInt("rpm")
+			retrieveProvider, err := buildProvider(cfg.RetrieveModelOrDefault(), cacheDir, rpm)
 			if err != nil {
 				return err
 			}
-			judgeProvider, err := buildProvider(judgeModel, cacheDir)
+			judgeProvider, err := buildProvider(judgeModel, cacheDir, rpm)
 			if err != nil {
 				return err
 			}
@@ -109,6 +110,7 @@ func newEvalCmd() *cobra.Command {
 	cmd.Flags().String("cache-dir", ".pindex/cache", "prompt-hash response cache dir")
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file")
 	cmd.Flags().Int("limit", 0, "only run the first N questions (0 = all)")
+	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited; set on low rate-limit tiers)")
 	_ = cmd.MarkFlagRequired("questions")
 	return cmd
 }
