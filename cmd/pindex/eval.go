@@ -68,7 +68,13 @@ func newEvalCmd() *cobra.Command {
 				return err
 			}
 
+			effStr, _ := c.Flags().GetString("effort")
+			effort, err := ask.ParseEffort(effStr)
+			if err != nil {
+				return err
+			}
 			asker := ask.New(retrieveProvider, cfg.RetrieveModelOrDefault())
+			asker.Effort = effort
 			results, agg := financebench.Run(c.Context(), asker, judgeProvider, judgeModel, questions, lookup)
 
 			flag := func(b bool, yes string) string {
@@ -111,6 +117,7 @@ func newEvalCmd() *cobra.Command {
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file")
 	cmd.Flags().Int("limit", 0, "only run the first N questions (0 = all)")
 	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited; set on low rate-limit tiers)")
+	cmd.Flags().String("effort", "low", "ask reasoning effort: low|medium|high|ultra")
 	_ = cmd.MarkFlagRequired("questions")
 	return cmd
 }

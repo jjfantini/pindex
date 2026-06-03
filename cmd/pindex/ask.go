@@ -56,7 +56,14 @@ func newAskCmd() *cobra.Command {
 				return err
 			}
 
-			ans, err := ask.New(provider, cfg.RetrieveModelOrDefault()).Ask(c.Context(), doc, args[0])
+			effStr, _ := c.Flags().GetString("effort")
+			effort, err := ask.ParseEffort(effStr)
+			if err != nil {
+				return err
+			}
+			asker := ask.New(provider, cfg.RetrieveModelOrDefault())
+			asker.Effort = effort
+			ans, err := asker.Ask(c.Context(), doc, args[0])
 			if err != nil {
 				return err
 			}
@@ -74,6 +81,7 @@ func newAskCmd() *cobra.Command {
 	cmd.Flags().String("cache-dir", ".pindex/cache", "prompt-hash response cache dir (empty to disable)")
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file")
 	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited)")
+	cmd.Flags().String("effort", "low", "reasoning effort: low|medium|high|ultra")
 	return cmd
 }
 
