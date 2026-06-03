@@ -18,7 +18,7 @@ func TestRootHasSubcommands(t *testing.T) {
 }
 
 func TestStubsReturnNotImplemented(t *testing.T) {
-	stubs := map[string]bool{"index": true, "ask": true, "eval": true}
+	stubs := map[string]bool{"ask": true, "eval": true}
 	for _, cmd := range newRootCmd().Commands() {
 		if !stubs[cmd.Name()] || cmd.RunE == nil {
 			continue
