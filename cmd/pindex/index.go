@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -93,8 +94,8 @@ func newIndexCmd() *cobra.Command {
 			if doc.DocDescription != "" {
 				_, _ = fmt.Fprintln(c.ErrOrStderr(), "description:", doc.DocDescription)
 			}
-			if outDir, _ := c.Flags().GetString("out"); outDir != "" {
-				inclPages, _ := c.Flags().GetBool("include-pages")
+			if outDir := exportDir(ws); outDir != "" {
+				inclPages, _ := c.Flags().GetBool("include-raw-text")
 				path, werr := exportout.WriteTree(outDir, doc, inclPages)
 				if werr != nil {
 					return werr
@@ -113,8 +114,7 @@ func newIndexCmd() *cobra.Command {
 	cmd.Flags().Int("concurrency", 4, "parallel documents when indexing a directory")
 	cmd.Flags().Bool("force", false, "re-index documents already in the workspace")
 	cmd.Flags().Bool("detect-toc", false, "use the table-of-contents fast path for page-numbered docs (opt-in; recovers a page offset)")
-	cmd.Flags().String("out", "", "also write a browsable {doc_name}_pindex.json tree under this directory")
-	cmd.Flags().Bool("include-pages", false, "include raw page text in exported trees (larger, less readable)")
+	cmd.Flags().Bool("include-raw-text", false, "include raw page text in the browsable <workspace>/pindex export (larger, less readable)")
 	return cmd
 }
 
@@ -144,8 +144,9 @@ func runBatch(c *cobra.Command, fi *pipeline.FileIndexer, dir string) error {
 	indexed, skipped, failed := pipeline.Summarize(results)
 	_, _ = fmt.Fprintf(c.OutOrStdout(), "indexed=%d skipped=%d failed=%d total=%d\n", indexed, skipped, failed, len(results))
 
-	if outDir, _ := c.Flags().GetString("out"); outDir != "" {
-		inclPages, _ := c.Flags().GetBool("include-pages")
+	ws, _ := c.Flags().GetString("workspace")
+	if outDir := exportDir(ws); outDir != "" {
+		inclPages, _ := c.Flags().GetBool("include-raw-text")
 		for _, r := range results {
 			if r.Err != nil {
 				continue // never indexed (or failed) — nothing to export
@@ -164,6 +165,15 @@ func runBatch(c *cobra.Command, fi *pipeline.FileIndexer, dir string) error {
 		return fmt.Errorf("%d document(s) failed to index", failed)
 	}
 	return nil
+}
+
+// exportDir is where the browsable {doc_name}_pindex.json trees are written: the
+// workspace's pindex/ subdir. Empty workspace means no export (print-only).
+func exportDir(workspace string) string {
+	if workspace != "" {
+		return filepath.Join(workspace, "pindex")
+	}
+	return ""
 }
 
 // buildProvider returns a live provider wrapped in resilience and (optionally) a
