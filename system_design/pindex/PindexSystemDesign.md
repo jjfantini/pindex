@@ -56,7 +56,10 @@ flowchart LR
 
 **CLI surface** (`cmd/pindex/`, cobra): `index` (one PDF or a directory) · `ask` · `eval` (FinanceBench
 harness, reuses `Asker`) · `extract` (debug: extraction only). The `index` command runs through
-`pipeline.FileIndexer`; everything LLM-bound flows through the one provider stack.
+`pipeline.FileIndexer`; everything LLM-bound flows through the one provider stack. Each command also
+emits a **browsable export** under the workspace via `internal/exportout` (see [Batch & Eval](#batch--eval-orchestration-not-new-logic)): `index` always writes
+trees to `<workspace>/pindex/`, `ask --out` appends each Q&A + its tree, and `eval --out` writes the
+full result bundle (`eval --rescore` reads a human-edited result back without any API calls).
 
 ---
 
@@ -89,24 +92,44 @@ flowchart TB
 
 ## L1.Index Engine
 
-`internal/index/` — `Builder.Build(ctx, pages) → Result{Structure, Description}` (`engine.go`,
-enrichment in `enrich.go`). This is the **no-TOC path**: the LLM *generates* structure from the page
-text rather than detecting an existing table of contents.
+`internal/index/` — `Builder.Build(ctx, pages) → Result{Structure, Description, PageOffset}`
+(`engine.go`, enrichment in `enrich.go`, TOC fast path in `toc.go`). There are **two ways to get the
+flat section list** (`sections`); everything after — span resolution, nesting, splitting, enrichment —
+is shared:
+
+- **No-TOC path (default):** the LLM *generates* structure from the page text — no table of contents
+  required. This is what runs unless `--detect-toc` is set.
+- **TOC fast path (opt-in, `--detect-toc`):** when a page-numbered TOC is present it runs *first*,
+  reuses the printed page numbers, and **recovers the printed→physical `PageOffset`**. It sample-checks
+  its own titles and **falls back to the no-TOC path** when verification is below `TOCVerifyThreshold`,
+  so it can only help, never silently corrupt the tree. Off by default until accuracy parity is measured.
 
 ```mermaid
 flowchart TB
     P[/"[]extract.Page"/]
+    SEC{"sections<br/>--detect-toc set AND<br/>page-numbered TOC present?"}
+
     G["generateStructure<br/>GroupPages by MaxTokenNumEachNode then<br/>GenerateTOCInit + GenerateTOCContinue"]
-    RF["resolveAndFilter + addPreface<br/>parse physical_index_N, drop out-of-range"]
+    RF["resolveAndFilter<br/>parse physical_index_N, drop out-of-range"]
+
+    TOC["detectTOC + structureFromTOC<br/>read printed page numbers,<br/>compute printed-&gt;physical PageOffset"]
+    VER{"verifyItems &gt;=<br/>TOCVerifyThreshold?"}
+
+    PRE["addPreface<br/>prepend a Preface when section 1 starts past page 1"]
     MA["markAppearStart<br/>CheckTitleAppearanceInStart per section<br/>(bounded concurrency)"]
     PP["tree.PostProcess + tree.ListToTree<br/>resolve page spans, nest by structure code"]
     SL["splitLargeNodes<br/>recursively re-index oversized sections<br/>(MaxRecursionDepth = 4)"]
     ID["tree.WriteNodeIDs<br/>0000, 0001 ... pre-order DFS"]
     SUM["addSummaries (if AddNodeSummary)<br/>verbatim if &lt; 200 tokens, else NodeSummary"]
     DD["docDescription (if AddDocDescription)<br/>one-line summary over StripText structure"]
-    OUT[/"Result.Structure ([]tree.TreeNode)"/]
+    OUT[/"Result &#123;Structure, PageOffset&#125;"/]
 
-    P --> G --> RF --> MA --> PP --> SL --> ID --> SUM --> DD --> OUT
+    P --> SEC
+    SEC -->|"no (default)"| G --> RF --> PRE
+    SEC -->|"yes"| TOC --> VER
+    VER -->|"verified"| PRE
+    VER -->|"below threshold (fall back)"| G
+    PRE --> MA --> PP --> SL --> ID --> SUM --> DD --> OUT
 
     classDef crit fill:#ffe7e0,stroke:#d9534f,stroke-width:2px;
     class G,MA,SUM crit
@@ -115,7 +138,9 @@ flowchart TB
 > **Accuracy levers:** `generateStructure` decides the section boundaries (token grouping +
 > init/continue can drift across group seams); `markAppearStart` fixes the start page of each section
 > (wrong here = wrong page spans); `addSummaries` produces the text the **Asker actually reasons over**
-> (see L1.Asker) — if summaries are off, retrieval sees titles only.
+> (see L1.Asker) — if summaries are off, retrieval sees titles only. The opt-in **TOC fast path** only
+> changes how the flat section list is produced (and recovers a `PageOffset`); it sample-verifies its
+> titles and **falls back** below `TOCVerifyThreshold`, so the no-TOC path is the safety net.
 
 ---
 
@@ -232,8 +257,14 @@ flowchart TB
   `Extract → Builder.Build → assembleDoc → Store.Save`. Bounded concurrency via `errgroup.SetLimit`;
   one doc's failure never aborts the batch; `Store.Has` skips finished docs.
 - `eval` (`cmd/pindex/eval.go`) — runs the FinanceBench set through the **same** `Asker.Ask`, then
-  grades each answer with `JudgeEquivalence` (a judge model). This is the loop to watch when measuring
-  whether the accuracy levers below actually move the score.
+  grades each answer with `JudgeEquivalence` (a judge model) and prints a **stage funnel**
+  (extraction → retrieval → answer → hallucination) so you can see *which* stage lost the point. This
+  is the loop to watch when measuring whether the accuracy levers below actually move the score.
+- `internal/exportout/` — the **browsable export** all three commands write under the workspace:
+  per-doc trees (`index` → `<workspace>/pindex/`, `ask --out`, `eval --out`), plus, for `eval`, a
+  Mafin-compatible `result_<model>.json`, a human-eval CSV, and a run `summary`. `eval --rescore`
+  reads a human-edited `result_<model>.json` back and recomputes adjusted accuracy (AL+MVA+BE labels)
+  with **no API calls** — the human-in-the-loop scoring path.
 
 ---
 
@@ -256,3 +287,9 @@ Where to look first when answers are worse than expected — ordered roughly ups
 > **Two highest-leverage, cheapest checks:** (5) confirm `AddNodeSummary` is on — otherwise step 6 is
 > flying on titles alone; and (7) remember the default `low` effort is single-pass with **no** recovery,
 > and `high`/`ultra` don't yet do more than `medium`.
+>
+> **Upstream lever for rows 2–4 on page-numbered docs:** `--detect-toc` reads the document's own TOC
+> and recovers the printed→physical `PageOffset` instead of inferring boundaries/start pages with the
+> LLM. It self-verifies a title sample and **falls back** to the no-TOC path below `TOCVerifyThreshold`,
+> so it's safe to try — but it does **not** add a verify/fix pass to `markAppearStart` on the no-TOC
+> path (row 3 still stands there).
