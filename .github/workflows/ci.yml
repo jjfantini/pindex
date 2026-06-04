@@ -1,0 +1,59 @@
+name: ci
+
+on:
+  push:
+    branches: [develop, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+          cache: true
+      # The default (cgo) build links go-fitz's bundled static libmupdf — no
+      # system MuPDF needed; the runner's gcc suffices. The static-build job
+      # below covers CGO_ENABLED=0 (go-fitz excluded via build tags).
+      - name: vet
+        run: go vet ./...
+      - name: build
+        run: go build ./...
+      - name: test
+        run: go test -race ./...
+
+  static-build:
+    # Proves the fully-static (CGO_ENABLED=0) binary compiles, starts without a
+    # libmupdf-load panic (go-fitz is build-tagged out), and its tests pass.
+    runs-on: ubuntu-latest
+    env:
+      CGO_ENABLED: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+          cache: true
+      - name: build static binary
+        run: go build -o /tmp/pindex ./cmd/pindex
+      - name: smoke (must not panic at init)
+        run: /tmp/pindex --version
+      - name: test (no-cgo path)
+        run: go test ./...
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+          cache: true
+      - uses: golangci/golangci-lint-action@v7
+        with:
+          version: latest

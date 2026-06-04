@@ -1,0 +1,6 @@
+# FinanceBench content is CC-BY-NC and fetched at eval time — never commit it.
+# Only diagnostic_set.json + README.md are tracked here.
+*.pdf
+*.jsonl
+pdfs/
+ws/

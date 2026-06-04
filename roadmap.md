@@ -1,8 +1,23 @@
 # pindex roadmap
 
-v1 deliberately ships a tight, single-process, CLI-first core (see `docs/PLAN.md`). The items
-below are **explicitly deferred to v2** — they are wanted, but only after v1 is stable and proven
-on FinanceBench. North star: *simplicity until stable.*
+v1 ships a tight, single-process, CLI-first core (see `docs/PLAN.md`): `index`/`ask`/`eval` work
+live across OpenAI and Anthropic. North star: *simplicity until stable.*
+
+## v1.x — near-term refinements
+
+These were consciously deferred during the v1 build; none block the working tool.
+
+- **TOC-detection branches.** v1 uses the TOC-less structure-generation path for *every* document
+  (correct, but more LLM calls). Add `check_toc` + the page-numbered / no-page-number branches +
+  `verify_toc`/`fix_incorrect_toc` to cut calls on documents that ship a usable table of contents.
+- **recall@page alignment.** Align pindex's physical page index to a filing's *printed* page label
+  (PageIndex's `calculate_page_offset`) so page-number recall is trustworthy. Until then the eval
+  harness reports the alignment-free **evidence recall** as the primary retrieval metric.
+- **Vision extractor.** The `vision` backend (render page images → vision model) for scanned/hard
+  pages is stubbed (returns unimplemented).
+- **Real tokenizer.** v1 uses a chars/4 heuristic token counter; swap in tiktoken for tighter
+  chunk sizing.
+- **Markdown ingestion.** v1 is PDF-only; add the `#`-header → tree path.
 
 ## v2 — deferred features
 
@@ -26,13 +41,8 @@ renderer and A/B-tests its real token savings on FinanceBench. Expected win is n
 edge only shows when rendering one node's *children as a flat table*; the nested tree (~32%) and
 raw page prose (N/A) don't benefit.
 
-### Full Markdown pipeline
-v1 ships only the cheap pure-parse MD path (header regex + stack nesting + thinning). v2 adds async
-LLM node summaries for Markdown, matching the PDF enrichment path. (MD is not load-bearing for the
-FinanceBench/PDF benchmark, hence the deferral.)
-
 ### Distributed indexing
-v1 is single-process (bounded `ants` worker pool + SQLite checkpoint for resumability). The
+v1 is single-process (bounded `errgroup` worker pool + SQLite checkpoint for resumability). The
 job-store and worker-pool *interfaces* are kept clean so a durable/distributed backend
 (River / asynq / Temporal) can plug in later without touching the engine.
 
