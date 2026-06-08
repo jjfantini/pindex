@@ -243,6 +243,36 @@ Document pages:
 %s`, tocJSON, taggedPages)
 }
 
+// PhysicalIndexFix is the reply schema for SingleTOCItemIndex.
+type PhysicalIndexFix struct {
+	Thinking      string `json:"thinking"`
+	PhysicalIndex string `json:"physical_index"` // "<physical_index_X>"
+}
+
+// SingleTOCItemIndex re-locates one section whose offset-derived page failed
+// verification: it searches the tagged page window for where the title actually
+// starts (PageIndex single_toc_item_index_fixer).
+func SingleTOCItemIndex(title, taggedPages string) string {
+	return fmt.Sprintf(`You are given a section title and several pages of a document. Your job is to find the
+physical index of the START page of the section in the partial document.
+
+The provided pages contain tags like <physical_index_X> and <physical_index_X> to indicate the
+physical location of page X.
+
+Reply in JSON:
+{
+    "thinking": <explain which page, opened and closed by <physical_index_X>, contains the start of this section>,
+    "physical_index": "<physical_index_X>" (keep the format)
+}
+Directly return the final JSON structure. Do not output anything else.
+
+Section title:
+%s
+
+Document pages:
+%s`, title, taggedPages)
+}
+
 // NodeSummary asks for a short description of a section's text. Returns plain text.
 func NodeSummary(text string) string {
 	return fmt.Sprintf(`You are given a part of a document, your task is to generate a description of the partial document about what are main points covered in the partial document.

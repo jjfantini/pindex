@@ -22,7 +22,9 @@ type Config struct {
 	// Extractor selects the PDF text-extraction backend (see internal/extract).
 	Extractor string `yaml:"extractor"`
 
-	// TOCCheckPageNum bounds how many leading pages are scanned for a table of contents.
+	// TOCCheckPageNum bounds how many leading pages are scanned for a table of
+	// contents (the --toc-page-limit knob). 0 disables TOC detection entirely,
+	// leaving only the structure-generation path.
 	TOCCheckPageNum int `yaml:"toc_check_page_num"`
 	// MaxPageNumEachNode and MaxTokenNumEachNode gate recursive splitting of large nodes.
 	MaxPageNumEachNode  int `yaml:"max_page_num_each_node"`
@@ -42,7 +44,7 @@ func Default() Config {
 		Model:               "gpt-4o-2024-11-20",
 		RetrieveModel:       "",
 		Extractor:           "mupdf",
-		TOCCheckPageNum:     20,
+		TOCCheckPageNum:     10,
 		MaxPageNumEachNode:  10,
 		MaxTokenNumEachNode: 20000,
 		AddNodeID:           true,

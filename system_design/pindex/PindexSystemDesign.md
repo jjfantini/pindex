@@ -93,27 +93,29 @@ flowchart TB
 ## L1.Index Engine
 
 `internal/index/` — `Builder.Build(ctx, pages) → Result{Structure, Description, PageOffset}`
-(`engine.go`, enrichment in `enrich.go`, TOC fast path in `toc.go`). There are **two ways to get the
+(`engine.go`, enrichment in `enrich.go`, TOC path in `toc.go`). There are **two ways to get the
 flat section list** (`sections`); everything after — span resolution, nesting, splitting, enrichment —
 is shared:
 
-- **No-TOC path (default):** the LLM *generates* structure from the page text — no table of contents
-  required. This is what runs unless `--detect-toc` is set.
-- **TOC fast path (opt-in, `--detect-toc`):** when a page-numbered TOC is present it runs *first*,
-  reuses the printed page numbers, and **recovers the printed→physical `PageOffset`**. It sample-checks
-  its own titles and **falls back to the no-TOC path** when verification is below `TOCVerifyThreshold`,
-  so it can only help, never silently corrupt the tree. Off by default until accuracy parity is measured.
+- **TOC path (primary, always on):** when a page-numbered TOC is present it runs *first*, reuses the
+  printed page numbers, and **recovers the printed→physical `PageOffset`**. It verify+repairs each
+  section against its computed page (relocating mis-mapped ones, never dropping) and **falls back to
+  generation** when the verified fraction is below `TOCVerifyThreshold`, so it can only help, never
+  silently corrupt the tree. Detection scans the first `TOCCheckPageNum` pages — the `--toc-page-limit`
+  knob (default 10; 0 disables detection).
+- **Generation fallback:** the LLM *generates* structure from the page text — no table of contents
+  required. This runs when no page-numbered TOC is detected, or too few sections verify after repair.
 
 ```mermaid
 flowchart TB
     P[/"[]extract.Page"/]
-    SEC{"sections<br/>--detect-toc set AND<br/>page-numbered TOC present?"}
+    SEC{"sections<br/>page-numbered TOC present?<br/>(scan first TOCCheckPageNum pages)"}
 
     G["generateStructure<br/>GroupPages by MaxTokenNumEachNode then<br/>GenerateTOCInit + GenerateTOCContinue"]
     RF["resolveAndFilter<br/>parse physical_index_N, drop out-of-range"]
 
     TOC["detectTOC + structureFromTOC<br/>read printed page numbers,<br/>compute printed-&gt;physical PageOffset"]
-    VER{"verifyItems &gt;=<br/>TOCVerifyThreshold?"}
+    VER{"verifyAndRepair frac &gt;=<br/>TOCVerifyThreshold?"}
 
     PRE["addPreface<br/>prepend a Preface when section 1 starts past page 1"]
     MA["markAppearStart<br/>CheckTitleAppearanceInStart per section<br/>(bounded concurrency)"]
@@ -125,7 +127,7 @@ flowchart TB
     OUT[/"Result &#123;Structure, PageOffset&#125;"/]
 
     P --> SEC
-    SEC -->|"no (default)"| G --> RF --> PRE
+    SEC -->|"no / no TOC"| G --> RF --> PRE
     SEC -->|"yes"| TOC --> VER
     VER -->|"verified"| PRE
     VER -->|"below threshold (fall back)"| G
@@ -138,9 +140,9 @@ flowchart TB
 > **Accuracy levers:** `generateStructure` decides the section boundaries (token grouping +
 > init/continue can drift across group seams); `markAppearStart` fixes the start page of each section
 > (wrong here = wrong page spans); `addSummaries` produces the text the **Asker actually reasons over**
-> (see L1.Asker) — if summaries are off, retrieval sees titles only. The opt-in **TOC fast path** only
-> changes how the flat section list is produced (and recovers a `PageOffset`); it sample-verifies its
-> titles and **falls back** below `TOCVerifyThreshold`, so the no-TOC path is the safety net.
+> (see L1.Asker) — if summaries are off, retrieval sees titles only. The always-on **TOC path** changes
+> how the flat section list is produced (and recovers a `PageOffset`); it verify+repairs each section
+> and **falls back** to generation below `TOCVerifyThreshold`, so generation is the safety net.
 
 ---
 
@@ -288,8 +290,8 @@ Where to look first when answers are worse than expected — ordered roughly ups
 > flying on titles alone; and (7) remember the default `low` effort is single-pass with **no** recovery,
 > and `high`/`ultra` don't yet do more than `medium`.
 >
-> **Upstream lever for rows 2–4 on page-numbered docs:** `--detect-toc` reads the document's own TOC
-> and recovers the printed→physical `PageOffset` instead of inferring boundaries/start pages with the
-> LLM. It self-verifies a title sample and **falls back** to the no-TOC path below `TOCVerifyThreshold`,
-> so it's safe to try — but it does **not** add a verify/fix pass to `markAppearStart` on the no-TOC
-> path (row 3 still stands there).
+> **Upstream lever for rows 2–4 on page-numbered docs:** the always-on **TOC path** reads the document's
+> own TOC and recovers the printed→physical `PageOffset` instead of inferring boundaries/start pages with
+> the LLM. It verify+repairs each section and **falls back** to generation below `TOCVerifyThreshold`, so
+> it can only help — but it does **not** add a verify/fix pass to `markAppearStart` on the generation
+> path (row 3 still stands there). Use `--toc-page-limit` to tune how deep detection scans (0 disables).
