@@ -95,8 +95,9 @@ func (a *Asker) Ask(ctx context.Context, doc tree.Document, question string) (An
 		return Answer{}, err
 	}
 
+	sp := prompts.AskSelectPages(structure, question)
 	sel, err := llm.CompleteJSON[prompts.PageSelection](ctx, a.provider,
-		llm.UserPrompt(a.model, prompts.AskSelectPages(structure, question)), a.Attempts, validPages)
+		llm.SystemUser(a.model, sp.System, sp.User), a.Attempts, validPages)
 	if err != nil {
 		return Answer{}, fmt.Errorf("ask: select pages: %w", err)
 	}
@@ -109,8 +110,9 @@ func (a *Asker) Ask(ctx context.Context, doc tree.Document, question string) (An
 	// medium+ effort: if the answer is an honest refusal, fetch a DIFFERENT set of
 	// pages and try once more (recovers a wrong/too-narrow first selection).
 	if a.Effort.atLeast(EffortMedium) && isRefusal(ans.Text) {
+		mp := prompts.AskSelectMore(structure, question, sel.Pages)
 		more, merr := llm.CompleteJSON[prompts.PageSelection](ctx, a.provider,
-			llm.UserPrompt(a.model, prompts.AskSelectMore(structure, question, sel.Pages)), a.Attempts, validPages)
+			llm.SystemUser(a.model, mp.System, mp.User), a.Attempts, validPages)
 		if merr == nil {
 			combined := sel.Pages + "," + more.Pages
 			if retry, rerr := a.answerFrom(ctx, doc, combined, question); rerr == nil && !isRefusal(retry.Text) {
@@ -127,8 +129,9 @@ func (a *Asker) answerFrom(ctx context.Context, doc tree.Document, pages, questi
 	if err != nil {
 		return Answer{}, fmt.Errorf("ask: fetch pages %q: %w", pages, err)
 	}
+	ap := prompts.AskAnswer(question, pagesJSON)
 	out, err := llm.CompleteJSON[prompts.AnswerOut](ctx, a.provider,
-		llm.UserPrompt(a.model, prompts.AskAnswer(question, pagesJSON)), a.Attempts,
+		llm.SystemUser(a.model, ap.System, ap.User), a.Attempts,
 		func(o prompts.AnswerOut) error {
 			if strings.TrimSpace(o.Answer) == "" {
 				return fmt.Errorf("empty answer")

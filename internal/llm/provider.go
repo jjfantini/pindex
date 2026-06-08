@@ -23,10 +23,14 @@ const (
 	RoleAssistant Role = "assistant"
 )
 
-// Message is one chat turn.
+// Message is one chat turn. Cache marks the message's content as a provider-side
+// prompt-cache breakpoint: the Anthropic adapter renders a cacheable system block
+// for it, while OpenAI (which caches prefixes automatically) ignores it. It is a
+// transport hint, not part of the prompt identity, so it is excluded from CacheKey.
 type Message struct {
 	Role    Role
 	Content string
+	Cache   bool `json:"-"`
 }
 
 // Request is a completion request. pindex uses Temperature 0 for index
@@ -55,6 +59,22 @@ func UserPrompt(model, prompt string) Request {
 	return Request{
 		Model:       model,
 		Messages:    []Message{{Role: RoleUser, Content: prompt}},
+		Temperature: 0,
+	}
+}
+
+// SystemUser builds a two-message request at temperature 0: a stable system
+// prompt followed by the per-request user content. The system block is flagged as
+// a prompt-cache breakpoint, so providers that support caching reuse it across
+// requests that share the same system text (see prompts.Prompt). Temperature 0
+// keeps indexing deterministic and cache-friendly.
+func SystemUser(model, system, user string) Request {
+	return Request{
+		Model: model,
+		Messages: []Message{
+			{Role: RoleSystem, Content: system, Cache: true},
+			{Role: RoleUser, Content: user},
+		},
 		Temperature: 0,
 	}
 }

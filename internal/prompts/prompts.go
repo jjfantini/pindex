@@ -1,10 +1,24 @@
-// Package prompts holds pindex's LLM prompts — ported verbatim from PageIndex's
-// inline strings — plus the typed output schemas each one expects. Keeping the
+// Package prompts holds pindex's LLM prompts — ported from PageIndex's inline
+// strings — plus the typed output schemas each one expects. Keeping the
 // "thinking" chain-of-thought fields is intentional: they carry accuracy, so we
 // validate-then-retry rather than constrain decoding (see internal/llm).
+//
+// Each prompt is returned as a Prompt: the stable instruction text in System and
+// the per-request data in User. The split keeps the changing content out of the
+// cacheable prefix — the Anthropic adapter marks the System block as a
+// prompt-cache breakpoint (see internal/llm). The two halves are concatenated in
+// the same order the original single-message prompt used, so the split adds a
+// role boundary without reordering what the model reads.
 package prompts
 
 import "fmt"
+
+// Prompt is a split LLM prompt: stable System instructions (a cache-friendly
+// prefix) followed by the per-request User content that varies call to call.
+type Prompt struct {
+	System string
+	User   string
+}
 
 // TOCItem is one node emitted by the structure-generation prompts. PhysicalIndex
 // arrives as "<physical_index_N>" (a string) and is converted to an int later.
@@ -34,8 +48,9 @@ type TOCDetected struct {
 
 // GenerateTOCInit asks the model to emit the initial hierarchical structure for
 // the first page-group of a document with no usable table of contents.
-func GenerateTOCInit(part string) string {
-	return `
+func GenerateTOCInit(part string) Prompt {
+	return Prompt{
+		System: `
     You are an expert in extracting hierarchical tree structure, your task is to generate the tree structure of the document.
 
     The structure variable is the numeric system which represents the index of the hierarchy section in the table of contents. For example, the first section has structure index 1, the first subsection has structure index 1.1, the second subsection has structure index 1.2, etc.
@@ -57,13 +72,15 @@ func GenerateTOCInit(part string) string {
         ],
 
 
-    Directly return the final JSON structure. Do not output anything else.` +
-		"\nGiven text\n:" + part
+    Directly return the final JSON structure. Do not output anything else.`,
+		User: fmt.Sprintf("Given text:\n%s", part),
+	}
 }
 
 // GenerateTOCContinue extends an existing structure with the next page-group.
-func GenerateTOCContinue(prevTOCJSON, part string) string {
-	return `
+func GenerateTOCContinue(prevTOCJSON, part string) Prompt {
+	return Prompt{
+		System: `
     You are an expert in extracting hierarchical tree structure.
     You are given a tree structure of the previous part and the text of the current part.
     Your task is to continue the tree structure from the previous part to include the current part.
@@ -86,22 +103,23 @@ func GenerateTOCContinue(prevTOCJSON, part string) string {
             ...
         ]
 
-    Directly return the additional part of the final JSON structure. Do not output anything else.` +
-		"\nGiven text\n:" + part + "\nPrevious tree structure\n:" + prevTOCJSON
+    Directly return the additional part of the final JSON structure. Do not output anything else.`,
+		User: fmt.Sprintf("Given text:\n%s\n\nPrevious tree structure:\n%s", part, prevTOCJSON),
+	}
 }
 
 // CheckTitleAppearanceInStart asks whether a section begins at the very top of a
 // page (which shifts the previous section's end index by one).
-func CheckTitleAppearanceInStart(title, pageText string) string {
-	return fmt.Sprintf(`
+func CheckTitleAppearanceInStart(title, pageText string) Prompt {
+	return Prompt{
+		System: `
     You will be given the current section title and the current page_text.
     Your job is to check if the current section starts in the beginning of the given page_text.
     If there are other contents before the current section title, then the current section does not start in the beginning of the given page_text.
     If the current section title is the first content in the given page_text, then the current section starts in the beginning of the given page_text.
 
-    Note: do fuzzy matching, ignore any space inconsistency in the page_text.
-
-    The given section title is %s.
+    Note: do fuzzy matching, ignore any space inconsistency in the page_text.`,
+		User: fmt.Sprintf(`The given section title is %s.
     The given page_text is %s.
 
     reply format:
@@ -109,18 +127,19 @@ func CheckTitleAppearanceInStart(title, pageText string) string {
         "thinking": <why do you think the section appears or starts in the page_text>
         "start_begin": "yes or no" (yes if the section starts in the beginning of the page_text, no otherwise)
     }
-    Directly return the final JSON structure. Do not output anything else.`, title, pageText)
+    Directly return the final JSON structure. Do not output anything else.`, title, pageText),
+	}
 }
 
 // CheckTitleAppearance asks whether a section title appears on a given page —
 // used to verify generated physical indices.
-func CheckTitleAppearance(title, pageText string) string {
-	return fmt.Sprintf(`
+func CheckTitleAppearance(title, pageText string) Prompt {
+	return Prompt{
+		System: `
     Your job is to check if the given section appears or starts in the given page_text.
 
-    Note: do fuzzy matching, ignore any space inconsistency in the page_text.
-
-    The given section title is %s.
+    Note: do fuzzy matching, ignore any space inconsistency in the page_text.`,
+		User: fmt.Sprintf(`The given section title is %s.
     The given page_text is %s.
 
     Reply format:
@@ -129,15 +148,16 @@ func CheckTitleAppearance(title, pageText string) string {
         "thinking": <why do you think the section appears or starts in the page_text>
         "answer": "yes or no" (yes if the section appears or starts in the page_text, no otherwise)
     }
-    Directly return the final JSON structure. Do not output anything else.`, title, pageText)
+    Directly return the final JSON structure. Do not output anything else.`, title, pageText),
+	}
 }
 
 // TOCDetector asks whether a page contains a table of contents.
-func TOCDetector(content string) string {
-	return fmt.Sprintf(`
-    Your job is to detect if there is a table of content provided in the given text.
-
-    Given text: %s
+func TOCDetector(content string) Prompt {
+	return Prompt{
+		System: `
+    Your job is to detect if there is a table of content provided in the given text.`,
+		User: fmt.Sprintf(`Given text: %s
 
     return the following JSON format:
     {
@@ -146,7 +166,8 @@ func TOCDetector(content string) string {
     }
 
     Directly return the final JSON structure. Do not output anything else.
-    Please note: abstract,summary, notation list, figure list, table list, etc. are not table of contents.`, content)
+    Please note: abstract,summary, notation list, figure list, table list, etc. are not table of contents.`, content),
+	}
 }
 
 // PageIndexGiven is the reply schema for DetectPageIndex.
@@ -169,25 +190,27 @@ type TOCTransformOut struct {
 }
 
 // DetectPageIndex asks whether a table of contents lists page numbers.
-func DetectPageIndex(tocContent string) string {
-	return fmt.Sprintf(`You will be given a table of contents.
+func DetectPageIndex(tocContent string) Prompt {
+	return Prompt{
+		System: `You will be given a table of contents.
 
-Your job is to detect if there are page numbers/indices given within the table of contents.
-
-Given text: %s
+Your job is to detect if there are page numbers/indices given within the table of contents.`,
+		User: fmt.Sprintf(`Given text: %s
 
 Reply format:
 {
     "thinking": <why do you think there are page numbers/indices given within the table of contents>
     "page_index_given_in_toc": "<yes or no>"
 }
-Directly return the final JSON structure. Do not output anything else.`, tocContent)
+Directly return the final JSON structure. Do not output anything else.`, tocContent),
+	}
 }
 
 // TOCTransform converts a raw table of contents into structured JSON entries with
 // their printed page numbers.
-func TOCTransform(tocContent string) string {
-	return fmt.Sprintf(`You are given a table of contents. Your job is to transform the whole table of contents
+func TOCTransform(tocContent string) Prompt {
+	return Prompt{
+		System: `You are given a table of contents. Your job is to transform the whole table of contents
 into a JSON format included in table_of_contents.
 
 structure is the numeric system which represents the index of the hierarchy section in the table of
@@ -206,15 +229,15 @@ The response should be in the following JSON format:
     ]
 }
 Transform the full table of contents in one go. Directly return the final JSON structure, do not
-output anything else.
-
-Table of contents:
-%s`, tocContent)
+output anything else.`,
+		User: fmt.Sprintf("Table of contents:\n%s", tocContent),
+	}
 }
 
 // TOCIndexExtract maps TOC titles to physical page indices using tagged pages.
-func TOCIndexExtract(tocJSON, taggedPages string) string {
-	return fmt.Sprintf(`You are given a table of contents in JSON format and several pages of a document. Your
+func TOCIndexExtract(tocJSON, taggedPages string) Prompt {
+	return Prompt{
+		System: `You are given a table of contents in JSON format and several pages of a document. Your
 job is to add the physical_index to the table of contents.
 
 The provided pages contain tags like <physical_index_X> and <physical_index_X> to indicate the
@@ -234,13 +257,9 @@ The response should be in the following JSON format:
 
 Only add the physical_index to sections that are in the provided pages. If a section is not in the
 provided pages, do not add a physical_index to it. Directly return the final JSON structure. Do not
-output anything else.
-
-Table of contents (JSON):
-%s
-
-Document pages:
-%s`, tocJSON, taggedPages)
+output anything else.`,
+		User: fmt.Sprintf("Table of contents (JSON):\n%s\n\nDocument pages:\n%s", tocJSON, taggedPages),
+	}
 }
 
 // PhysicalIndexFix is the reply schema for SingleTOCItemIndex.
@@ -252,8 +271,9 @@ type PhysicalIndexFix struct {
 // SingleTOCItemIndex re-locates one section whose offset-derived page failed
 // verification: it searches the tagged page window for where the title actually
 // starts (PageIndex single_toc_item_index_fixer).
-func SingleTOCItemIndex(title, taggedPages string) string {
-	return fmt.Sprintf(`You are given a section title and several pages of a document. Your job is to find the
+func SingleTOCItemIndex(title, taggedPages string) Prompt {
+	return Prompt{
+		System: `You are given a section title and several pages of a document. Your job is to find the
 physical index of the START page of the section in the partial document.
 
 The provided pages contain tags like <physical_index_X> and <physical_index_X> to indicate the
@@ -264,33 +284,27 @@ Reply in JSON:
     "thinking": <explain which page, opened and closed by <physical_index_X>, contains the start of this section>,
     "physical_index": "<physical_index_X>" (keep the format)
 }
-Directly return the final JSON structure. Do not output anything else.
-
-Section title:
-%s
-
-Document pages:
-%s`, title, taggedPages)
+Directly return the final JSON structure. Do not output anything else.`,
+		User: fmt.Sprintf("Section title:\n%s\n\nDocument pages:\n%s", title, taggedPages),
+	}
 }
 
 // NodeSummary asks for a short description of a section's text. Returns plain text.
-func NodeSummary(text string) string {
-	return fmt.Sprintf(`You are given a part of a document, your task is to generate a description of the partial document about what are main points covered in the partial document.
-
-Partial Document Text: %s
-
-Directly return the description, do not include any other text.`, text)
+func NodeSummary(text string) Prompt {
+	return Prompt{
+		System: `You are given a part of a document, your task is to generate a description of the partial document about what are main points covered in the partial document.`,
+		User:   fmt.Sprintf("Partial Document Text: %s\n\nDirectly return the description, do not include any other text.", text),
+	}
 }
 
 // DocDescription asks for a one-sentence document description from its structure.
 // Returns plain text.
-func DocDescription(structureJSON string) string {
-	return fmt.Sprintf(`Your are an expert in generating descriptions for a document.
-You are given a structure of a document. Your task is to generate a one-sentence description for the document, which makes it easy to distinguish the document from other documents.
-
-Document Structure: %s
-
-Directly return the description, do not include any other text.`, structureJSON)
+func DocDescription(structureJSON string) Prompt {
+	return Prompt{
+		System: `Your are an expert in generating descriptions for a document.
+You are given a structure of a document. Your task is to generate a one-sentence description for the document, which makes it easy to distinguish the document from other documents.`,
+		User: fmt.Sprintf("Document Structure: %s\n\nDirectly return the description, do not include any other text.", structureJSON),
+	}
 }
 
 // PageSelection is the reply schema for AskSelectPages.
@@ -308,8 +322,9 @@ type AnswerOut struct {
 
 // AskSelectPages asks the model to pick the tightest page ranges likely to hold
 // the answer, given the text-stripped structure (the tree-search step).
-func AskSelectPages(structure, question string) string {
-	return fmt.Sprintf(`You are navigating a document to answer a question. You are given its hierarchical
+func AskSelectPages(structure, question string) Prompt {
+	return Prompt{
+		System: `You are navigating a document to answer a question. You are given its hierarchical
 structure — section titles, summaries, and page ranges (no full text). Use the summaries to judge
 what each section actually covers.
 
@@ -319,25 +334,29 @@ Choose the TIGHTEST set of page ranges likely to contain the answer, and include
 - For "why / how / what caused" questions, include BOTH the explanation AND the supporting detail
   (e.g. the relevant data, table, or example).
 - When unsure between two candidate sections, include both — a few extra pages is far cheaper
-  than missing the answer.
-
-Document structure:
+  than missing the answer.`,
+		User: fmt.Sprintf(`Document structure:
 %s
 
 Question: %s
 
 Reply JSON:
 { "thinking": <which sections are relevant and why, citing their summaries>, "pages": "<page ranges like 5-7,12>" }
-Directly return the JSON. Do not output anything else.`, structure, question)
+Directly return the JSON. Do not output anything else.`, structure, question),
+	}
 }
 
 // AskSelectMore asks for a DIFFERENT set of pages after the first selection failed
-// to yield the answer (the fetch-more step for higher effort levels).
-func AskSelectMore(structure, question, triedPages string) string {
-	return fmt.Sprintf(`You are navigating a document. You already examined pages %s and could NOT find the
-answer there. Pick a DIFFERENT, broader set of page ranges that might contain it — do not repeat
-those pages. Consider related sections, tables, appendices, or notes you may have skipped. Use the
-section summaries.
+// to yield the answer (the fetch-more step for higher effort levels). The pages
+// already tried live in User so the stable System instructions stay a clean,
+// cacheable prefix — they used to lead the prompt, breaking any cache match.
+func AskSelectMore(structure, question, triedPages string) Prompt {
+	return Prompt{
+		System: `You are navigating a document. You already examined an earlier set of pages and could NOT
+find the answer there. Pick a DIFFERENT, broader set of page ranges that might contain it — do not
+repeat the pages you already tried. Consider related sections, tables, appendices, or notes you may
+have skipped. Use the section summaries.`,
+		User: fmt.Sprintf(`Already examined pages (do not repeat these): %s
 
 Document structure:
 %s
@@ -346,7 +365,8 @@ Question: %s
 
 Reply JSON:
 { "thinking": <where else the answer might be and why>, "pages": "<new page ranges like 8-10,14>" }
-Directly return the JSON. Do not output anything else.`, triedPages, structure, question)
+Directly return the JSON. Do not output anything else.`, triedPages, structure, question),
+	}
 }
 
 // Equivalence is the reply schema for JudgeEquivalence.
@@ -358,29 +378,31 @@ type Equivalence struct {
 // JudgeEquivalence grades a predicted answer against a gold answer with the
 // permissive equivalence rubric PageIndex's Mafin 2.5 FinanceBench eval uses
 // (rounding/format/superset tolerated), for apples-to-apples comparability.
-func JudgeEquivalence(question, gold, predicted string) string {
-	return fmt.Sprintf(`You are grading a financial question-answering response.
+func JudgeEquivalence(question, gold, predicted string) Prompt {
+	return Prompt{
+		System: `You are grading a financial question-answering response.
 Mark it CORRECT if the golden answer (or any equivalent of it) can be inferred from
 the AI-generated answer. Apply these rules:
-- Ignore differences from rounding (e.g. "11 of 14" == "79%%").
+- Ignore differences from rounding (e.g. "11 of 14" == "79%").
 - Fractions, percentages, and numerics that are similar count as equivalent
   (e.g. "$1.2B" == "1,200 million").
 - An AI answer that contains MORE detail than the golden answer is still CORRECT
   as long as it conveys the golden answer.
-- Judge meaning/conclusion, not wording.
-
-Question: %s
+- Judge meaning/conclusion, not wording.`,
+		User: fmt.Sprintf(`Question: %s
 Golden answer: %s
 AI-generated answer: %s
 
 Reply JSON: { "thinking": <brief reasoning>, "correct": true or false }
-Directly return the JSON. Do not output anything else.`, question, gold, predicted)
+Directly return the JSON. Do not output anything else.`, question, gold, predicted),
+	}
 }
 
 // AskAnswer asks the model to answer strictly from the fetched page content and
 // cite the pages it used.
-func AskAnswer(question, pagesJSON string) string {
-	return fmt.Sprintf(`You are a document QA assistant. Answer the question using ONLY the provided page content.
+func AskAnswer(question, pagesJSON string) Prompt {
+	return Prompt{
+		System: `You are a document QA assistant. Answer the question using ONLY the provided page content.
 Work carefully in "thinking":
 
 1. Locate the exact passages, figures, or values on the pages that bear on the question.
@@ -391,14 +413,14 @@ Work carefully in "thinking":
 4. Give a concise, direct "answer" (include units where applicable).
 5. Only say you cannot find it if the pages genuinely lack the information needed — and if so, say
    briefly in "thinking" what was missing. Never guess or fabricate; an honest "cannot find it" is
-   better than a made-up answer.
-
-Question: %s
+   better than a made-up answer.`,
+		User: fmt.Sprintf(`Question: %s
 
 Pages (JSON list of {page, content}):
 %s
 
 Reply JSON:
 { "thinking": <locate the relevant content and show any derivation step by step>, "answer": <concise, direct answer>, "pages_used": "<page numbers like 5,7>" }
-Directly return the JSON. Do not output anything else.`, question, pagesJSON)
+Directly return the JSON. Do not output anything else.`, question, pagesJSON),
+	}
 }

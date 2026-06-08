@@ -33,8 +33,9 @@ func (b *Builder) markAppearStart(ctx context.Context, items []item, pages []ext
 				items[i].appearStart = false
 				return nil
 			}
+			p := prompts.CheckTitleAppearanceInStart(items[i].title, txt)
 			resp, err := llm.CompleteJSON[prompts.StartBegin](ctx, b.provider,
-				llm.UserPrompt(b.cfg.Model, prompts.CheckTitleAppearanceInStart(items[i].title, txt)),
+				llm.SystemUser(b.cfg.Model, p.System, p.User),
 				b.StructuredAttempts, nil)
 			if err != nil {
 				return fmt.Errorf("index: appear-start %q: %w", items[i].title, err)
@@ -116,7 +117,8 @@ func (b *Builder) addSummaries(ctx context.Context, nodes []tree.TreeNode, pages
 				n.Summary = text
 				return nil
 			}
-			resp, err := b.provider.Complete(ctx, llm.UserPrompt(b.cfg.Model, prompts.NodeSummary(text)))
+			p := prompts.NodeSummary(text)
+			resp, err := b.provider.Complete(ctx, llm.SystemUser(b.cfg.Model, p.System, p.User))
 			if err != nil {
 				return fmt.Errorf("index: summary %q: %w", n.Title, err)
 			}
@@ -134,7 +136,8 @@ func (b *Builder) docDescription(ctx context.Context, nodes []tree.TreeNode) (st
 	if err != nil {
 		return "", err
 	}
-	resp, err := b.provider.Complete(ctx, llm.UserPrompt(b.cfg.Model, prompts.DocDescription(structure)))
+	p := prompts.DocDescription(structure)
+	resp, err := b.provider.Complete(ctx, llm.SystemUser(b.cfg.Model, p.System, p.User))
 	if err != nil {
 		return "", fmt.Errorf("index: doc description: %w", err)
 	}

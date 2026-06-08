@@ -26,7 +26,7 @@ func (m *repairMock) Name() string { return "repair" }
 var titleRe = regexp.MustCompile(`section title is (\w+)`)
 
 func (m *repairMock) Complete(_ context.Context, req llm.Request) (llm.Response, error) {
-	p := req.Messages[len(req.Messages)-1].Content
+	p := reqText(req)
 	switch {
 	case strings.Contains(p, "physical index of the START page"):
 		m.mu.Lock()
@@ -159,6 +159,17 @@ func pageNumberedDoc() []extract.Page {
 }
 
 // classifyPrompt maps a prompt to a stable tag (most specific anchors first).
+// reqText flattens a request's messages so a mock can route on the full prompt
+// (system instructions + user data) regardless of how the split places them.
+func reqText(req llm.Request) string {
+	var b strings.Builder
+	for _, m := range req.Messages {
+		b.WriteString(m.Content)
+		b.WriteByte('\n')
+	}
+	return b.String()
+}
+
 func classifyPrompt(p string) string {
 	switch {
 	case strings.Contains(p, "beginning of the given page_text"):
@@ -197,7 +208,7 @@ func newRouteMock(reply map[string]string) *routeMock {
 func (r *routeMock) Name() string { return "route" }
 
 func (r *routeMock) Complete(_ context.Context, req llm.Request) (llm.Response, error) {
-	p := req.Messages[len(req.Messages)-1].Content
+	p := reqText(req)
 	tag := classifyPrompt(p)
 	r.mu.Lock()
 	r.counts[tag]++
