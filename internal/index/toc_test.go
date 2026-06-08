@@ -3,6 +3,7 @@ package index
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strings"
 	"sync"
 	"testing"
@@ -12,6 +13,75 @@ import (
 	"github.com/jjfantini/pindex/internal/llm"
 	"github.com/jjfantini/pindex/internal/prompts"
 )
+
+// repairMock answers CheckTitleAppearance "yes" iff the page_text embeds the
+// title, and SingleTOCItemIndex always returns <physical_index_3>.
+type repairMock struct {
+	mu       sync.Mutex
+	fixCalls int
+}
+
+func (m *repairMock) Name() string { return "repair" }
+
+var titleRe = regexp.MustCompile(`section title is (\w+)`)
+
+func (m *repairMock) Complete(_ context.Context, req llm.Request) (llm.Response, error) {
+	p := req.Messages[len(req.Messages)-1].Content
+	switch {
+	case strings.Contains(p, "physical index of the START page"):
+		m.mu.Lock()
+		m.fixCalls++
+		m.mu.Unlock()
+		return llm.Response{Content: `{"thinking":"found it","physical_index":"<physical_index_3>"}`, FinishReason: "stop"}, nil
+	case strings.Contains(p, "appears or starts in the given page_text"):
+		ans := "no"
+		if mm := titleRe.FindStringSubmatch(p); mm != nil {
+			if idx := strings.Index(p, "page_text is"); idx >= 0 && strings.Contains(p[idx:], mm[1]) {
+				ans = "yes"
+			}
+		}
+		return llm.Response{Content: fmt.Sprintf(`{"answer":%q}`, ans), FinishReason: "stop"}, nil
+	}
+	return llm.Response{}, fmt.Errorf("repairMock: unexpected prompt: %.60s", p)
+}
+
+func TestVerifyAndRepairRelocatesMismapped(t *testing.T) {
+	pages := []extract.Page{
+		{Index: 1, Text: "Alpha introduction"},
+		{Index: 3, Text: "Beta details here"},
+		{Index: 5, Text: "unrelated filler"},
+		{Index: 8, Text: "Gamma summary"},
+	}
+	items := []item{
+		{structure: "1", title: "Alpha", physicalIdx: 1},
+		{structure: "2", title: "Beta", physicalIdx: 5}, // wrong: Beta is on p3
+		{structure: "3", title: "Gamma", physicalIdx: 8},
+	}
+	rm := &repairMock{}
+	b := NewBuilder(config.Default(), rm)
+	b.Concurrency = 1
+	got, frac := b.verifyAndRepair(context.Background(), items, pages)
+	if frac != 1.0 {
+		t.Fatalf("verified fraction = %.2f, want 1.0 after repair", frac)
+	}
+	if rm.fixCalls != 1 {
+		t.Errorf("repair calls = %d, want 1 (only Beta was mis-mapped)", rm.fixCalls)
+	}
+	beta := -1
+	for _, it := range got {
+		if it.title == "Beta" {
+			beta = it.physicalIdx
+		}
+	}
+	if beta != 3 {
+		t.Errorf("Beta relocated to p%d, want p3", beta)
+	}
+	for i := 1; i < len(got); i++ {
+		if got[i-1].physicalIdx > got[i].physicalIdx {
+			t.Errorf("items not page-sorted: %+v", got)
+		}
+	}
+}
 
 // --- pure offset/structure logic -------------------------------------------
 
@@ -155,8 +225,8 @@ func ptr(i int) *int { return &i }
 func tocTestBuilder(p llm.Provider) *Builder {
 	b := NewBuilder(config.Default(), p)
 	b.Concurrency = 1
-	b.DetectTOC = true // opt-in default is off; exercise the path here
-	b.TOCMinPages = 0  // the test docs are small; don't gate them out
+	// TOC detection is on by default (config.Default().TOCCheckPageNum > 0); the
+	// small test docs fall within the search window.
 	return b
 }
 

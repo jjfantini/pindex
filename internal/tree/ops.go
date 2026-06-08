@@ -68,6 +68,15 @@ func ListToTree(items []FlatItem) []TreeNode {
 			n.Nodes = make([]TreeNode, len(b.children))
 			for i, c := range b.children {
 				n.Nodes[i] = build(c)
+				// A parent's span must cover its children: nesting is by structure
+				// code, so a mis-mapped child page can land outside the parent's
+				// [start,end]. Widen the parent so the tree stays well-formed.
+				if n.Nodes[i].EndIndex > n.EndIndex {
+					n.EndIndex = n.Nodes[i].EndIndex
+				}
+				if n.Nodes[i].StartIndex < n.StartIndex {
+					n.StartIndex = n.Nodes[i].StartIndex
+				}
 			}
 		}
 		return n
@@ -98,6 +107,24 @@ func PostProcess(items []PostItem, endPhysicalIndex int) []TreeNode {
 		flat[i] = FlatItem{Structure: it.Structure, Title: it.Title, StartIndex: it.PhysicalIndex, EndIndex: end}
 	}
 	return ListToTree(flat)
+}
+
+// CoverChildren widens each node's [StartIndex,EndIndex] so it spans all of its
+// descendants, in place. Run after large-node splitting (which can append
+// generated children whose pages fall outside the parent's offset-derived span)
+// to keep the tree well-formed for range-based retrieval.
+func CoverChildren(nodes []TreeNode) {
+	for i := range nodes {
+		CoverChildren(nodes[i].Nodes)
+		for _, c := range nodes[i].Nodes {
+			if c.EndIndex > nodes[i].EndIndex {
+				nodes[i].EndIndex = c.EndIndex
+			}
+			if c.StartIndex > 0 && (nodes[i].StartIndex == 0 || c.StartIndex < nodes[i].StartIndex) {
+				nodes[i].StartIndex = c.StartIndex
+			}
+		}
+	}
 }
 
 // WriteNodeIDs assigns sequential zero-padded 4-digit IDs in pre-order DFS
