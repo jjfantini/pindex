@@ -38,17 +38,8 @@ type Builder struct {
 	// SummaryTokenThreshold: nodes whose text is below this keep their text as the
 	// summary instead of spending an LLM call (mirrors PageIndex's 200-token rule).
 	SummaryTokenThreshold int
-	// DetectTOC enables the table-of-contents fast path before falling back to the
-	// general structure-generation path. Off by default: it changes the derived
-	// tree for TOC-bearing docs, so it stays opt-in until accuracy parity is
-	// re-measured against the no-TOC baseline.
-	DetectTOC bool
-	// TOCMinPages gates TOC detection to documents with at least this many pages.
-	// Short docs rarely carry a formal page-numbered TOC, and detection costs up to
-	// TOCCheckPageNum probe calls before falling back — so we skip it for them.
-	TOCMinPages int
 	// TOCVerifyThreshold is the minimum verified-title fraction to trust the TOC
-	// branch; below it the build falls back to the no-TOC path.
+	// branch; below it the build falls back to the structure-generation path.
 	TOCVerifyThreshold float64
 }
 
@@ -63,8 +54,6 @@ func NewBuilder(cfg config.Config, p llm.Provider) *Builder {
 		MaxRecursionDepth:     4,
 		StructuredAttempts:    3,
 		SummaryTokenThreshold: 200,
-		DetectTOC:             false, // opt-in until TOC-path accuracy parity is measured
-		TOCMinPages:           25,
 		TOCVerifyThreshold:    0.6,
 	}
 }
@@ -86,7 +75,9 @@ type item struct {
 	appearStart bool
 }
 
-// Build runs the no-TOC indexing path end to end.
+// Build runs the indexing pipeline end to end: derive the section list (TOC path
+// first, generation as fallback), resolve spans, nest, split oversized nodes,
+// then enrich.
 func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, error) {
 	if len(pages) == 0 {
 		return Result{}, fmt.Errorf("index: no pages to index")
@@ -125,13 +116,16 @@ func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, erro
 	return Result{Structure: nodes, Description: desc, PageOffset: offset}, nil
 }
 
-// sections produces the flat, resolved section list plus a page offset. It tries
-// the table-of-contents fast path (cheaper, and it recovers the printed->physical
-// offset); if there is no page-numbered TOC, the branch fails, or too few sections
-// verify after repair, it falls back to the general structure-generation path.
+// sections produces the flat, resolved section list plus a page offset. The
+// table-of-contents path is the primary route: it reads the document's own
+// printed TOC, recovers the printed->physical offset, and is cheaper than
+// generating structure from scratch. It runs whenever TOC detection is enabled
+// (cfg.TOCCheckPageNum > 0 bounds how many leading pages are scanned — the
+// --toc-page-limit knob). When no page-numbered TOC is detected, or too few
+// sections verify after repair, it falls back to the structure-generation path.
 // structureFromTOC does the per-section verify+repair and gates on the threshold.
 func (b *Builder) sections(ctx context.Context, pages []extract.Page) ([]item, int, error) {
-	if b.DetectTOC && b.cfg.TOCCheckPageNum > 0 && len(pages) >= b.TOCMinPages {
+	if b.cfg.TOCCheckPageNum > 0 {
 		if toc, found, err := b.detectTOC(ctx, pages); err == nil && found && toc.hasPageNumbers {
 			if items, offset, terr := b.structureFromTOC(ctx, pages, toc); terr == nil {
 				return items, offset, nil

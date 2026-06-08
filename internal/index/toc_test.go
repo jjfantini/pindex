@@ -225,8 +225,8 @@ func ptr(i int) *int { return &i }
 func tocTestBuilder(p llm.Provider) *Builder {
 	b := NewBuilder(config.Default(), p)
 	b.Concurrency = 1
-	b.DetectTOC = true // opt-in default is off; exercise the path here
-	b.TOCMinPages = 0  // the test docs are small; don't gate them out
+	// TOC detection is on by default (config.Default().TOCCheckPageNum > 0); the
+	// small test docs fall within the search window.
 	return b
 }
 

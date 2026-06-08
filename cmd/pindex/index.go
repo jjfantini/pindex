@@ -41,6 +41,9 @@ func newIndexCmd() *cobra.Command {
 			if b, _ := c.Flags().GetString("backend"); b != "" {
 				cfg.Extractor = b
 			}
+			if lim, _ := c.Flags().GetInt("toc-page-limit"); lim >= 0 {
+				cfg.TOCCheckPageNum = lim
+			}
 			cacheDir, _ := c.Flags().GetString("cache-dir")
 			ws, _ := c.Flags().GetString("workspace")
 
@@ -61,12 +64,8 @@ func newIndexCmd() *cobra.Command {
 				}
 				defer func() { _ = st.Close() }()
 			}
-			builder := index.NewBuilder(cfg, provider)
-			if detectTOC, _ := c.Flags().GetBool("detect-toc"); detectTOC {
-				builder.DetectTOC = true
-			}
 			fi := &pipeline.FileIndexer{
-				Builder:   builder,
+				Builder:   index.NewBuilder(cfg, provider),
 				Extractor: ex,
 				Store:     st,
 			}
@@ -113,7 +112,7 @@ func newIndexCmd() *cobra.Command {
 	cmd.Flags().String("workspace", ".pindex/workspace", "persist the index here (empty to only print)")
 	cmd.Flags().Int("concurrency", 4, "parallel documents when indexing a directory")
 	cmd.Flags().Bool("force", false, "re-index documents already in the workspace")
-	cmd.Flags().Bool("detect-toc", false, "use the table-of-contents fast path for page-numbered docs (opt-in; recovers a page offset)")
+	cmd.Flags().Int("toc-page-limit", -1, "leading pages to scan for a table of contents (0 disables TOC detection; -1 uses the config default of 10)")
 	cmd.Flags().Bool("include-raw-text", false, "include raw page text in the browsable <workspace>/pindex export (larger, less readable)")
 	return cmd
 }

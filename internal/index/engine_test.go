@@ -32,9 +32,9 @@ const initTwoSections = `[{"structure":"1","title":"Introduction","physical_inde
 
 func newTestBuilder(cfg config.Config, p llm.Provider) *Builder {
 	b := NewBuilder(cfg, p)
-	b.Concurrency = 1   // deterministic call ordering for scripted mocks
-	b.DetectTOC = false // the TOC fast path is exercised in toc_test.go; these
-	// scripted mocks supply only no-TOC responses, so skip detection here.
+	b.Concurrency = 1         // deterministic call ordering for scripted mocks
+	b.cfg.TOCCheckPageNum = 0 // disable TOC detection to test the generation path
+	// in isolation here; the TOC path is exercised in toc_test.go.
 	return b
 }
 

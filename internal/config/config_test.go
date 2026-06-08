@@ -14,8 +14,8 @@ func TestDefaultMirrorsUpstream(t *testing.T) {
 	if d.Extractor != "mupdf" {
 		t.Errorf("extractor = %q, want mupdf", d.Extractor)
 	}
-	if d.TOCCheckPageNum != 20 {
-		t.Errorf("toc_check_page_num = %d, want 20", d.TOCCheckPageNum)
+	if d.TOCCheckPageNum != 10 {
+		t.Errorf("toc_check_page_num = %d, want 10", d.TOCCheckPageNum)
 	}
 	if d.MaxPageNumEachNode != 10 || d.MaxTokenNumEachNode != 20000 {
 		t.Errorf("node limits = (%d,%d), want (10,20000)", d.MaxPageNumEachNode, d.MaxTokenNumEachNode)
@@ -46,8 +46,8 @@ func TestLoadOverlaysDefaults(t *testing.T) {
 	if cfg.MaxPageNumEachNode != 5 {
 		t.Errorf("max_page_num_each_node = %d, want 5", cfg.MaxPageNumEachNode)
 	}
-	if cfg.TOCCheckPageNum != 20 {
-		t.Errorf("unspecified key should keep default 20, got %d", cfg.TOCCheckPageNum)
+	if cfg.TOCCheckPageNum != 10 {
+		t.Errorf("unspecified key should keep default 10, got %d", cfg.TOCCheckPageNum)
 	}
 }
 

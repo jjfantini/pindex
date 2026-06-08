@@ -7,9 +7,11 @@ live across OpenAI and Anthropic. North star: *simplicity until stable.*
 
 These were consciously deferred during the v1 build; none block the working tool.
 
-- **TOC-detection branches.** v1 uses the TOC-less structure-generation path for *every* document
-  (correct, but more LLM calls). Add `check_toc` + the page-numbered / no-page-number branches +
-  `verify_toc`/`fix_incorrect_toc` to cut calls on documents that ship a usable table of contents.
+- **TOC-detection branches.** *(done)* TOC detection is now the **always-on primary path**: `check_toc`
+  + the page-numbered branch + per-section `verifyAndRepair` (verify_toc/fix_incorrect_toc/
+  single_toc_item_index_fixer) recover the printed→physical `PageOffset` and a faithful item hierarchy,
+  with the structure-generation path kept as the internal fallback for docs without a usable TOC.
+  Detection depth is tunable via `--toc-page-limit` (default 10; 0 disables).
 - **recall@page alignment.** Align pindex's physical page index to a filing's *printed* page label
   (PageIndex's `calculate_page_offset`) so page-number recall is trustworthy. Until then the eval
   harness reports the alignment-free **evidence recall** as the primary retrieval metric.
