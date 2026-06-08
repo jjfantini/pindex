@@ -56,16 +56,17 @@ flowchart LR
 
 **CLI surface** (`cmd/pindex/`, cobra): `index` (one PDF or a directory) · `ask` · `eval` (FinanceBench
 harness, reuses `Asker`) · `extract` (debug: extraction only). The `index` command runs through
-`pipeline.FileIndexer`; everything LLM-bound flows through the one provider stack. Each command also
-emits a **browsable export** under the workspace via `internal/exportout` (see [Batch & Eval](#batch--eval-orchestration-not-new-logic)): `index` always writes
-trees to `<workspace>/pindex/`, `ask --out` appends each Q&A + its tree, and `eval --out` writes the
-full result bundle (`eval --rescore` reads a human-edited result back without any API calls).
+`pipeline.FileIndexer`; everything LLM-bound flows through the one provider stack. Each command can also
+emit a **browsable export** via `internal/exportout` (see [Batch & Eval](#batch--eval-orchestration-not-new-logic)): `index` *always* writes
+trees to `<workspace>/pindex/`, while `ask --out` (appends each Q&A + its tree) and `eval --out` (the
+full result bundle) are *opt-in* to a path you choose (`eval --rescore` reads a human-edited result back without any API calls).
 
 ---
 
 ## L1.Extract
 
-`internal/extract/` — pluggable `Extractor` seam. Portability is a **runtime choice**, not a build tag.
+`internal/extract/` — pluggable `Extractor` seam (three working backends below; `config` also accepts
+`vision`, a reserved v2 stub that currently errors). Portability is a **runtime choice**, not a build tag.
 
 ```mermaid
 flowchart TB
@@ -102,7 +103,7 @@ is shared:
   section against its computed page (relocating mis-mapped ones, never dropping) and **falls back to
   generation** when the verified fraction is below `TOCVerifyThreshold`, so it can only help, never
   silently corrupt the tree. Detection scans the first `TOCCheckPageNum` pages — the `--toc-page-limit`
-  knob (default 10; 0 disables detection).
+  knob (default `-1` = use the config default of 10; `0` disables detection).
 - **Generation fallback:** the LLM *generates* structure from the page text — no table of contents
   required. This runs when no page-numbered TOC is detected, or too few sections verify after repair.
 
@@ -121,6 +122,7 @@ flowchart TB
     MA["markAppearStart<br/>CheckTitleAppearanceInStart per section<br/>(bounded concurrency)"]
     PP["tree.PostProcess + tree.ListToTree<br/>resolve page spans, nest by structure code"]
     SL["splitLargeNodes<br/>recursively re-index oversized sections<br/>(MaxRecursionDepth = 4)"]
+    CC["tree.CoverChildren<br/>widen parent spans to cover split children"]
     ID["tree.WriteNodeIDs<br/>0000, 0001 ... pre-order DFS"]
     SUM["addSummaries (if AddNodeSummary)<br/>verbatim if &lt; 200 tokens, else NodeSummary"]
     DD["docDescription (if AddDocDescription)<br/>one-line summary over StripText structure"]
@@ -131,7 +133,7 @@ flowchart TB
     SEC -->|"yes"| TOC --> VER
     VER -->|"verified"| PRE
     VER -->|"below threshold (fall back)"| G
-    PRE --> MA --> PP --> SL --> ID --> SUM --> DD --> OUT
+    PRE --> MA --> PP --> SL --> CC --> ID --> SUM --> DD --> OUT
 
     classDef crit fill:#ffe7e0,stroke:#d9534f,stroke-width:2px;
     class G,MA,SUM crit
@@ -173,7 +175,9 @@ flowchart TB
 > **Effort dial** (`--effort`): `low` = single pass (default). `medium` adds the refusal-driven
 > re-select loop above. **`high` / `ultra` currently behave like `medium`** — the true agentic loop is
 > reserved for a later phase. Refusal detection is a heuristic substring match (`isRefusal`), so a
-> phrasing it doesn't recognize won't trigger the recovery retry.
+> phrasing it doesn't recognize won't trigger the recovery retry. The retry re-answers over the
+> **union** of the original and new pages (a best-effort broadening, not a swap) and falls back to the
+> original answer if `AskSelectMore` errors or the second answer still refuses.
 
 ---
 
@@ -184,7 +188,7 @@ flowchart TB
 ```mermaid
 flowchart LR
     DOC[/"tree.Document"/]
-    GD["GetDocument<br/>metadata: id, name, description, type, page_count"]
+    GD["GetDocument<br/>metadata: doc_id, doc_name, doc_description,<br/>type, status, page_count"]
     GS["GetStructure<br/>StripText -> JSON (titles+summaries+spans)"]
     GP["GetPageContent<br/>ParsePages selector -> [&#123;page, content&#125;]"]
     DOC --> GD
@@ -222,7 +226,9 @@ flowchart TB
 
 > Provider is routed purely by **model name** (`claude*` → Anthropic, else OpenAI). Keys come from a
 > gitignored `.env` (which **overrides** the process env), loaded by `internal/envfile`. No vendor SDKs
-> — hand-rolled HTTP. A `MockProvider` (`mock.go`) backs deterministic tests at the same seam.
+> — hand-rolled HTTP. A `MockProvider` (`mock.go`) backs deterministic tests at the same seam. The
+> breaker ignores *transient* 429s (retried with backoff), but quota/billing 429s (`insufficient_quota`)
+> **fail fast** — no retry.
 
 ---
 
@@ -234,7 +240,7 @@ flowchart TB
 flowchart TB
     DOC[/"tree.Document"/]
     SAVE["Store.Save"]
-    CAT["catalog.db (SQLite)<br/>id, doc_name, type, path,<br/>page_count, indexed_at"]
+    CAT["catalog.db (SQLite)<br/>id, doc_name, type, path, description,<br/>page_count, line_count, indexed_at"]
     BLOB["docs/&#123;DocID&#125;.json<br/>full Document blob<br/>atomic temp + rename"]
     HAS{"Store.Has(DocID)?"}
     SKIP["skip — already indexed (resume)"]
@@ -256,17 +262,19 @@ flowchart TB
 ## Batch & Eval (orchestration, not new logic)
 
 - `internal/pipeline/` — `FileIndexer.IndexOne` / `BatchIndex`: `FindPDFs` → per-doc
-  `Extract → Builder.Build → assembleDoc → Store.Save`. Bounded concurrency via `errgroup.SetLimit`;
-  one doc's failure never aborts the batch; `Store.Has` skips finished docs.
+  `Extract → Builder.Build → assembleDoc → Store.Save`. Bounded concurrency via `errgroup.SetLimit`
+  (`--concurrency`, default 4); one doc's failure never aborts the batch; `Store.Has` skips finished docs.
 - `eval` (`cmd/pindex/eval.go`) — runs the FinanceBench set through the **same** `Asker.Ask`, then
   grades each answer with `JudgeEquivalence` (a judge model) and prints a **stage funnel**
   (extraction → retrieval → answer → hallucination) so you can see *which* stage lost the point. This
   is the loop to watch when measuring whether the accuracy levers below actually move the score.
-- `internal/exportout/` — the **browsable export** all three commands write under the workspace:
-  per-doc trees (`index` → `<workspace>/pindex/`, `ask --out`, `eval --out`), plus, for `eval`, a
-  Mafin-compatible `result_<model>.json`, a human-eval CSV, and a run `summary`. `eval --rescore`
-  reads a human-edited `result_<model>.json` back and recomputes adjusted accuracy (AL+MVA+BE labels)
-  with **no API calls** — the human-in-the-loop scoring path.
+- `internal/exportout/` — the **browsable export**. `index` *auto-writes* per-doc trees under
+  `<workspace>/pindex/`; `ask --out` / `eval --out` are *opt-in* and write to a path you choose. The
+  `eval` bundle adds a Mafin-compatible `result_<model>.json`, a human-eval CSV, `questions.jsonl`,
+  per-question `answers/<id>.json`, and a run `summary`. Exported trees **strip raw page text by
+  default** to stay readable (`--include-raw-text` on `index`, `--include-pages` on `ask`/`eval`
+  re-includes it). `eval --rescore` reads a human-edited `result_<model>.json` back and recomputes
+  adjusted accuracy (AL+MVA+BE labels) with **no API calls** — the human-in-the-loop scoring path.
 
 ---
 
