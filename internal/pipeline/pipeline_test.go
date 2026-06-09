@@ -24,11 +24,22 @@ type routingProvider struct {
 
 func (p *routingProvider) Name() string { return "routing" }
 
+// reqText flattens a request's messages so routing sees the whole prompt
+// (system instructions + user data) regardless of the system/user split.
+func reqText(req llm.Request) string {
+	var b strings.Builder
+	for _, m := range req.Messages {
+		b.WriteString(m.Content)
+		b.WriteByte('\n')
+	}
+	return b.String()
+}
+
 func (p *routingProvider) Complete(_ context.Context, req llm.Request) (llm.Response, error) {
 	p.mu.Lock()
 	p.calls++
 	p.mu.Unlock()
-	content := req.Messages[len(req.Messages)-1].Content
+	content := reqText(req)
 	switch {
 	case strings.Contains(content, "tree structure"):
 		return llm.Response{Content: `[{"structure":"1","title":"sample","physical_index":"<physical_index_1>"}]`}, nil

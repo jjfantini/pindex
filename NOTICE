@@ -1,0 +1,16 @@
+pindex
+Copyright 2026 Jennings Fantini
+
+This product's first-party source code is licensed under the Apache License,
+Version 2.0 (see LICENSE).
+
+Binaries built with the default MuPDF extractor (github.com/gen2brain/go-fitz)
+statically link MuPDF, which is licensed under the GNU Affero General Public
+License v3.0 (see LICENSE.AGPL). Such binaries — including the default `pindex`
+distribution — are therefore distributed under AGPL-3.0-or-later.
+
+The pure-Go build (CGO_ENABLED=0, distributed as `pindex-lite`) excludes
+go-fitz/MuPDF and links no AGPL-covered code; it is distributed under the
+Apache License, Version 2.0.
+
+See LICENSING.md for the full explanation.

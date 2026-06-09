@@ -217,8 +217,9 @@ func isRefusal(answer string) bool {
 // Judge grades predicted against the gold answer via the permissive equivalence
 // rubric.
 func Judge(ctx context.Context, judge llm.Provider, model string, q Question, predicted string) (bool, error) {
+	p := prompts.JudgeEquivalence(q.Question, q.Answer, predicted)
 	out, err := llm.CompleteJSON[prompts.Equivalence](ctx, judge,
-		llm.UserPrompt(model, prompts.JudgeEquivalence(q.Question, q.Answer, predicted)), 3, nil)
+		llm.SystemUser(model, p.System, p.User), 3, nil)
 	if err != nil {
 		return false, err
 	}

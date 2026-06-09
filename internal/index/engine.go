@@ -152,16 +152,18 @@ func (b *Builder) generateStructure(ctx context.Context, pages []extract.Page) (
 		}
 		return nil
 	}
+	initP := prompts.GenerateTOCInit(groups[0].Text)
 	all, err := llm.CompleteJSON(ctx, b.provider,
-		llm.UserPrompt(b.cfg.Model, prompts.GenerateTOCInit(groups[0].Text)),
+		llm.SystemUser(b.cfg.Model, initP.System, initP.User),
 		b.StructuredAttempts, nonEmpty)
 	if err != nil {
 		return nil, fmt.Errorf("index: generate structure: %w", err)
 	}
 	for _, g := range groups[1:] {
 		prev, _ := json.Marshal(all)
+		contP := prompts.GenerateTOCContinue(string(prev), g.Text)
 		cont, err := llm.CompleteJSON[[]prompts.TOCItem](ctx, b.provider,
-			llm.UserPrompt(b.cfg.Model, prompts.GenerateTOCContinue(string(prev), g.Text)),
+			llm.SystemUser(b.cfg.Model, contP.System, contP.User),
 			b.StructuredAttempts, nil) // a continuation may legitimately add nothing
 		if err != nil {
 			return nil, fmt.Errorf("index: continue structure: %w", err)

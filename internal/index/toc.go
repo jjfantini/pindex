@@ -30,8 +30,9 @@ func transformDotsToColon(s string) string {
 }
 
 func (b *Builder) tocDetectPage(ctx context.Context, text string) (bool, error) {
+	pr := prompts.TOCDetector(text)
 	out, err := llm.CompleteJSON[prompts.TOCDetected](ctx, b.provider,
-		llm.UserPrompt(b.cfg.Model, prompts.TOCDetector(text)), b.StructuredAttempts, nil)
+		llm.SystemUser(b.cfg.Model, pr.System, pr.User), b.StructuredAttempts, nil)
 	if err != nil {
 		return false, err
 	}
@@ -63,8 +64,9 @@ func (b *Builder) findTOCPages(ctx context.Context, pages []extract.Page, startP
 }
 
 func (b *Builder) detectPageIndex(ctx context.Context, content string) (bool, error) {
+	pr := prompts.DetectPageIndex(content)
 	out, err := llm.CompleteJSON[prompts.PageIndexGiven](ctx, b.provider,
-		llm.UserPrompt(b.cfg.Model, prompts.DetectPageIndex(content)), b.StructuredAttempts, nil)
+		llm.SystemUser(b.cfg.Model, pr.System, pr.User), b.StructuredAttempts, nil)
 	if err != nil {
 		return false, err
 	}
@@ -124,8 +126,9 @@ type tocPhys struct {
 // structureFromTOC builds the flat section list from a page-numbered TOC plus the
 // printed-page -> physical-index offset. Mirrors process_toc_with_page_numbers.
 func (b *Builder) structureFromTOC(ctx context.Context, pages []extract.Page, toc tocResult) ([]item, int, error) {
+	pr := prompts.TOCTransform(toc.content)
 	trans, err := llm.CompleteJSON[prompts.TOCTransformOut](ctx, b.provider,
-		llm.UserPrompt(b.cfg.Model, prompts.TOCTransform(toc.content)), b.StructuredAttempts,
+		llm.SystemUser(b.cfg.Model, pr.System, pr.User), b.StructuredAttempts,
 		func(o prompts.TOCTransformOut) error {
 			if len(o.TableOfContents) == 0 {
 				return fmt.Errorf("empty table of contents")
@@ -146,8 +149,9 @@ func (b *Builder) structureFromTOC(ctx context.Context, pages []extract.Page, to
 	}
 
 	noPage, _ := json.Marshal(stripPages(entries))
+	pr = prompts.TOCIndexExtract(string(noPage), tagged.String())
 	physRaw, err := llm.CompleteJSON[[]prompts.TOCItem](ctx, b.provider,
-		llm.UserPrompt(b.cfg.Model, prompts.TOCIndexExtract(string(noPage), tagged.String())), b.StructuredAttempts, nil)
+		llm.SystemUser(b.cfg.Model, pr.System, pr.User), b.StructuredAttempts, nil)
 	if err != nil {
 		return nil, 0, fmt.Errorf("toc index extract: %w", err)
 	}
@@ -248,8 +252,9 @@ func (b *Builder) titleAt(ctx context.Context, title string, idx int, pages []ex
 	if !ok {
 		return false
 	}
+	pr := prompts.CheckTitleAppearance(title, txt)
 	out, err := llm.CompleteJSON[prompts.Appearance](ctx, b.provider,
-		llm.UserPrompt(b.cfg.Model, prompts.CheckTitleAppearance(title, txt)), b.StructuredAttempts, nil)
+		llm.SystemUser(b.cfg.Model, pr.System, pr.User), b.StructuredAttempts, nil)
 	return err == nil && strings.EqualFold(strings.TrimSpace(out.Answer), "yes")
 }
 
@@ -294,8 +299,9 @@ func (b *Builder) verifyAndRepair(ctx context.Context, items []item, pages []ext
 				tagged.WriteString(llm.WrapPage(llm.Page{Index: p.Index, Text: p.Text}))
 			}
 		}
+		pr := prompts.SingleTOCItemIndex(items[i].title, tagged.String())
 		out, err := llm.CompleteJSON[prompts.PhysicalIndexFix](ctx, b.provider,
-			llm.UserPrompt(b.cfg.Model, prompts.SingleTOCItemIndex(items[i].title, tagged.String())), b.StructuredAttempts, nil)
+			llm.SystemUser(b.cfg.Model, pr.System, pr.User), b.StructuredAttempts, nil)
 		if err != nil {
 			continue
 		}
