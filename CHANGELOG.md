@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1](https://github.com/jjfantini/pindex/compare/v0.1.0...v0.1.1) (2026-06-09)
+
+
+### Bug Fixes
+
+* **ci:** goreleaser dirty-tree in release publish job ([b5fb931](https://github.com/jjfantini/pindex/commit/b5fb931e96d2c2e89e53ebfcceb83ed95384019c))
+* **ci:** run goreleaser before downloading cgo artifacts (dirty tree) ([4974367](https://github.com/jjfantini/pindex/commit/4974367a9bcbf0553a45603754a3a29b56e3c206))
+
 ## 0.1.0 (2026-06-09)
 
 
