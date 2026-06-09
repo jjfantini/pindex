@@ -1,0 +1,66 @@
+# goreleaser v2 — pindex release packaging (pure-Go `pindex-lite` artifact).
+#
+# WHY LITE-ONLY HERE: the full-fidelity `pindex` binary links MuPDF via cgo,
+# which cannot cross-compile. OSS goreleaser cannot package pre-built binaries
+# (the `prebuilt` builder and `--split`/merge are Pro-only). So the cgo `pindex`
+# binary is built NATIVELY per platform in the release workflow's matrix and its
+# Homebrew formula is templated + pushed by scripts/publish-cgo-formula.sh.
+#
+# goreleaser owns the pure-Go path end-to-end: CGO_ENABLED=0 cross-compiles all
+# four targets trivially (go-fitz is build-tagged out), and the pindex-lite
+# formula is pushed to the jjfantini/homebrew-humbl tap.
+version: 2
+
+project_name: pindex
+
+before:
+  hooks:
+    - go mod download
+
+builds:
+  - id: pindex-lite
+    main: ./cmd/pindex
+    binary: pindex-lite
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+    goos: [darwin, linux]
+    goarch: [amd64, arm64]
+    goamd64: [v1]
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - id: pindex-lite
+    ids: [pindex-lite]
+    formats: [tar.gz]
+    name_template: "pindex-lite_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - LICENSING.md
+      - NOTICE
+      - README.md
+
+checksum:
+  name_template: "pindex-lite_checksums.txt"
+
+changelog:
+  # release-please owns CHANGELOG.md and the GitHub Release notes.
+  disable: true
+
+release:
+  github:
+    owner: jjfantini
+    name: pindex
+  # The release workflow runs goreleaser with --skip=publish, so goreleaser only
+  # builds + archives the lite binaries into dist/; a single `gh release upload`
+  # step then attaches ALL assets to the Release that release-please created.
+  # keep-existing is a belt-and-suspenders default in case publish is ever run.
+  mode: keep-existing
+
+# NOTE: no `brews:` block. goreleaser deprecated `brews` in favor of macOS-only
+# `homebrew_casks`, which would drop Linux. Both formulae (pindex + pindex-lite)
+# are templated and pushed to the tap by scripts/publish-formulae.sh, which also
+# keeps Linux support and uses a single consistent publish mechanism.

@@ -1,0 +1,104 @@
+name: release
+
+# Triggered by the vX.Y.Z tag that release-please pushes when its Release PR is
+# merged. Builds the cgo/MuPDF `pindex` binary natively per platform (cgo can't
+# cross-compile), then publishes:
+#   * lite artifacts: built + archived by goreleaser (cross-compiled, pure-Go)
+#   * ALL artifacts uploaded to the Release by `gh` (one upload mechanism, so
+#     there is no release-please/goreleaser shared-release upload ambiguity)
+#   * both Homebrew formulae via scripts/publish-formulae.sh -> homebrew-humbl
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  # Build the full-fidelity cgo/MuPDF binary on a native runner per target.
+  build-cgo:
+    name: build cgo ${{ matrix.goos }}/${{ matrix.goarch }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - { runner: macos-latest, goos: darwin, goarch: arm64 }
+          - { runner: macos-latest, goos: darwin, goarch: amd64, cc: "clang -arch x86_64", cxx: "clang++ -arch x86_64" }
+          - { runner: ubuntu-latest, goos: linux, goarch: amd64 }
+          - { runner: ubuntu-24.04-arm, goos: linux, goarch: arm64 }
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+          cache: true
+      - name: build pindex (cgo / MuPDF, links bundled libmupdf)
+        env:
+          CGO_ENABLED: "1"
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          set -euo pipefail
+          if [ -n "${{ matrix.cc }}" ]; then export CC="${{ matrix.cc }}" CXX="${{ matrix.cxx }}"; fi
+          VERSION="${GITHUB_REF_NAME#v}"
+          go build -trimpath -ldflags "-s -w -X main.version=${VERSION}" -o pindex ./cmd/pindex
+      - name: smoke test (native targets only; cross darwin/amd64 can't self-run)
+        if: matrix.cc == ''
+        run: ./pindex --version
+      - name: package
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          tar -czf "pindex_${VERSION}_${{ matrix.goos }}_${{ matrix.goarch }}.tar.gz" \
+            pindex LICENSE.AGPL LICENSING.md NOTICE README.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cgo-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: pindex_*.tar.gz
+          if-no-files-found: error
+
+  # Publish: lite via goreleaser, cgo via gh, both formulae to the tap.
+  publish:
+    needs: build-cgo
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+          cache: true
+      - name: download cgo archives
+        uses: actions/download-artifact@v4
+        with:
+          path: _cgo
+          pattern: cgo-*
+          merge-multiple: true
+      - name: goreleaser (build + archive lite only; --skip=publish so gh owns the upload)
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: "~> v2"
+          args: release --skip=publish --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: upload all assets (lite + cgo) to the Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          cp _cgo/pindex_*.tar.gz dist/
+          ( cd dist && sha256sum pindex_*.tar.gz > pindex_checksums.txt )
+          # Single upload mechanism: goreleaser only built lite into dist/; gh
+          # uploads everything to the release release-please created.
+          gh release upload "v${VERSION}" dist/*.tar.gz dist/*checksums*.txt --clobber
+      - name: publish Homebrew formulae to tap
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}" DIST_DIR=dist bash scripts/publish-formulae.sh
