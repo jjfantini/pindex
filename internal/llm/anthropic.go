@@ -34,12 +34,13 @@ func (p *AnthropicProvider) Complete(ctx context.Context, req Request) (Response
 	}
 
 	// Anthropic carries system instructions in a top-level field, not in messages.
-	var system strings.Builder
+	var systemParts []string
+	cacheSystem := false
 	msgs := make([]map[string]string, 0, len(req.Messages))
 	for _, m := range req.Messages {
 		if m.Role == RoleSystem {
-			system.WriteString(m.Content)
-			system.WriteByte('\n')
+			systemParts = append(systemParts, m.Content)
+			cacheSystem = cacheSystem || m.Cache
 			continue
 		}
 		msgs = append(msgs, map[string]string{"role": string(m.Role), "content": m.Content})
@@ -51,8 +52,22 @@ func (p *AnthropicProvider) Complete(ctx context.Context, req Request) (Response
 		"temperature": req.Temperature,
 		"messages":    msgs,
 	}
-	if system.Len() > 0 {
-		payload["system"] = system.String()
+	if len(systemParts) > 0 {
+		systemText := strings.Join(systemParts, "\n")
+		if cacheSystem {
+			// Array form is required to attach cache_control. Marking the system
+			// block ephemeral caches the tools+system prefix; Anthropic silently
+			// skips it when the prefix is below the model's minimum (~4096 tokens
+			// for Opus, ~2048 for Sonnet 4.6) — no error, just no cache write.
+			// Prompt caching is GA, so no anthropic-beta header is needed.
+			payload["system"] = []map[string]any{{
+				"type":          "text",
+				"text":          systemText,
+				"cache_control": map[string]string{"type": "ephemeral"},
+			}}
+		} else {
+			payload["system"] = systemText
+		}
 	}
 	body, err := json.Marshal(payload)
 	if err != nil {

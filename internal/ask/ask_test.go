@@ -47,8 +47,8 @@ func TestAskSelectsThenAnswers(t *testing.T) {
 	}
 	// The answer prompt must contain the fetched page-2 content (grounding).
 	calls := mock.Calls()
-	if !strings.Contains(calls[1].Messages[0].Content, "Revenue was $1,234") {
-		t.Error("answer prompt should embed the fetched page content")
+	if !strings.Contains(calls[1].Messages[len(calls[1].Messages)-1].Content, "Revenue was $1,234") {
+		t.Error("answer prompt User turn should embed the fetched page content")
 	}
 }
 
