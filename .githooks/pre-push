@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# pre-push: lint the commits being pushed as Conventional Commits — the same
+# rule CI enforces (commitsar). With the no-squash merge flow, every commit on
+# develop/master must be conventional or release-please mis-computes the version.
+#
+# Prefers commitsar (identical to CI) if installed; otherwise falls back to a
+# self-contained regex check so the hook always works. Enable with:
+#   make setup-hooks
+set -euo pipefail
+
+# commitsar present -> use it (matches CI exactly), then done.
+if command -v commitsar >/dev/null 2>&1; then
+  exec commitsar
+fi
+
+# --- regex fallback (no extra tooling) ---
+type_re='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([^)]+\))?!?: .+'
+z40=0000000000000000000000000000000000000000
+fail=0
+
+check_commit() {
+  local sha="$1" subject
+  subject="$(git log -1 --format=%s "$sha")"
+  # skip merge commits — the develop->master / PR flow creates them
+  case "$subject" in Merge\ *) return 0 ;; esac
+  if ! printf '%s' "$subject" | grep -Eq "$type_re"; then
+    echo "pre-push: non-conventional commit ${sha:0:8}: $subject" >&2
+    fail=1
+  fi
+}
+
+# git feeds ref updates on stdin: <local ref> <local sha> <remote ref> <remote sha>
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+  [ "$local_sha" = "$z40" ] && continue   # branch deletion
+  if [ "$remote_sha" = "$z40" ]; then
+    range="$local_sha"                     # new branch: lint commits not on master
+    base="$(git rev-parse --verify -q origin/master || true)"
+    [ -n "$base" ] && range="$base..$local_sha"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+  for sha in $(git rev-list "$range" 2>/dev/null); do
+    check_commit "$sha"
+  done
+done
+
+if [ "$fail" -ne 0 ]; then
+  echo "pre-push: push rejected — fix commit messages (see https://www.conventionalcommits.org)." >&2
+  echo "          (install commitsar for the exact CI check: make setup-hooks)" >&2
+  exit 1
+fi

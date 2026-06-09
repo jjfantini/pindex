@@ -57,3 +57,27 @@ jobs:
       - uses: golangci/golangci-lint-action@v7
         with:
           version: latest
+
+  # Conventional-Commit guard: with the no-squash merge flow, every commit must
+  # be conventional or release-please mis-computes the version. Checks the PR's
+  # commits (the meaningful gate, before merge).
+  commit-guard:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: aevea/commitsar@v1.0.3
+
+  # Validate the goreleaser config so a broken release config fails on the PR,
+  # not at release time.
+  goreleaser-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: "~> v2"
+          args: check
