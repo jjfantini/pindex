@@ -43,18 +43,14 @@ the **minor** (0.x.0), features/fixes bump patch.
 
 ## First release (bootstrap to v0.1.0)
 
-The manifest starts at `0.0.0`. To make the first tag exactly **v0.1.0**
-deterministically, include a `Release-As` footer on a commit that reaches master:
+The manifest starts at `0.0.0`, and pre-1.0 a `feat:` commit bumps the **minor**
+(`bump-minor-pre-major: true`, `bump-patch-for-minor-pre-major: false`). The
+pipeline itself lands a `feat(license):` commit, so release-please computes
+`0.0.0 → 0.1.0` for the first Release PR automatically — no extra step needed.
 
-```
-chore: bootstrap release pipeline
-
-Release-As: 0.1.0
-```
-
-(e.g. `git commit --allow-empty -m "chore: bootstrap releases" -m "Release-As: 0.1.0"`).
-release-please will then propose v0.1.0 for the first Release PR. Without it, the
-version is computed from commit types since `bootstrap-sha`.
+To force a specific first version regardless of commit types, add a `Release-As`
+footer to a commit that reaches master, e.g.
+`git commit --allow-empty -m "chore: bootstrap releases" -m "Release-As: 0.1.0"`.
 
 ## Secrets & GitHub Environment
 
