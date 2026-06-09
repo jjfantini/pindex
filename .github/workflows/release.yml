@@ -71,20 +71,23 @@ jobs:
         with:
           go-version: "1.26"
           cache: true
+      - name: goreleaser (build + archive lite only; --skip=publish so gh owns the upload)
+        # Runs FIRST on a pristine tree: goreleaser refuses to release from a
+        # dirty worktree, and the cgo artifacts are downloaded only afterward.
+        # --skip=validate also disables the git-state check as belt-and-suspenders.
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: "~> v2"
+          args: release --skip=publish,validate --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: download cgo archives
         uses: actions/download-artifact@v4
         with:
           path: _cgo
           pattern: cgo-*
           merge-multiple: true
-      - name: goreleaser (build + archive lite only; --skip=publish so gh owns the upload)
-        uses: goreleaser/goreleaser-action@v6
-        with:
-          distribution: goreleaser
-          version: "~> v2"
-          args: release --skip=publish --clean
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: upload all assets (lite + cgo) to the Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

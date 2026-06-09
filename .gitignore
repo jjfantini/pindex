@@ -32,3 +32,4 @@ eval/financebench/_generated_trees/
 
 # goreleaser output
 dist/
+_cgo/
