@@ -23,14 +23,24 @@ account circuit-breaks instead of draining retries), and a single binary an LLM 
 
 ## Install
 
+**Homebrew** (prebuilt, no toolchain needed):
+
 ```sh
-go build -o pindex ./cmd/pindex      # default build uses go-fitz/MuPDF (needs a C toolchain)
-go build -tags purego ./cmd/pindex   # not yet a separate tag; see Extractors for the static path
+brew install jjfantini/humbl/pindex        # default: cgo/MuPDF, full fidelity (AGPL-3.0)
+brew install jjfantini/humbl/pindex-lite   # pure-Go, portable, no MuPDF (Apache-2.0)
+```
+
+**From source:**
+
+```sh
+go build -o pindex ./cmd/pindex                 # default: go-fitz/MuPDF (needs a C toolchain)
+CGO_ENABLED=0 go build -o pindex ./cmd/pindex   # fully-static pure-Go build (then set extractor: purego)
 ```
 
 The default **MuPDF** extractor (`gen2brain/go-fitz`) links a bundled static libmupdf via cgo — no
-system MuPDF needed, but you need a C compiler. For a fully-static (`CGO_ENABLED=0`) binary, build
-with the pure-Go extractor and set `extractor: purego` (see [Extractors](#extractors)).
+system MuPDF needed, but you need a C compiler. The `CGO_ENABLED=0` build excludes go-fitz entirely
+(the `pindex-lite` artifact); set `extractor: purego` (see [Extractors](#extractors)). Licensing
+differs by build — see [License](#license) and [`LICENSING.md`](LICENSING.md).
 
 ## API keys
 
@@ -143,5 +153,10 @@ Swapping only the model (no re-index) recovered accuracy — the pipeline is sou
 
 ## License
 
-AGPL-3.0 — the default MuPDF extractor (go-fitz) is AGPL. Building with only the pure-Go `purego`
-extractor avoids that dependency.
+pindex is **dual-licensed** — the license depends on how the binary is built:
+
+- **First-party source code:** Apache-2.0 (`LICENSE`).
+- **`pindex` (default build):** AGPL-3.0-or-later — it links MuPDF via go-fitz, which is AGPL (`LICENSE.AGPL`).
+- **`pindex-lite` (pure-Go, `CGO_ENABLED=0`):** Apache-2.0 — excludes go-fitz/MuPDF, links no AGPL code.
+
+See [`LICENSING.md`](LICENSING.md) for the full explanation and dependency provenance.
