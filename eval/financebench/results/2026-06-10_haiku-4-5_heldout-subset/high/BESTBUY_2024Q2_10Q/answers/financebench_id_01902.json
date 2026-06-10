@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_01902",
+  "company": "Best Buy",
+  "doc_name": "BESTBUY_2024Q2_10Q.pdf",
+  "question": "Which Best Buy product category performed the best (by top line) in the domestic (USA) Market during Q2 of FY2024?",
+  "gold_answer": "The entertainment segment experienced the highest growth of 9% during Q2 FY2024, primarily from gaming division.",
+  "predicted": "Based on the Q2 FY2024 domestic segment data, **Computing and Mobile Phones** performed the best by top line, representing **40%** of Domestic revenue. This was the largest revenue-generating product category for Best Buy's USA market during Q2 of fiscal 2024, despite experiencing a 6.4% comparable sales decline.",
+  "reasoning": "I have the product category performance data for Q2 FY2024 in the domestic segment. Looking at page 18, I can see a table showing revenue mix percentages and comparable sales percentage changes by revenue category for the Domestic segment. The revenue mix shows which categories represent the largest portion of revenue. Let me identify which category had the highest revenue mix percentage.",
+  "steps": 2,
+  "selected_pages": "18,19,20",
+  "cited_pages": [
+    18
+  ],
+  "gold_pages": [
+    17
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

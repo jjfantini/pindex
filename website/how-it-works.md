@@ -59,7 +59,7 @@ The answer goes to stdout; citations go to stderr:
 cited pages: [12 13 14]  (doc: AMD_2022_10K.pdf)
 ```
 
-With `--effort medium` or higher, an honest "I can't find that" triggers one retry with a different page set.
+That is the default (`--effort low`) pipeline. With `--effort medium`, an honest "I can't find that" triggers one retry with a different page set. `--effort high` replaces the fixed pipeline with an agentic loop — the model navigates the tree itself, fetching pages turn by turn until it can answer — and `--effort ultra` adds a verification pass that checks every claim against the cited pages — see [Effort levels](/effort-levels).
 
 ## What costs LLM calls — and what doesn't
 
@@ -67,7 +67,7 @@ Indexing is **LLM-bound**: a 100-page PDF is roughly 100–200 LLM calls (struct
 
 - **Prompt-hash cache** (`--cache-dir`, default `.pindex/cache`) — every response is cached under `sha256(model, messages, temperature)`. A hit skips the network entirely, so re-runs and crash recovery are nearly free.
 - **Resumable batches** — `pindex index <dir>` skips any document already in the catalog unless you pass `--force`. A crash mid-batch costs only the in-flight document.
-- **Asking is cheap** — one structure read, one page selection, one answer (plus at most one retry at higher effort).
+- **Asking is cheap** — at the default effort, one page selection and one answer (~2 calls). Higher effort spends more: `medium` retries once on a refusal (~2–4), `high` runs the agentic loop (~3–9), `ultra` adds verification (~5–12) — see [Effort levels](/effort-levels).
 
 Pure tree operations (nesting, page ranges, splitting, IDs) never touch the network.
 

@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_00288",
+  "company": "Best Buy",
+  "doc_name": "BESTBUY_2024Q2_10Q.pdf",
+  "question": "Was there any drop in Cash \u0026 Cash equivalents between FY 2023 and Q2 of FY2024?",
+  "gold_answer": "Yes, there was a decline of ~42% between FY2023 and Q2 of FY 2024.",
+  "predicted": "Yes, there was a drop in Cash \u0026 Cash equivalents between FY 2023 and Q2 of FY 2024. According to the Condensed Consolidated Balance Sheet, Cash and cash equivalents decreased from $1,874 million as of January 28, 2023 (end of FY 2023) to $1,093 million as of July 29, 2023 (Q2 FY 2024), representing a decline of $781 million.",
+  "reasoning": "Now I have the actual balance sheet data. Looking at the Cash and cash equivalents line: July 29, 2023 shows $1,093 million and January 28, 2023 shows $1,874 million. This is a decrease of $781 million ($1,874 - $1,093 = $781 million).",
+  "steps": 3,
+  "selected_pages": "3,4",
+  "cited_pages": [
+    3
+  ],
+  "gold_pages": [
+    19
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": false,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

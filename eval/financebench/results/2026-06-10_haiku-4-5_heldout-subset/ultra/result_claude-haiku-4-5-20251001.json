@@ -1,0 +1,65 @@
+[
+  {
+    "id": "financebench_id_00288",
+    "question": "Was there any drop in Cash \u0026 Cash equivalents between FY 2023 and Q2 of FY2024?",
+    "label": "AL",
+    "benchmark_answer": "Yes, there was a decline of ~42% between FY2023 and Q2 of FY 2024.",
+    "pindex_answer": "Yes, there was a drop in Cash \u0026 Cash equivalents between FY 2023 and Q2 of FY 2024. According to the Condensed Consolidated Balance Sheet, Cash and cash equivalents decreased from $1,874 million as of January 28, 2023 (end of FY 2023) to $1,093 million as of July 29, 2023 (Q2 FY 2024), representing a decline of $781 million."
+  },
+  {
+    "id": "financebench_id_00460",
+    "question": "Was there any change in the number of Best Buy stores between Q2 of FY2024 and FY2023?",
+    "label": "AL",
+    "benchmark_answer": "Yes, there is decline in number stores by 1.32% from 982 stores in Q2 FY 2023 to 969 by the end of Q2 FY2024.",
+    "pindex_answer": "Yes, there was a change in the number of Best Buy stores between Q2 FY2024 and Q2 FY2023.\n\n**Domestic Segment:**\n- Q2 FY2024 (end of quarter): 969 total stores\n- Q2 FY2023 (end of quarter): 982 total stores\n- Change: Decrease of 13 stores\n\nBreakdown of Domestic stores:\n- Best Buy: 907 stores (FY2024) vs. 930 stores (FY2023) - decrease of 23 stores\n- Outlet Centers: 20 stores (FY2024) vs. 18 stores (FY2023) - increase of 2 stores\n- Pacific Sales: 20 stores (FY2024) vs. 21 stores (FY2023) - decrease of 1 store\n- Yardbird: 22 stores (FY2024) vs. 13 stores (FY2023) - increase of 9 stores\n\n**International Segment (Canada):**\n- Q2 FY2024 (end of quarter): 160 total stores\n- Q2 FY2023 (end of quarter): 160 total stores\n- Change: No change\n\n**Overall:** Best Buy's total store count decreased from 1,142 stores at the end of Q2 FY2023 to 1,129 stores at the end of Q2 FY2024, a net decrease of 13 stores."
+  },
+  {
+    "id": "financebench_id_01902",
+    "question": "Which Best Buy product category performed the best (by top line) in the domestic (USA) Market during Q2 of FY2024?",
+    "label": "AL",
+    "benchmark_answer": "The entertainment segment experienced the highest growth of 9% during Q2 FY2024, primarily from gaming division.",
+    "pindex_answer": "Based on the Domestic segment revenue mix data for Q2 FY2024, Computing and Mobile Phones performed the best by top line, representing 41% of Domestic revenue. This was the largest revenue-generating product category for Best Buy's USA market during Q2 of fiscal 2024."
+  },
+  {
+    "id": "financebench_id_00839",
+    "question": "Does Foot Locker's new CEO have previous CEO experience in a similar company to Footlocker?",
+    "label": "AL",
+    "benchmark_answer": "Yes. She was previous CEO of Ulta Beauty which means she had to manage a large retail company that has brick and mortar + online business. So yes she was a CEO in a similar company to Foot Locker before this.",
+    "pindex_answer": "Yes, Foot Locker's new CEO Mary N. Dillon has previous CEO experience in a similar retail company. She served as Chief Executive Officer of Ulta Beauty, Inc. from July 2013 through June 2021, where she led the company as a leading beauty destination and omni-channel retailer. During her tenure at Ulta Beauty, she achieved 16% revenue CAGR and tripled the company's market capitalization. While Ulta Beauty operates in the beauty/cosmetics retail sector rather than athletic footwear, it is a consumer-driven retail business with omni-channel operations, making it similar in nature to Foot Locker's retail operations."
+  },
+  {
+    "id": "financebench_id_00822",
+    "question": "Were there any board member nominees who had substantially more votes against joining than the other nominees?",
+    "label": "AL",
+    "benchmark_answer": "Yes, his name is Richard A. Johnson",
+    "pindex_answer": "Yes, Richard A. Johnson had substantially more votes against joining the board than the other nominees. He received 16,105,005 votes against his election. In comparison, the other nine nominees received significantly fewer votes against, ranging from 294,935 (Virginia C. Drosos, the lowest) to 6,074,467 (Dona D. Young, the second highest). Johnson's opposition was more than 2.6 times higher than the second-highest opposition and over 54 times higher than the lowest."
+  },
+  {
+    "id": "financebench_id_01488",
+    "question": "Which business segment of JnJ will be treated as a discontinued operation from August 30, 2023 onward?",
+    "label": "AL",
+    "benchmark_answer": "The Consumer Health business segment will be treated as a discontinued operation from August 30, 2023 onward.",
+    "pindex_answer": "The Consumer Health business will be treated as a discontinued operation from August 30, 2023 onward. This business was separated from Johnson \u0026 Johnson through the completion of an exchange offer to finalize the separation of Kenvue Inc., Johnson \u0026 Johnson's former Consumer Health business. The company will present Consumer Health business financial results as discontinued operations, including a gain of approximately $20 billion in the third quarter of 2023."
+  },
+  {
+    "id": "financebench_id_01490",
+    "question": "What is the amount of the gain accruing to JnJ as a result of the separation of its Consumer Health business segment, as of August 30, 2023?",
+    "label": "AL",
+    "benchmark_answer": "JnJ will make a gain of approximately $20 billion from the separation of its Consumer Health business segment.",
+    "pindex_answer": "Approximately $20 billion gain accrued to Johnson \u0026 Johnson as a result of the separation of its Consumer Health business (Kenvue), to be presented as discontinued operations in the third quarter of 2023."
+  },
+  {
+    "id": "financebench_id_01491",
+    "question": "What is the amount of the cash proceeds that JnJ realised from the separation of Kenvue (formerly Consumer Health business segment), as of August 30, 2023?",
+    "label": "AL",
+    "benchmark_answer": "JnJ realised $13.2 billion in cash proceeds from the separation of Kenvue.",
+    "pindex_answer": "Johnson \u0026 Johnson realized $13.2 billion in cash proceeds from the separation of Kenvue (formerly the Consumer Health business segment) as of August 30, 2023. This amount came from the Kenvue debt offering and initial public offering. Additionally, J\u0026J maintained a 9.5% equity stake in Kenvue."
+  },
+  {
+    "id": "financebench_id_01487",
+    "question": "Did JnJ's net earnings as a percent of sales increase in Q2 of FY2023 compared to Q2 of FY2022?",
+    "label": "AL",
+    "benchmark_answer": "Yes, net earnings as a percent of sales increased from 20% in Q2 of FY2022 to 20.1% in Q2 of FY2023.",
+    "pindex_answer": "Yes, JnJ's net earnings as a percent of sales increased slightly in Q2 2023 compared to Q2 2022. According to the Condensed Consolidated Statement of Earnings, net earnings as a percent of sales was 20.1% in Q2 2023 (on sales of $25,530M) compared to 20.0% in Q2 2022 (on sales of $24,020M), representing an increase of 0.1 percentage points."
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00839",
+  "company": "Foot Locker",
+  "doc_name": "FOOTLOCKER_2022_8K_dated_2022-08-19.pdf",
+  "question": "Does Foot Locker's new CEO have previous CEO experience in a similar company to Footlocker?",
+  "gold_answer": "Yes. She was previous CEO of Ulta Beauty which means she had to manage a large retail company that has brick and mortar + online business. So yes she was a CEO in a similar company to Foot Locker before this.",
+  "predicted": "Yes, Foot Locker's new CEO Mary N. Dillon has previous CEO experience in a similar retail company. She served as Chief Executive Officer of Ulta Beauty, Inc. from July 2013 through June 2021, where she led the company as a leading beauty destination and omni-channel retailer. During her tenure at Ulta Beauty, she achieved 16% revenue CAGR and tripled the company's market capitalization. While Ulta Beauty operates in the beauty/cosmetics retail sector rather than athletic footwear, it is a consumer-driven retail business with omni-channel operations, making it similar in nature to Foot Locker's retail operations.",
+  "reasoning": "Based on the fetched pages, I can now determine if Mary N. Dillon has previous CEO experience in a company similar to Foot Locker. Let me review her background from pages 2 and 30.",
+  "steps": 2,
+  "selected_pages": "2,3,29,30,31",
+  "cited_pages": [
+    2,
+    30
+  ],
+  "gold_pages": [
+    1
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

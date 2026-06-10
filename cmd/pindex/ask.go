@@ -73,6 +73,12 @@ func newAskCmd() *cobra.Command {
 			if len(ans.CitedPages) > 0 {
 				_, _ = fmt.Fprintf(c.ErrOrStderr(), "cited pages: %v  (doc: %s)\n", ans.CitedPages, doc.DocName)
 			}
+			switch ans.Verification {
+			case "supported":
+				_, _ = fmt.Fprintln(c.ErrOrStderr(), "verification: supported")
+			case "unsupported":
+				_, _ = fmt.Fprintln(c.ErrOrStderr(), "verification: UNSUPPORTED — treat with caution (missing support for some claims)")
+			}
 
 			if outDir, _ := c.Flags().GetString("out"); outDir != "" {
 				inclPages, _ := c.Flags().GetBool("include-pages")
@@ -84,6 +90,8 @@ func newAskCmd() *cobra.Command {
 					Question:      args[0],
 					Predicted:     ans.Text,
 					Reasoning:     ans.Reasoning,
+					Verification:  ans.Verification,
+					Steps:         ans.Steps,
 					SelectedPages: ans.SelectedPages,
 					CitedPages:    ans.CitedPages,
 				})
@@ -101,7 +109,7 @@ func newAskCmd() *cobra.Command {
 	cmd.Flags().String("cache-dir", ".pindex/cache", "prompt-hash response cache dir (empty to disable)")
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file")
 	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited)")
-	cmd.Flags().String("effort", "low", "reasoning effort: low|medium|high|ultra")
+	cmd.Flags().String("effort", "low", "retrieval effort: low|medium|high|ultra (medium retries on refusal; high uses an agentic tree-search loop; ultra adds an answer-verification pass)")
 	cmd.Flags().String("out", "", "append this Q&A (and the doc's tree) to a browsable output directory")
 	cmd.Flags().Bool("include-pages", false, "include raw page text in the exported tree")
 	return cmd

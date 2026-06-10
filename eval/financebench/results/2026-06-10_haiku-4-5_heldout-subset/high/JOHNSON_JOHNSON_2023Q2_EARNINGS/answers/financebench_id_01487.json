@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_01487",
+  "company": "Johnson \u0026 Johnson",
+  "doc_name": "JOHNSON_JOHNSON_2023Q2_EARNINGS.pdf",
+  "question": "Did JnJ's net earnings as a percent of sales increase in Q2 of FY2023 compared to Q2 of FY2022?",
+  "gold_answer": "Yes, net earnings as a percent of sales increased from 20% in Q2 of FY2022 to 20.1% in Q2 of FY2023.",
+  "predicted": "Yes, JnJ's net earnings as a percent of sales increased slightly in Q2 2023 compared to Q2 2022. According to the Condensed Consolidated Statement of Earnings, net earnings as a percent of sales was 20.1% in Q2 2023 (on sales of $25,530M) compared to 20.0% in Q2 2022 (on sales of $24,020M), representing an increase of 0.1 percentage points.",
+  "reasoning": "Now I have the actual page content. Looking at page 10, the Condensed Consolidated Statement of Earnings for Q2 shows: Q2 2023 net earnings of $5,144M with 20.1% to sales, and Q2 2022 net earnings of $4,814M with 20.0% to sales. So net earnings as a percent of sales increased from 20.0% to 20.1%.",
+  "steps": 3,
+  "selected_pages": "10,11,12",
+  "cited_pages": [
+    10
+  ],
+  "gold_pages": [
+    9
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

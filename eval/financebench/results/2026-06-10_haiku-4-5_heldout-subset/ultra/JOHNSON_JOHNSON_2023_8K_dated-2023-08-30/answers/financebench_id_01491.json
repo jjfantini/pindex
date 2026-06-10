@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_01491",
+  "company": "Johnson \u0026 Johnson",
+  "doc_name": "JOHNSON_JOHNSON_2023_8K_dated-2023-08-30.pdf",
+  "question": "What is the amount of the cash proceeds that JnJ realised from the separation of Kenvue (formerly Consumer Health business segment), as of August 30, 2023?",
+  "gold_answer": "JnJ realised $13.2 billion in cash proceeds from the separation of Kenvue.",
+  "predicted": "Johnson \u0026 Johnson realized $13.2 billion in cash proceeds from the separation of Kenvue (formerly the Consumer Health business segment) as of August 30, 2023. This amount came from the Kenvue debt offering and initial public offering. Additionally, J\u0026J maintained a 9.5% equity stake in Kenvue.",
+  "reasoning": "The fetched pages confirm the exact figure: Johnson \u0026 Johnson secured $13.2 billion in cash proceeds from the Kenvue debt offering and initial public offering, as stated on page 4 of the document.",
+  "verification": "supported",
+  "steps": 2,
+  "selected_pages": "4,5",
+  "cited_pages": [
+    4
+  ],
+  "gold_pages": [
+    3
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}
