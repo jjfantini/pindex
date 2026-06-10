@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/jjfantini/pindex/compare/v0.1.1...v0.2.0) (2026-06-10)
+
+
+### Features
+
+* **cli:** add hidden docs command generating CLI reference markdown ([79a0433](https://github.com/jjfantini/pindex/commit/79a043301a06debb420ca45807608c9516c05961))
+
 ## [0.1.1](https://github.com/jjfantini/pindex/compare/v0.1.0...v0.1.1) (2026-06-09)
 
 
