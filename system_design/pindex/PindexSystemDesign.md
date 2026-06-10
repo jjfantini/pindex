@@ -173,8 +173,11 @@ flowchart TB
 ```
 
 > **Effort dial** (`--effort`): `low` = single pass (default). `medium` adds the refusal-driven
-> re-select loop above. **`high` / `ultra` currently behave like `medium`** — the true agentic loop is
-> reserved for a later phase. Refusal detection is a heuristic substring match (`isRefusal`), so a
+> re-select loop above. **`high` replaces the fixed pipeline with an agentic loop** — the model
+> navigates the text-stripped tree itself via JSON actions (`get_pages` / `answer`, up to 8 turns,
+> then a forced answer or a typed error) — and **`ultra` adds a verification pass** that fact-checks
+> the final answer against its cited pages, with one corrective continuation on an unsupported
+> verdict. Refusal detection is a heuristic substring match (`isRefusal`), so a
 > phrasing it doesn't recognize won't trigger the recovery retry. The retry re-answers over the
 > **union** of the original and new pages (a best-effort broadening, not a swap) and falls back to the
 > original answer if `AskSelectMore` errors or the second answer still refuses.

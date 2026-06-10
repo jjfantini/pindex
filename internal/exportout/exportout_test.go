@@ -128,6 +128,42 @@ func TestWriteTreeIncludePages(t *testing.T) {
 	}
 }
 
+func TestAnswerRecordCarriesVerification(t *testing.T) {
+	r := financebench.RunResult{
+		Question:     financebench.Question{ID: "fb_1", Question: "Q?", DocName: "doc.pdf"},
+		Predicted:    "42",
+		Verification: "unsupported",
+	}
+	rec := recordFromResult(r)
+	if rec.Verification != "unsupported" {
+		t.Errorf("verification = %q want unsupported", rec.Verification)
+	}
+	path, err := WriteAnswer(t.TempDir(), rec)
+	if err != nil {
+		t.Fatal(err)
+	}
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(data), `"verification": "unsupported"`) {
+		t.Error("answer record JSON should carry the verification verdict")
+	}
+	// omitempty: an unverified record must not emit an empty verification key.
+	rec.Verification = ""
+	path2, err := WriteAnswer(t.TempDir(), rec)
+	if err != nil {
+		t.Fatal(err)
+	}
+	data2, err := os.ReadFile(path2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(string(data2), "verification") {
+		t.Error("empty verification should be omitted from the record")
+	}
+}
+
 func TestMafinRecordSchemaAndAnswerOnly(t *testing.T) {
 	r := financebench.RunResult{
 		Question:  financebench.Question{ID: "fb_1", Question: "Q?", Answer: "GOLD"},

@@ -164,7 +164,7 @@ func newEvalCmd() *cobra.Command {
 	cmd.Flags().String("env-file", ".env", "load API keys from this .env file")
 	cmd.Flags().Int("limit", 0, "only run the first N questions (0 = all)")
 	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited; set on low rate-limit tiers)")
-	cmd.Flags().String("effort", "low", "ask reasoning effort: low|medium|high|ultra")
+	cmd.Flags().String("effort", "low", "retrieval effort: low|medium|high|ultra (medium retries on refusal; high uses an agentic tree-search loop; ultra adds an answer-verification pass)")
 	cmd.Flags().String("out", "", "write a browsable output dir (per-doc trees, questions, answers, Mafin-compatible result_<model>.json + human-eval CSV, summary)")
 	cmd.Flags().Bool("include-pages", false, "include raw page text in exported trees (larger, less readable)")
 	cmd.Flags().String("rescore", "", "recompute adjusted accuracy from a (human-edited) result_<model>.json and exit")

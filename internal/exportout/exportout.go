@@ -81,6 +81,8 @@ type AnswerRecord struct {
 	GoldAnswer     string `json:"gold_answer,omitempty"`
 	Predicted      string `json:"predicted"`
 	Reasoning      string `json:"reasoning,omitempty"`
+	Verification   string `json:"verification,omitempty"`
+	Steps          int    `json:"steps,omitempty"`
 	SelectedPages  string `json:"selected_pages,omitempty"`
 	CitedPages     []int  `json:"cited_pages,omitempty"`
 	GoldPages      []int  `json:"gold_pages,omitempty"`
@@ -309,6 +311,8 @@ func recordFromResult(r financebench.RunResult) AnswerRecord {
 		GoldAnswer:     r.Question.Answer,
 		Predicted:      r.Predicted,
 		Reasoning:      r.Reasoning,
+		Verification:   r.Verification,
+		Steps:          r.Steps,
 		SelectedPages:  r.SelectedPages,
 		CitedPages:     r.Cited,
 		GoldPages:      r.GoldPages,
