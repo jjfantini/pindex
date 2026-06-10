@@ -19,9 +19,11 @@ import (
 	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/jjfantini/pindex/eval/financebench"
 	"github.com/jjfantini/pindex/internal/tree"
@@ -153,6 +155,32 @@ func Sanitize(name string) string {
 		return "doc"
 	}
 	return out
+}
+
+// EvalRunDir picks the default output directory for an eval run when --out is
+// not given: <workspace-parent>/evals/<YYYY-MM-DD>_<model>_<effort> — a sibling
+// of the workspace, so the workspace stays a purely regenerable index catalog
+// while run artifacts (which cost API calls to reproduce) live next to it,
+// alongside the cache. Same-day re-runs of the same model and effort are never
+// overwritten: the first free of <name>, <name>-2, <name>-3, … is chosen. The
+// directory itself is created later by ExportEval.
+func EvalRunDir(workspace, model, effort string, now time.Time) (string, error) {
+	base := filepath.Join(filepath.Dir(filepath.Clean(workspace)), "evals")
+	name := fmt.Sprintf("%s_%s_%s", now.Format("2006-01-02"), Sanitize(model), Sanitize(effort))
+	for i := 1; ; i++ {
+		candidate := name
+		if i > 1 {
+			candidate = fmt.Sprintf("%s-%d", name, i)
+		}
+		p := filepath.Join(base, candidate)
+		_, err := os.Stat(p)
+		switch {
+		case os.IsNotExist(err):
+			return p, nil
+		case err != nil:
+			return "", fmt.Errorf("exportout: probe eval dir %s: %w", p, err)
+		}
+	}
 }
 
 // QuestionSlug is a stable, collision-resistant filename for an ad-hoc (ask) answer:

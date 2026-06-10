@@ -131,28 +131,37 @@ func newEvalCmd() *cobra.Command {
 			_, _ = fmt.Fprintf(out, "  hallucination (confident-wrong):         %5.1f%%\n", hal*100)
 			_, _ = fmt.Fprintf(out, "  (page-number recall %.1f%%, alignment-sensitive)\n", agg.RecallAtPage()*100)
 
-			if outDir, _ := c.Flags().GetString("out"); outDir != "" {
-				inclPages, _ := c.Flags().GetBool("include-pages")
-				model := cfg.RetrieveModelOrDefault()
-				sum := exportout.Summary{
-					GeneratedAt:       time.Now().UTC().Format(time.RFC3339),
-					Model:             model,
-					JudgeModel:        judgeModel,
-					Effort:            string(effort),
-					RPM:               rpm,
-					QuestionsTotal:    agg.Total,
-					Scored:            agg.Scored,
-					ExtractionRate:    ext,
-					RetrievalRate:     ret,
-					AnswerAccuracyRaw: ansr,
-					HallucinationRate: hal,
-					RecallAtPage:      agg.RecallAtPage(),
-				}
-				if err := exportout.ExportEval(outDir, sum, questions, results, lookup, inclPages, model); err != nil {
+			// Results are always saved: an eval run costs real API calls, so its
+			// artifacts are never thrown away. Without --out they land in
+			// <workspace-parent>/evals/<date>_<model>_<effort> (a sibling of the
+			// workspace and cache); same-day re-runs get a -2, -3, … suffix.
+			outDir, _ := c.Flags().GetString("out")
+			if outDir == "" {
+				outDir, err = exportout.EvalRunDir(ws, cfg.RetrieveModelOrDefault(), string(effort), time.Now().UTC())
+				if err != nil {
 					return err
 				}
-				_, _ = fmt.Fprintf(c.ErrOrStderr(), "wrote browsable output to %s\n", outDir)
 			}
+			inclPages, _ := c.Flags().GetBool("include-pages")
+			model := cfg.RetrieveModelOrDefault()
+			sum := exportout.Summary{
+				GeneratedAt:       time.Now().UTC().Format(time.RFC3339),
+				Model:             model,
+				JudgeModel:        judgeModel,
+				Effort:            string(effort),
+				RPM:               rpm,
+				QuestionsTotal:    agg.Total,
+				Scored:            agg.Scored,
+				ExtractionRate:    ext,
+				RetrievalRate:     ret,
+				AnswerAccuracyRaw: ansr,
+				HallucinationRate: hal,
+				RecallAtPage:      agg.RecallAtPage(),
+			}
+			if err := exportout.ExportEval(outDir, sum, questions, results, lookup, inclPages, model); err != nil {
+				return err
+			}
+			_, _ = fmt.Fprintf(c.ErrOrStderr(), "wrote results to %s\n", outDir)
 			return nil
 		},
 	}
@@ -165,7 +174,7 @@ func newEvalCmd() *cobra.Command {
 	cmd.Flags().Int("limit", 0, "only run the first N questions (0 = all)")
 	cmd.Flags().Int("rpm", 0, "max requests/min to the LLM (0 = unlimited; set on low rate-limit tiers)")
 	cmd.Flags().String("effort", "low", "retrieval effort: low|medium|high|ultra (medium retries on refusal; high uses an agentic tree-search loop; ultra adds an answer-verification pass)")
-	cmd.Flags().String("out", "", "write a browsable output dir (per-doc trees, questions, answers, Mafin-compatible result_<model>.json + human-eval CSV, summary)")
+	cmd.Flags().String("out", "", "output dir for the browsable results (default: <workspace-parent>/evals/<date>_<model>_<effort>; same-day re-runs get a -2, -3, … suffix)")
 	cmd.Flags().Bool("include-pages", false, "include raw page text in exported trees (larger, less readable)")
 	cmd.Flags().String("rescore", "", "recompute adjusted accuracy from a (human-edited) result_<model>.json and exit")
 	return cmd

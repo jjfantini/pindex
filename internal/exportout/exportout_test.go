@@ -6,10 +6,78 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/jjfantini/pindex/eval/financebench"
 	"github.com/jjfantini/pindex/internal/tree"
 )
+
+func TestEvalRunDirSiblingOfWorkspace(t *testing.T) {
+	root := t.TempDir()
+	ws := filepath.Join(root, ".pindex", "workspace")
+	now := time.Date(2026, 6, 11, 3, 4, 5, 0, time.UTC)
+	got, err := EvalRunDir(ws, "claude-haiku-4-5-20251001", "high", now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := filepath.Join(root, ".pindex", "evals", "2026-06-11_claude-haiku-4-5-20251001_high")
+	if got != want {
+		t.Errorf("dir = %q want %q (evals must sit next to workspace and cache)", got, want)
+	}
+}
+
+func TestEvalRunDirSuffixesSameDayReruns(t *testing.T) {
+	root := t.TempDir()
+	ws := filepath.Join(root, ".pindex", "workspace")
+	now := time.Date(2026, 6, 11, 0, 0, 0, 0, time.UTC)
+
+	first, err := EvalRunDir(ws, "gpt-4o", "low", now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(first, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	second, err := EvalRunDir(ws, "gpt-4o", "low", now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if want := first + "-2"; second != want {
+		t.Errorf("second run dir = %q want %q (same-day re-run must not overwrite)", second, want)
+	}
+	if err := os.MkdirAll(second, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	third, err := EvalRunDir(ws, "gpt-4o", "low", now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if want := first + "-3"; third != want {
+		t.Errorf("third run dir = %q want %q", third, want)
+	}
+	// A different effort the same day gets its own unsuffixed dir.
+	other, err := EvalRunDir(ws, "gpt-4o", "high", now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.HasSuffix(other, "-2") {
+		t.Errorf("different effort should not be suffixed, got %q", other)
+	}
+}
+
+func TestEvalRunDirSanitizesModel(t *testing.T) {
+	root := t.TempDir()
+	ws := filepath.Join(root, "ws")
+	now := time.Date(2026, 6, 11, 0, 0, 0, 0, time.UTC)
+	got, err := EvalRunDir(ws, "anthropic/claude:latest", "low", now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := filepath.Join(root, "evals", "2026-06-11_anthropic_claude_latest_low")
+	if got != want {
+		t.Errorf("dir = %q want %q (model must be filename-safe)", got, want)
+	}
+}
 
 func TestSanitize(t *testing.T) {
 	cases := map[string]string{

@@ -41,6 +41,7 @@ Everything is under `.pindex/` in your current directory (configurable via flags
 | `.pindex/workspace/docs/<id>.json` | The full document: raw page text plus the tree. One inspectable JSON file per doc. | Same — this *is* your index. |
 | `.pindex/workspace/pindex/<doc>/<doc>_pindex.json` | Browsable export of the tree (text-stripped unless `--include-raw-text`). | Yes — regenerated on the next index run. |
 | `.pindex/cache/` | Prompt-hash response cache: one JSON file per LLM response. | Yes — you just pay for those LLM calls again on the next run. |
+| `.pindex/evals/<date>_<model>_<effort>/` | Saved `pindex eval` runs (summary, per-question records, Mafin-compatible results). Same-day re-runs get a `-2`, `-3`, … suffix. | Yes — but unlike the workspace, reproducing a run costs real LLM calls. |
 
 The document ID is the first 16 hex characters of `sha256(absolute file path)` — stable per path, so moving or renaming a PDF changes its ID and it will be re-indexed.
 
