@@ -23,6 +23,7 @@ export default defineConfig({
           { text: 'Installation', link: '/installation' },
           { text: 'Getting Started', link: '/getting-started' },
           { text: 'How It Works', link: '/how-it-works' },
+          { text: 'Effort Levels', link: '/effort-levels' },
           { text: 'Features', link: '/features' },
           { text: 'Architecture', link: '/architecture' }
         ]

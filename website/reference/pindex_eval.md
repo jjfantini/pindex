@@ -14,7 +14,7 @@ pindex eval [flags]
 
 ```
       --cache-dir string     prompt-hash response cache dir (default ".pindex/cache")
-      --effort string        ask reasoning effort: low|medium|high|ultra (default "low")
+      --effort string        retrieval effort: low|medium|high|ultra (medium retries on refusal; high uses an agentic tree-search loop; ultra adds an answer-verification pass) (default "low")
       --env-file string      load API keys from this .env file (default ".env")
   -h, --help                 help for eval
       --include-pages        include raw page text in exported trees (larger, less readable)
