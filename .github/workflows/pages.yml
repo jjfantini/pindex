@@ -1,0 +1,67 @@
+name: pages
+
+on:
+  push:
+    branches: [develop, master]
+    paths:
+      - "website/**"
+      - "cmd/**"
+      - "internal/**"
+      - ".github/workflows/pages.yml"
+  pull_request:
+    paths:
+      - "website/**"
+      - "cmd/**"
+      - "internal/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+          cache: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Generate CLI reference
+        run: CGO_ENABLED=0 go run ./cmd/pindex docs --dir website/reference
+
+      - name: Install site dependencies
+        run: npm ci
+        working-directory: website
+
+      - name: Build site
+        run: npm run docs:build
+        working-directory: website
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/.vitepress/dist
+
+  deploy:
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

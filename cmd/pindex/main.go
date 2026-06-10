@@ -1,7 +1,8 @@
 // Command pindex is the CLI for a vectorless, reasoning-based RAG engine: it
 // builds hierarchical tree indexes from PDFs and answers questions by LLM
 // reasoning over that structure (no vectors, no fixed chunking). Subcommands:
-// index, ask, eval, extract.
+// index, ask, eval, extract (plus a hidden docs command for reference
+// generation).
 package main
 
 import (
@@ -33,6 +34,6 @@ func newRootCmd() *cobra.Command {
 		SilenceErrors: true,
 	}
 	root.PersistentFlags().String("config", "", "path to a pindex config YAML (optional)")
-	root.AddCommand(newIndexCmd(), newAskCmd(), newEvalCmd(), newExtractCmd())
+	root.AddCommand(newIndexCmd(), newAskCmd(), newEvalCmd(), newExtractCmd(), newDocsCmd())
 	return root
 }

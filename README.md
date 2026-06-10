@@ -13,6 +13,10 @@ they used.
 > earnings release (see [results](#financebench)). What's deferred is in [`roadmap.md`](roadmap.md);
 > the design is in [`docs/PLAN.md`](docs/PLAN.md).
 
+**📖 Full documentation: [jjfantini.github.io/pindex](https://jjfantini.github.io/pindex/)** —
+installation, getting started, guides, architecture, and the generated CLI reference. A worked
+example (input PDF, generated tree index, real Q&A transcript) lives in [`examples/`](examples/).
+
 ## Why vectorless
 
 Indexing is LLM-bound, so Go doesn't make the model faster — it buys the engineering envelope the
