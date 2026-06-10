@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00822",
+  "company": "Foot Locker",
+  "doc_name": "FOOTLOCKER_2022_8K_dated-2022-05-20.pdf",
+  "question": "Were there any board member nominees who had substantially more votes against joining than the other nominees?",
+  "gold_answer": "Yes, his name is Richard A. Johnson",
+  "predicted": "Yes, Richard A. Johnson had substantially more votes against joining the board than the other nominees. He received 16,105,005 votes against his election. In comparison, the other nine nominees received significantly fewer votes against, ranging from 294,935 (Virginia C. Drosos, the lowest) to 6,074,467 (Dona D. Young, the second highest). Johnson's opposition was more than 2.6 times higher than the second-highest opposition and over 54 times higher than the lowest.",
+  "reasoning": "The fact-checker is correct - I made an error in my characterization. Looking back at the page 2 data I already have, Virginia C. Drosos received only 294,935 votes against, which is far below the 4.4-5.8 million range I stated. Let me re-examine all the votes against for each nominee to provide an accurate answer.",
+  "verification": "supported",
+  "steps": 4,
+  "selected_pages": "2",
+  "cited_pages": [
+    2
+  ],
+  "gold_pages": [
+    1
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

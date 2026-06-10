@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_01487",
+  "company": "Johnson \u0026 Johnson",
+  "doc_name": "JOHNSON_JOHNSON_2023Q2_EARNINGS.pdf",
+  "question": "Did JnJ's net earnings as a percent of sales increase in Q2 of FY2023 compared to Q2 of FY2022?",
+  "gold_answer": "Yes, net earnings as a percent of sales increased from 20% in Q2 of FY2022 to 20.1% in Q2 of FY2023.",
+  "predicted": "Yes, JnJ's net earnings as a percent of sales increased in Q2 FY2023 compared to Q2 FY2022. Net earnings as a percent of sales was 20.1% in Q2 2023 versus 20.0% in Q2 2022, representing an increase of 0.1 percentage points.",
+  "reasoning": "I need to find JnJ's net earnings as a percent of sales for Q2 FY2023 and Q2 FY2022, then compare them.\n\nFrom page 10, the Condensed Consolidated Statement of Earnings for the Second Quarter shows:\n- Q2 2023: Net earnings = $5,144 million, Sales to customers = $25,530 million\n  Net earnings as % of sales = 20.1% (shown directly in the table)\n- Q2 2022: Net earnings = $4,814 million, Sales to customers = $24,020 million\n  Net earnings as % of sales = 20.0% (shown directly in the table)\n\nComparison: 20.1% (Q2 2023) vs 20.0% (Q2 2022)\nThe percentage increased from 20.0% to 20.1%, an increase of 0.1 percentage points.\n\nSo yes, JnJ's net earnings as a percent of sales increased in Q2 FY2023 compared to Q2 FY2022.",
+  "selected_pages": "10-12,22-24",
+  "cited_pages": [
+    10
+  ],
+  "gold_pages": [
+    9
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_00839",
+  "company": "Foot Locker",
+  "doc_name": "FOOTLOCKER_2022_8K_dated_2022-08-19.pdf",
+  "question": "Does Foot Locker's new CEO have previous CEO experience in a similar company to Footlocker?",
+  "gold_answer": "Yes. She was previous CEO of Ulta Beauty which means she had to manage a large retail company that has brick and mortar + online business. So yes she was a CEO in a similar company to Foot Locker before this.",
+  "predicted": "Mary N. Dillon has previous CEO experience in retail (Ulta Beauty, where she served as CEO from July 2013 through June 2021), but not in a company similar to Foot Locker. Ulta Beauty is a beauty retailer, whereas Foot Locker is a specialty athletic retailer. Her other CEO experience was at U.S. Cellular (telecom), which is also not similar to Foot Locker's business. While she has extensive consumer-driven business experience across multiple industries, she does not have prior CEO experience in athletic retail or a company directly comparable to Foot Locker.",
+  "reasoning": "The question asks whether Foot Locker's new CEO has previous CEO experience in a similar company to Foot Locker. The new CEO is Mary N. Dillon, appointed effective September 1, 2022. Let me examine her background from the provided pages.\n\nFrom page 2, her background includes:\n- Executive Chair and Chief Executive Officer of Ulta Beauty, Inc. (June 2021 through June 2022, and CEO from July 2013 through June 2021)\n- President and Chief Executive Officer of United States Cellular Corporation (2010 through 2013)\n- Global Chief Marketing Officer and Executive Vice President of McDonald's Corporation (2005 through 2010)\n- President of the Quaker Foods division at PepsiCo (2004 through 2005)\n- Vice President of Marketing for Gatorade and Quaker Foods at PepsiCo (2002 through 2004)\n\nFrom page 30, it states: \"Dillon has over 35 years of experience leading consumer-driven businesses in a diverse range of industries, from consumer-packaged goods to restaurants to telecom to beauty and retail.\"\n\nThe key question is whether any of these are \"similar\" to Foot Locker. Foot Locker is a specialty athletic retailer. Looking at her experience:\n- Ulta Beauty is a beauty retailer (retail experience, but beauty/cosmetics, not athletic)\n- U.S. Cellular is telecom (not retail)\n- McDonald's is restaurants (not retail)\n- PepsiCo is consumer packaged goods (not retail)\n\nWhile Dillon has CEO experience and retail experience (Ulta Beauty is a retailer), Ulta Beauty is a beauty/cosmetics retailer, which is different from Foot Locker's specialty athletic retail business. However, she does have CEO experience in a retail company (Ulta Beauty), though not specifically in athletic retail or a company similar to Foot Locker's core business model.",
+  "selected_pages": "2-3, 29-31",
+  "cited_pages": [
+    2,
+    30
+  ],
+  "gold_pages": [
+    1
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": false,
+  "hallucinated": true,
+  "page_hit": false,
+  "label": "NAL"
+}
