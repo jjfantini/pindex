@@ -424,3 +424,83 @@ Reply JSON:
 Directly return the JSON. Do not output anything else.`, question, pagesJSON),
 	}
 }
+
+// AgentAction is the reply schema for AskAgent: one turn of the agentic ask
+// loop. Action is "get_pages" (with Pages, a selector like "5-7,12") or "answer"
+// (with Answer and PagesUsed).
+type AgentAction struct {
+	Thinking  string `json:"thinking"`
+	Action    string `json:"action"`
+	Pages     string `json:"pages"`
+	Answer    string `json:"answer"`
+	PagesUsed string `json:"pages_used"`
+}
+
+// AskAgent opens the agentic ask loop (high/ultra effort): the model navigates
+// the document itself, fetching tight page ranges turn by turn until it can
+// answer. Deviation from the house style: the reply-JSON shape lives in System
+// rather than User, because this is a multi-turn conversation and the shape must
+// govern every turn, not just the first.
+func AskAgent(question, structureJSON, docMeta string) Prompt {
+	return Prompt{
+		System: `You are a document QA agent. You are given a document's metadata and its hierarchical
+structure — section titles, summaries, and page ranges (no full text). Navigate the document by
+issuing actions, one per turn, until you can answer the question.
+
+Available actions — reply with EXACTLY ONE JSON object per turn:
+- Fetch page text:
+  { "thinking": <one sentence: why these pages>, "action": "get_pages", "pages": "<tight page ranges like 5-7,12>" }
+  Pick the TIGHTEST ranges likely to hold the answer — never request the whole document. The next
+  user turn returns the pages as a JSON list of {page, content}.
+- Finish (only valid AFTER you have fetched and read pages):
+  { "thinking": <one sentence: how the fetched pages support the answer>, "action": "answer", "answer": <concise, direct answer>, "pages_used": "<page numbers like 5,7>" }
+
+Rules:
+- Ground the answer ONLY in page text you fetched — never in the structure summaries alone.
+- If the question requires computation or derivation, work it out step by step from values on the
+  fetched pages.
+- If the fetched pages lack the answer, fetch other promising pages before giving up.
+- If the document does not contain the answer, answer honestly that it is not found — never guess.
+- Always include the one-sentence "thinking". Directly return the JSON. Do not output anything else.`,
+		User: fmt.Sprintf(`Document metadata: %s
+
+Document structure:
+%s
+
+Question: %s`, docMeta, structureJSON, question),
+	}
+}
+
+// Verification is the reply schema for AskVerify.
+type Verification struct {
+	Thinking string `json:"thinking"`
+	Verdict  string `json:"verdict"`
+	Missing  string `json:"missing"`
+}
+
+// AskVerify fact-checks an answer against the page text it was drawn from (the
+// ultra-effort verification pass): every factual claim must be directly supported
+// by the pages or the verdict is "unsupported" with the gap named in "missing".
+// An honest abstention is not a hallucination, so refusals verify as "supported".
+func AskVerify(question, answer, pagesJSON string) Prompt {
+	return Prompt{
+		System: `You are an expert fact-checker. Verify an answer to a question against the page text it was
+drawn from. Every factual claim in the answer — every number, name, date, and conclusion — must be
+directly supported by the provided page text (verbatim or derivable from it).
+- Verdict "supported" ONLY if ALL claims are directly supported by the pages.
+- Otherwise verdict "unsupported", and state in "missing" exactly which claims lack support or are
+  contradicted by the pages.
+- If the answer is a refusal or abstention (e.g. "not found in the document"), the verdict is
+  "supported" — an honest abstention is not a hallucination.`,
+		User: fmt.Sprintf(`Question: %s
+
+Answer to verify: %s
+
+Pages (JSON list of {page, content}):
+%s
+
+Reply JSON:
+{ "thinking": <check each claim against the pages>, "verdict": "supported" or "unsupported", "missing": "<the unsupported or contradicted claims; empty if supported>" }
+Directly return the JSON. Do not output anything else.`, question, answer, pagesJSON),
+	}
+}

@@ -15,7 +15,7 @@ pindex ask <question> [flags]
 ```
       --cache-dir string   prompt-hash response cache dir (empty to disable) (default ".pindex/cache")
       --doc string         document id or path (default: the only indexed doc)
-      --effort string      reasoning effort: low|medium|high|ultra (default "low")
+      --effort string      retrieval effort: low|medium|high|ultra (medium retries on refusal; high uses an agentic tree-search loop; ultra adds an answer-verification pass) (default "low")
       --env-file string    load API keys from this .env file (default ".env")
   -h, --help               help for ask
       --include-pages      include raw page text in the exported tree

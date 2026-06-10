@@ -232,6 +232,8 @@ type RunResult struct {
 	Predicted     string
 	SelectedPages string // pages the asker chose to read (pre-citation) — for diagnosis
 	Reasoning     string // the answer model's chain-of-thought — for diagnosis
+	Verification  string // ultra-effort fact-check verdict: "", "supported", or "unsupported"
+	Steps         int    // agentic-loop turns used (0 for the fixed low/medium pipeline)
 	Cited         []int
 	GoldPages     []int
 	EvidenceInDoc bool // stage 1: evidence present in the extracted text at all (extraction gate)
@@ -308,6 +310,8 @@ func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel s
 		r.Predicted = ans.Text
 		r.SelectedPages = ans.SelectedPages
 		r.Reasoning = ans.Reasoning
+		r.Verification = ans.Verification
+		r.Steps = ans.Steps
 		r.Cited = ans.CitedPages
 		r.PageHit = RecallAtPageOffset(r.GoldPages, ans.CitedPages, doc.PageOffset)
 		r.EvidenceHit = EvidenceHit(doc, ans.CitedPages, q)

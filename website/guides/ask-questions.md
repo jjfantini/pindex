@@ -58,7 +58,7 @@ If the model honestly says it can't find the answer, raise the effort:
 pindex ask "..." --effort medium
 ```
 
-`medium` retries once with a different page selection when the first pass is a refusal (`low`, the default, is a single pass; `high`/`ultra` currently behave like `medium`). Switching to a stronger model also helps — accuracy is model-bound.
+`medium` retries once with a different page selection when the first pass is a refusal (`low`, the default, is a single pass); `high` switches to an agentic loop (the model navigates the tree itself, fetching pages until it can answer); `ultra` additionally fact-checks the answer against its cited pages and marks it `supported` or `UNSUPPORTED` — see [Effort levels](/effort-levels) for the full breakdown. Switching to a stronger model also helps — accuracy is model-bound.
 
 To keep a browsable record, add `--out <dir>`; each Q&A plus the doc tree is written under `<out>/<doc>/`.
 
@@ -66,3 +66,4 @@ To keep a browsable record, add `--out <dir>`; each Q&A plus the doc tree is wri
 
 - stdout: the answer text, nothing else.
 - stderr: a `cited pages: [...]` line (printed only when pages were cited).
+- at `--effort ultra`, a `verification: supported` (or `verification: UNSUPPORTED — ...`) line on stderr after the citations.

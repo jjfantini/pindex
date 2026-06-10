@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00822",
+  "company": "Foot Locker",
+  "doc_name": "FOOTLOCKER_2022_8K_dated-2022-05-20.pdf",
+  "question": "Were there any board member nominees who had substantially more votes against joining than the other nominees?",
+  "gold_answer": "Yes, his name is Richard A. Johnson",
+  "predicted": "Yes. Richard A. Johnson had substantially more votes against (16,105,005) compared to the other nine nominees, whose votes against ranged from approximately 294,935 to 6,074,467. Johnson's vote count against was roughly 2.6 times higher than the second-highest nominee (Dona D. Young with 6,074,467 votes against).",
+  "reasoning": "I need to examine the board member voting results in Proposal 1 to identify if any nominee had substantially more votes against them compared to others.\n\nLooking at the 'Votes Against' column for each of the 10 nominees:\n- Virginia C. Drosos: 294,935\n- Alan D. Feldman: 5,184,437\n- Richard A. Johnson: 16,105,005\n- Guillermo G. Marmol: 5,753,395\n- Darlene Nicosia: 4,827,808\n- Steven Oakland: 4,524,393\n- Ulice Payne, Jr.: 4,950,917\n- Kimberly Underhill: 4,906,500\n- Tristan Walker: 4,419,340\n- Dona D. Young: 6,074,467\n\nComparing these values:\n- Most nominees received between approximately 4.4 million and 6.1 million votes against\n- Richard A. Johnson received 16,105,005 votes against - this is substantially higher than all other nominees\n- Virginia C. Drosos received only 294,935 votes against - this is substantially lower\n\nRichard A. Johnson clearly stands out with approximately 16.1 million votes against, which is roughly 2.6 times higher than the next highest (Dona D. Young with 6.1 million) and about 54 times higher than the lowest (Virginia C. Drosos with 295k).",
+  "selected_pages": "2",
+  "cited_pages": [
+    2
+  ],
+  "gold_pages": [
+    1
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

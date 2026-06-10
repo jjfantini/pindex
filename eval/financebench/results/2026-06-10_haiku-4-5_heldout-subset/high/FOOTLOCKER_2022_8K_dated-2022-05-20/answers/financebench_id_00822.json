@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_00822",
+  "company": "Foot Locker",
+  "doc_name": "FOOTLOCKER_2022_8K_dated-2022-05-20.pdf",
+  "question": "Were there any board member nominees who had substantially more votes against joining than the other nominees?",
+  "gold_answer": "Yes, his name is Richard A. Johnson",
+  "predicted": "Yes, Richard A. Johnson had substantially more votes against joining the board than the other nominees. He received 16,105,005 votes against his election, which is significantly higher than any other nominee. The next highest was Dona D. Young with 6,074,467 votes against, and most other nominees received between approximately 4.4 million and 5.8 million votes against. Johnson's opposition was more than double that of most other nominees.",
+  "reasoning": "Now I have the actual page text showing the voting results for all ten board nominees. Richard A. Johnson received 16,105,005 votes against, while all other nominees received between 294,935 and 6,074,467 votes against—making Johnson's opposition substantially higher than the others.",
+  "steps": 3,
+  "selected_pages": "2",
+  "cited_pages": [
+    2
+  ],
+  "gold_pages": [
+    1
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}
