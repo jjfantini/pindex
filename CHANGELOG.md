@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.0](https://github.com/jjfantini/pindex/compare/v0.2.0...v0.3.0) (2026-06-10)
+
+
+### Features
+
+* **ask:** agentic loop at effort=high, answer verification at ultra ([748578b](https://github.com/jjfantini/pindex/commit/748578b7e586320a8585ad972d4d561490b2ea09))
+* **ask:** agentic tree-search loop at effort=high, answer verification at ultra ([9f4e055](https://github.com/jjfantini/pindex/commit/9f4e055ec1903d59ccf6d154029c30f7e75bc379))
+* effort-level ladder — agentic ask loop (high) + answer verification (ultra) ([b0d7310](https://github.com/jjfantini/pindex/commit/b0d73107b4dcd698089f5835c8d335966408801a))
+
 ## [0.2.0](https://github.com/jjfantini/pindex/compare/v0.1.1...v0.2.0) (2026-06-10)
 
 
