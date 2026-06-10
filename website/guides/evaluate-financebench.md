@@ -44,7 +44,7 @@ A stage funnel: extraction %, retrieval % (evidence recall), answer % (answer ac
 
 - `--model` / `--judge-model` — retrieval model and judge LLM (judge defaults to the retrieval model).
 - `--effort medium` — retry with a different page set on refusals (default `low`).
-- `--out results/` — write a browsable output dir: `questions.jsonl`, per-doc trees and answers, a Mafin-compatible `result_<model>.json`, a human-eval CSV, and `summary.json`.
+- `--out results/` — choose where the output dir goes. Results are **always saved**: without `--out` they land in `.pindex/evals/<date>_<model>_<effort>/` next to the workspace, and same-day re-runs of the same model and effort get a `-2`, `-3`, … suffix so runs can be compared. Contents: `questions.jsonl`, per-doc trees and answers, a Mafin-compatible `result_<model>.json`, a human-eval CSV, and `summary.json`.
 - `--rescore results/result_<model>.json` — recompute adjusted accuracy from a human-edited result file, offline, no API key needed.
 - `--rpm 60` — rate-limit requests.
 
@@ -52,4 +52,4 @@ A stage funnel: extraction %, retrieval % (evidence recall), answer % (answer ac
 
 - One bracketed funnel line per question on stderr.
 - A funnel summary on stdout.
-- With `--out`: a `summary.json` containing config, funnel, and raw plus adjusted accuracy.
+- A final `wrote results to <dir>` line on stderr; the dir's `summary.json` carries config, funnel, and raw plus adjusted accuracy.

@@ -21,7 +21,7 @@ pindex eval [flags]
       --judge-model string   LLM-judge model (default: retrieval model)
       --limit int            only run the first N questions (0 = all)
       --model string         retrieval model (default from config)
-      --out string           write a browsable output dir (per-doc trees, questions, answers, Mafin-compatible result_<model>.json + human-eval CSV, summary)
+      --out string           output dir for the browsable results (default: <workspace-parent>/evals/<date>_<model>_<effort>; same-day re-runs get a -2, -3, … suffix)
       --questions string     path to a FinanceBench JSONL file (required)
       --rescore string       recompute adjusted accuracy from a (human-edited) result_<model>.json and exit
       --rpm int              max requests/min to the LLM (0 = unlimited; set on low rate-limit tiers)
