@@ -33,3 +33,8 @@ eval/financebench/_generated_trees/
 # goreleaser output
 dist/
 _cgo/
+
+# docs website (VitePress)
+website/node_modules/
+website/.vitepress/dist/
+website/.vitepress/cache/
