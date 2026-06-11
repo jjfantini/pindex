@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0](https://github.com/jjfantini/pindex/compare/v0.6.0...v0.7.0) (2026-06-11)
+
+
+### Features
+
+* **exportout:** count SEDC as adjusted-correct in benchmark scoring ([67fc2c6](https://github.com/jjfantini/pindex/commit/67fc2c6c694844e5fe926107111f5d2843cc052f))
+* **exportout:** SEDC adjusted-correct + haiku adjudications ([1034375](https://github.com/jjfantini/pindex/commit/103437589b602d99760b5ef48cf6dae41c3cf00e))
+
 ## [0.6.0](https://github.com/jjfantini/pindex/compare/v0.5.0...v0.6.0) (2026-06-11)
 
 
