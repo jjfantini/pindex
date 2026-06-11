@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00222",
+  "company": "AMD",
+  "doc_name": "AMD_2022_10K.pdf",
+  "question": "Does AMD have a reasonably healthy liquidity profile based on its quick ratio for FY22? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
+  "gold_answer": "Yes. The quick ratio is 1.57, calculated as (cash and cash equivalents+Short term investments+Accounts receivable, net+receivables from related parties)/ (current liabilities).",
+  "predicted": "Yes, AMD has a reasonably healthy liquidity profile based on its FY22 quick ratio. The quick ratio is 1.57 ($9,983 million in quick assets ÷ $6,369 million in current liabilities), which is well above the 1.0 threshold typically considered healthy. This indicates AMD has $1.57 in highly liquid assets for every $1.00 of current liabilities, demonstrating solid short-term liquidity. The quick ratio is relevant and appropriate for measuring liquidity as it focuses on the most liquid assets (cash, short-term investments, and accounts receivable) that can be quickly converted to cash to meet short-term obligations.",
+  "reasoning": "To assess AMD's liquidity using the quick ratio for FY22, I need to find the relevant balance sheet items from December 31, 2022.\n\nFrom page 56 (Consolidated Balance Sheets as of December 31, 2022):\n- Cash and cash equivalents: $4,835 million\n- Short-term investments: $1,020 million\n- Accounts receivable, net: $4,126 million\n- Receivables from related parties: $2 million\n- Total current liabilities: $6,369 million\n\nQuick Ratio = (Current Assets - Inventories - Prepaid Expenses) / Current Liabilities\nOr more simply: (Cash + Short-term Investments + Accounts Receivable) / Current Liabilities\n\nQuick Assets = $4,835 + $1,020 + $4,126 + $2 = $9,983 million\n\nQuick Ratio = $9,983 / $6,369 = 1.57\n\nA quick ratio of 1.57 means AMD has $1.57 in liquid assets for every $1.00 of current liabilities. Generally, a quick ratio above 1.0 is considered healthy, as it indicates the company can cover its short-term obligations with its most liquid assets. A ratio of 1.57 is well above this threshold.\n\nThe quick ratio IS relevant for measuring liquidity because it focuses on the most liquid assets (excluding inventory and prepaid expenses, which take longer to convert to cash) relative to current liabilities.",
+  "selected_pages": "56-57, 66-67",
+  "cited_pages": [
+    56
+  ],
+  "gold_pages": [
+    55
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

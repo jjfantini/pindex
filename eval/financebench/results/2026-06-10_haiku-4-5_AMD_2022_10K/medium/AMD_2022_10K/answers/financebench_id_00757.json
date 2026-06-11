@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00757",
+  "company": "AMD",
+  "doc_name": "AMD_2022_10K.pdf",
+  "question": "Did AMD report customer concentration in FY22?",
+  "gold_answer": "Yes, one customer accounted for 16% of consolidated net revenue",
+  "predicted": "Yes, AMD reported customer concentration in FY22. The company disclosed that Customer A accounted for 16% of consolidated net revenue in 2022, with sales primarily from the Gaming segment. Customer B accounted for less than 10% in 2022 (marked with *), with sales from the Client segment.",
+  "reasoning": "The question asks whether AMD reported customer concentration in FY22. Looking at page 69, there is a table titled 'The following table summarizes sales to major customers that accounted for at least 10% of the Company's consolidated net revenue for the respective years:' This table shows: Customer A at 16% in 2022, Customer B at less than 10% in 2022 (marked with *), and notes that 'Sales to customers A and B consisted of sales of products from the Gaming and Client segments, respectively.' This is clearly a customer concentration disclosure for FY22 (year ended December 31, 2022).",
+  "selected_pages": "67-69",
+  "cited_pages": [
+    69
+  ],
+  "gold_pages": [
+    11
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

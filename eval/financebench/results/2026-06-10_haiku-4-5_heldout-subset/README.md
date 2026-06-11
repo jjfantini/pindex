@@ -1,4 +1,4 @@
-# FinanceBench heldout subset: effort=low vs high vs ultra (claude-haiku-4-5)
+# FinanceBench heldout subset: effort=low vs medium vs high vs ultra (claude-haiku-4-5)
 
 Small public benchmark of the pindex retrieval effort levels on the **heldout** split of the
 pindex accuracy diagnostic set (`eval/financebench/testdata/diagnostic_set.json`). This is a
@@ -29,19 +29,24 @@ Effort semantics (current):
   split — no trimming needed: 5 docs / 9 questions is within the ≤5-doc / ≤12-question budget)
 - **Index + generation model:** `claude-haiku-4-5-20251001` (full-haiku: indexing, retrieval, and answering)
 - **Judge model:** `gpt-4o-2024-11-20` (Mafin 2.5's exact judge, for comparability)
-- **All three runs share the same workspace** (each doc indexed exactly once).
+- **All runs share the same workspace** (each doc indexed exactly once). The `medium/` run was
+  backfilled the same day on the same workspace, completing all four effort levels.
 
-## Three-way comparison
+## Four-way comparison
 
-| Metric | effort=low | effort=high (agentic) | effort=ultra (agentic + verify) |
-|---|---|---|---|
-| Extraction rate | 100.0% | 100.0% | 100.0% |
-| Evidence recall (retrieval) | 77.8% | 88.9% | 88.9% |
-| Answer accuracy (judged) | 66.7% (6/9) | **100.0% (9/9)** | **100.0% (9/9)** |
-| Hallucination rate (confident-wrong) | 33.3% (3/9) | **0.0%** | **0.0%** |
-| Avg agentic steps / question | n/a (fixed pipeline) | 2.44 (max 3 of 8) | 2.78 (max 4) |
-| Verification: supported | n/a (no pass) | n/a (no pass) | 9 |
-| Verification: unsupported | n/a (no pass) | n/a (no pass) | 0 |
+| Metric | effort=low | effort=medium | effort=high (agentic) | effort=ultra (agentic + verify) |
+|---|---|---|---|---|
+| Extraction rate | 100.0% | 100.0% | 100.0% | 100.0% |
+| Evidence recall (retrieval) | 77.8% | 77.8% | 88.9% | 88.9% |
+| Answer accuracy (judged) | 66.7% (6/9) | 66.7% (6/9) | **100.0% (9/9)** | **100.0% (9/9)** |
+| Hallucination rate (confident-wrong) | 33.3% (3/9) | 33.3% (3/9) | **0.0%** | **0.0%** |
+| Avg agentic steps / question | n/a (fixed pipeline) | n/a (fixed pipeline) | 2.44 (max 3 of 8) | 2.78 (max 4) |
+| Verification: supported | n/a (no pass) | n/a (no pass) | n/a (no pass) | 9 |
+| Verification: unsupported | n/a (no pass) | n/a (no pass) | n/a (no pass) | 0 |
+
+`medium` is identical to `low` on this subset: its only difference is a broader re-select on a
+*refusal*, and the three `low` failures here are confident-wrong answers, not refusals — so the
+retry never fires.
 
 Reading the deltas:
 
@@ -60,7 +65,7 @@ Reading the deltas:
 
 ## Funnel outputs (verbatim)
 
-`--effort low`:
+`--effort low` and `--effort medium` (identical — the refusal retry never fires):
 
 ```
 === stage funnel (scored 9/9) ===

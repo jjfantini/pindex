@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_01902",
+  "company": "Best Buy",
+  "doc_name": "BESTBUY_2024Q2_10Q.pdf",
+  "question": "Which Best Buy product category performed the best (by top line) in the domestic (USA) Market during Q2 of FY2024?",
+  "gold_answer": "The entertainment segment experienced the highest growth of 9% during Q2 FY2024, primarily from gaming division.",
+  "predicted": "Computing and Mobile Phones performed the best in the domestic (USA) market during Q2 of FY2024 (three months ended July 29, 2023) with revenue of $3,674 million.",
+  "reasoning": "The question asks which Best Buy product category performed the best by top line (revenue) in the domestic (USA) market during Q2 of FY2024. Q2 would be the three months ended July 29, 2023.\n\nLooking at page 13, there is a table titled 'Reportable segment and product category revenue information' with a section for 'Revenue by product category' broken down by Domestic and International.\n\nFor the Domestic segment, Three Months Ended July 29, 2023:\n- Computing and Mobile Phones: $3,674 million\n- Consumer Electronics: $2,658 million\n- Appliances: $1,384 million\n- Entertainment: $544 million\n- Services: $550 million\n- Other: $80 million\n\nComparing these values, Computing and Mobile Phones has the highest revenue at $3,674 million for Q2 FY2024 in the Domestic market.",
+  "selected_pages": "8-14",
+  "cited_pages": [
+    13
+  ],
+  "gold_pages": [
+    17
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": false,
+  "answer_ok": false,
+  "hallucinated": true,
+  "page_hit": false,
+  "label": "NAL"
+}
