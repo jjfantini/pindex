@@ -18,5 +18,6 @@
   "answer_ok": false,
   "hallucinated": true,
   "page_hit": false,
-  "label": "NAL"
+  "label": "BE",
+  "label_reason": "Label: BE - Benchmark Error\n\nDetailed Reason: The questions asked for Best Buy Stores, but the gold answers gives the total stores."
 }
