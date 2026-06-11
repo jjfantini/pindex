@@ -1,0 +1,8 @@
+{
+ "doc_name": "PEPSICO_2023_8K_dated-2023-05-30",
+ "generated_at": "2026-06-11T17:38:53Z",
+ "model": "claude-haiku-4-5-20251001",
+ "judge_model": "gpt-4o-2024-11-20",
+ "effort": "medium",
+ "questions": 2
+}

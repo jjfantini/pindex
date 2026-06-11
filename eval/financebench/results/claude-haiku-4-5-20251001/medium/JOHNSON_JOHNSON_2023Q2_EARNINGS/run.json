@@ -1,0 +1,9 @@
+{
+ "doc_name": "JOHNSON_JOHNSON_2023Q2_EARNINGS",
+ "generated_at": "2026-06-11T01:56:59Z",
+ "model": "claude-haiku-4-5-20251001",
+ "judge_model": "gpt-4o-2024-11-20",
+ "effort": "medium",
+ "questions": 1,
+ "note": "migrated from 2026-06-10_haiku-4-5_heldout-subset"
+}

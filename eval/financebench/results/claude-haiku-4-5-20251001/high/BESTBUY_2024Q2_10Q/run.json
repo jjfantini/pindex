@@ -1,0 +1,9 @@
+{
+ "doc_name": "BESTBUY_2024Q2_10Q",
+ "generated_at": "2026-06-10T21:59:37Z",
+ "model": "claude-haiku-4-5-20251001",
+ "judge_model": "gpt-4o-2024-11-20",
+ "effort": "high",
+ "questions": 3,
+ "note": "migrated from 2026-06-10_haiku-4-5_heldout-subset"
+}
