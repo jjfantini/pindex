@@ -14,19 +14,22 @@ appears in two runs.
 [`2026-06-10_haiku-4-5_heldout-subset`](2026-06-10_haiku-4-5_heldout-subset/) (5 docs, 9 q) and
 [`2026-06-10_haiku-4-5_AMD_2022_10K`](2026-06-10_haiku-4-5_AMD_2022_10K/) (1 doc, 7 q).
 
-| Effort | Answer accuracy | Evidence recall | Hallucination rate |
-|---|---|---|---|
-| low | 81.25% (13/16) | 87.5% (14/16) | 18.75% (3/16) |
-| medium | 81.25% (13/16) | 87.5% (14/16) | 18.75% (3/16) |
-| **high** | **93.75% (15/16)** | **93.75% (15/16)** | **6.25% (1/16)** |
-| **ultra** | **93.75% (15/16)** | **93.75% (15/16)** | **6.25% (1/16)** |
+| Effort | Raw accuracy | Adjusted accuracy (AL+MVA+BE) | Evidence recall | Hallucination rate |
+|---|---|---|---|---|
+| low | 81.25% (13/16) | 81.25% (13/16) | 87.5% (14/16) | 18.75% (3/16) |
+| medium | 81.25% (13/16) | 81.25% (13/16) | 87.5% (14/16) | 18.75% (3/16) |
+| **high** | **93.75% (15/16)** | **100.0% (16/16)** | **93.75% (15/16)** | **6.25% (1/16)** |
+| **ultra** | **93.75% (15/16)** | **100.0% (16/16)** | **93.75% (15/16)** | **6.25% (1/16)** |
 
 Notes:
 
-- Accuracy here is **raw judge accuracy** (no human adjudication). Mafin 2.5's published 98.7%
-  is the *adjusted* number after relabeling BE/MVA/SEDC disagreements; pindex's one current
-  high/ultra miss (AMD quick-ratio formula choice, verifier-supported, same conclusion as gold)
-  is an MVA candidate awaiting that same adjudication via `pindex eval --rescore`.
+- **Raw** is judge-only; **adjusted** additionally counts human-adjudicated BE/MVA/SEDC
+  relabels as correct — the same process behind Mafin 2.5's published 98.7%. One adjudication
+  so far: the AMD quick-ratio question (`financebench_id_00222`) at high/ultra is labeled
+  **MVA** (verifier-supported alternative quick-ratio formula, same conclusion as gold; the
+  same model at low/medium independently used the gold formula). The three low/medium misses
+  remain auto-labeled `NAL` (confident-wrong answers, not yet human-reviewed). Adjusted numbers
+  are recomputable per run via `pindex eval --rescore <result_file>`.
 - `medium` equals `low` so far because no run has produced a refusal (its retry never fires).
 - Per-document effort ordering varies (high wins big on the hard heldout docs, low wins the easy
   AMD doc) — the pooled number is the meaningful comparison.
