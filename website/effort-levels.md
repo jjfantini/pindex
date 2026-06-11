@@ -60,3 +60,19 @@ The verdict also lands in `--out` exports and eval results as a `"verification"`
 - **`medium`** — when the document is large or oddly structured and the first page selection sometimes misses.
 - **`high`** — hard questions in big documents: multi-hop questions, scattered evidence, or documents where the right section only becomes clear after reading another one.
 - **`ultra`** — defensible answers: financial figures, compliance, anything you would have to stand behind. It tells you explicitly when an answer could not be grounded in its sources.
+
+## On FinanceBench so far
+
+The repo accumulates scores on the open-source FinanceBench set via `./eval/financebench/bench.sh`
+(see [`eval/financebench/results/README.md`](https://github.com/jjfantini/pindex/blob/develop/eval/financebench/results/README.md)).
+With **Claude Haiku 4.5** (`claude-haiku-4-5-20251001`) and a **gpt-4o-2024-11-20** judge, on
+**18 questions across 7 documents** (2026-06-11):
+
+| Effort | Raw answer accuracy | Adjusted accuracy |
+|---|---|---|
+| `low` / `medium` | 83.33% | 100.0% |
+| `high` / `ultra` | 94.44% | 100.0% |
+
+The jump from `low`/`medium` to `high`/`ultra` is the agentic loop finding evidence that fixed
+page selection misses. `medium` has matched `low` on every doc benchmarked so far — all misses were
+confident-wrong, not refusals, so the refusal retry never fired.

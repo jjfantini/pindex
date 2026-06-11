@@ -37,9 +37,31 @@ Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-11 (7/84 d
 | **high** | **94.44% (17/18)** | **100.0%** | 94.44% | 5.56% |
 | **ultra** | **94.44% (17/18)** | **100.0%** | 94.44% | 5.56% |
 
+### Documents in the pool so far
+
+| Document | Questions |
+|---|---|
+| AMD_2022_10K | 7 |
+| BESTBUY_2024Q2_10Q | 3 |
+| FOOTLOCKER_2022_8K_dated-2022-05-20 | 1 |
+| FOOTLOCKER_2022_8K_dated_2022-08-19 | 1 |
+| JOHNSON_JOHNSON_2023Q2_EARNINGS | 1 |
+| JOHNSON_JOHNSON_2023_8K_dated-2023-08-30 | 3 |
+| PEPSICO_2023_8K_dated-2023-05-30 | 2 |
+
+All are outside the diagnostic **train** split (no prompt-tuning contamination).
+
+### Human adjudications (low/medium + high/ultra)
+
+| ID | Effort(s) | Label | Summary |
+|---|---|---|---|
+| financebench_id_00460 | low, medium | BE | Gold uses total store count; question asks Best Buy-branded stores |
+| financebench_id_01902 | low, medium | BE | Gold uses comp-sales growth; question asks top-line revenue category |
+| financebench_id_00839 | low, medium | SEDC | Same CEO/Ulta evidence; interpretive split on "similar company" |
+| financebench_id_00222 | high, ultra | MVA | AMD quick ratio — alternate valid formula, same conclusion |
+
 - **Raw** is judge-only; **adjusted** also counts human-adjudicated `MVA`/`BE`/`SEDC` relabels (the
-  process behind Mafin 2.5's published 98.7%). Adjudications so far: 4 on low/medium (2 BE, 1 SEDC,
-  plus the AMD quick-ratio MVA on high/ultra — see each `label_reason`).
+  process behind Mafin 2.5's published 98.7%). See each answer record's `label_reason` for detail.
 - `medium` has matched `low` on every doc so far: its refusal retry has never fired (all misses
   were confident-wrong, not refusals).
 
