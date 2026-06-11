@@ -6,10 +6,11 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
+
+	"github.com/jjfantini/pindex/internal/ui"
 )
 
 // version is overridden at build time via -ldflags "-X main.version=...".
@@ -17,7 +18,7 @@ var version = "0.0.0-dev"
 
 func main() {
 	if err := newRootCmd().Execute(); err != nil {
-		fmt.Fprintln(os.Stderr, "error:", err)
+		ui.New(os.Stderr).Errorf("%v", err)
 		os.Exit(1)
 	}
 }
@@ -34,6 +35,8 @@ func newRootCmd() *cobra.Command {
 		SilenceErrors: true,
 	}
 	root.PersistentFlags().String("config", "", "path to a pindex config YAML (optional)")
+	root.PersistentFlags().Bool("verbose", false, "stream under-the-hood diagnostics to stderr (LLM calls, cache hits, retries, build stages)")
+	root.PersistentFlags().Bool("plain", false, "force plain line-oriented output: no colors or animations (also via PINDEX_PLAIN=1; auto when piped)")
 	root.AddCommand(newIndexCmd(), newAskCmd(), newEvalCmd(), newExtractCmd(), newDocsCmd())
 	return root
 }

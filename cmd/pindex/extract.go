@@ -27,6 +27,8 @@ func newExtractCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
+			u, _, _ := newUI(c)
+			u.Header("extract", args[0])
 			pages, err := ex.Extract(args[0])
 			if err != nil {
 				return err
@@ -35,6 +37,7 @@ func newExtractCmd() *cobra.Command {
 			for _, p := range pages {
 				_, _ = fmt.Fprintf(out, "===== page %d (%s) =====\n%s\n\n", p.Index, ex.Name(), p.Text)
 			}
+			u.Successf("extracted %d pages · backend %s", len(pages), ex.Name())
 			return nil
 		},
 	}

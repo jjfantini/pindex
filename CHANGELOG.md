@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.4.0](https://github.com/jjfantini/pindex/compare/v0.3.0...v0.4.0) (2026-06-10)
+
+
+### Features
+
+* **eval:** always save results, defaulting to .pindex/evals next to the workspace ([3a332ce](https://github.com/jjfantini/pindex/commit/3a332ce921d2105518ddc562a52ace135b3bb43d))
+* **eval:** always save results, defaulting to .pindex/evals next to the workspace ([eb175ef](https://github.com/jjfantini/pindex/commit/eb175efbdc79adb4a8f82c3bd284ad52c310682e))
+* **eval:** default eval output to .pindex/evals (always-saved, suffixed re-runs) ([348c539](https://github.com/jjfantini/pindex/commit/348c539b6490c1241d236d146c0f04fdc6bc82b7))
+
+## [0.3.0](https://github.com/jjfantini/pindex/compare/v0.2.0...v0.3.0) (2026-06-10)
+
+
+### Features
+
+* **ask:** agentic loop at effort=high, answer verification at ultra ([748578b](https://github.com/jjfantini/pindex/commit/748578b7e586320a8585ad972d4d561490b2ea09))
+* **ask:** agentic tree-search loop at effort=high, answer verification at ultra ([9f4e055](https://github.com/jjfantini/pindex/commit/9f4e055ec1903d59ccf6d154029c30f7e75bc379))
+* effort-level ladder — agentic ask loop (high) + answer verification (ultra) ([b0d7310](https://github.com/jjfantini/pindex/commit/b0d73107b4dcd698089f5835c8d335966408801a))
+
+## [0.2.0](https://github.com/jjfantini/pindex/compare/v0.1.1...v0.2.0) (2026-06-10)
+
+
+### Features
+
+* **cli:** add hidden docs command generating CLI reference markdown ([79a0433](https://github.com/jjfantini/pindex/commit/79a043301a06debb420ca45807608c9516c05961))
+
 ## [0.1.1](https://github.com/jjfantini/pindex/compare/v0.1.0...v0.1.1) (2026-06-09)
 
 

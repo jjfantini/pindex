@@ -51,8 +51,9 @@ func newAskCmd() *cobra.Command {
 				return err
 			}
 
+			u, logger, _ := newUI(c)
 			rpm, _ := c.Flags().GetInt("rpm")
-			provider, err := buildProvider(cfg.RetrieveModelOrDefault(), cacheDir, rpm)
+			provider, err := buildProvider(cfg.RetrieveModelOrDefault(), cacheDir, rpm, llmObserver(logger))
 			if err != nil {
 				return err
 			}
@@ -62,22 +63,26 @@ func newAskCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
+			u.Header("ask", clip(args[0], 60))
+			step := u.Step(fmt.Sprintf("searching %s · %s · effort %s", doc.DocName, cfg.RetrieveModelOrDefault(), effort))
 			asker := ask.New(provider, cfg.RetrieveModelOrDefault())
 			asker.Effort = effort
 			ans, err := asker.Ask(c.Context(), doc, args[0])
 			if err != nil {
+				step.Fail("ask failed")
 				return err
 			}
+			step.Done("answered · effort %s", effort)
 
 			_, _ = fmt.Fprintln(c.OutOrStdout(), ans.Text)
 			if len(ans.CitedPages) > 0 {
-				_, _ = fmt.Fprintf(c.ErrOrStderr(), "cited pages: %v  (doc: %s)\n", ans.CitedPages, doc.DocName)
+				u.Infof("cited pages: %s  (doc: %s)", u.Styles().Accent.Render(fmt.Sprint(ans.CitedPages)), doc.DocName)
 			}
 			switch ans.Verification {
 			case "supported":
-				_, _ = fmt.Fprintln(c.ErrOrStderr(), "verification: supported")
+				u.Successf("verification: supported")
 			case "unsupported":
-				_, _ = fmt.Fprintln(c.ErrOrStderr(), "verification: UNSUPPORTED — treat with caution (missing support for some claims)")
+				u.Warnf("verification: UNSUPPORTED — treat with caution (missing support for some claims)")
 			}
 
 			if outDir, _ := c.Flags().GetString("out"); outDir != "" {
@@ -98,7 +103,7 @@ func newAskCmd() *cobra.Command {
 				if werr != nil {
 					return werr
 				}
-				_, _ = fmt.Fprintf(c.ErrOrStderr(), "wrote answer to %s\n", path)
+				u.Notef("wrote answer to %s", path)
 			}
 			return nil
 		},

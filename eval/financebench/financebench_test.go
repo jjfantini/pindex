@@ -80,7 +80,7 @@ func TestRunScoresAccuracyAndRecall(t *testing.T) {
 	}}
 	lookup := func(string) (tree.Document, bool) { return doc, true }
 
-	results, agg := Run(context.Background(), ask.New(askProvider, "m"), judge, "j", qs, lookup)
+	results, agg := Run(context.Background(), ask.New(askProvider, "m"), judge, "j", qs, lookup, nil)
 	r := results[0]
 	if len(results) != 1 || !r.Correct || !r.PageHit || !r.EvidenceHit || !r.EvidenceInDoc || r.Hallucinated {
 		t.Fatalf("result = %+v", r)
@@ -117,7 +117,7 @@ func TestEvidenceHit(t *testing.T) {
 func TestRunMissingDocIsNotScored(t *testing.T) {
 	qs := []Question{{ID: "q", DocName: "NOPE"}}
 	lookup := func(string) (tree.Document, bool) { return tree.Document{}, false }
-	results, agg := Run(context.Background(), ask.New(llm.NewMock("a"), "m"), llm.NewMock("j"), "j", qs, lookup)
+	results, agg := Run(context.Background(), ask.New(llm.NewMock("a"), "m"), llm.NewMock("j"), "j", qs, lookup, nil)
 	if results[0].Err == nil {
 		t.Error("missing doc should produce an error result")
 	}
@@ -175,7 +175,7 @@ func TestFunnelAndHallucination(t *testing.T) {
 		{ID: "q2", DocName: "D", Question: "profit?", Answer: "300m", Evidence: ev},
 		{ID: "q3", DocName: "D", Question: "capex?", Answer: "42m", Evidence: ev},
 	}
-	results, agg := Run(context.Background(), ask.New(askProvider, "m"), judge, "j", qs, lookup)
+	results, agg := Run(context.Background(), ask.New(askProvider, "m"), judge, "j", qs, lookup, nil)
 
 	if !results[1].Hallucinated {
 		t.Error("q2 (confident wrong) should be flagged hallucinated")
