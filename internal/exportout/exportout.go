@@ -29,8 +29,8 @@ import (
 	"github.com/jjfantini/pindex/internal/tree"
 )
 
-// Adjudication labels (Mafin2.5's human-evaluation taxonomy). AL/MVA/BE count as
-// correct under the adjusted metric; NAL/SEDC count as wrong.
+// Adjudication labels (Mafin2.5's human-evaluation taxonomy). AL/MVA/BE/SEDC count as
+// correct under the adjusted metric; only NAL counts as wrong.
 const (
 	LabelAL   = "AL"   // Answers Aligned: matches benchmark in conclusion and methodology
 	LabelMVA  = "MVA"  // Multiple Valid Approaches: both valid, different methods — excused
@@ -49,10 +49,11 @@ func AutoLabel(correct bool) string {
 }
 
 // AdjustedCorrect reports whether a label counts as correct under the adjusted
-// metric — aligned, or excused as a multiple-valid-approach or a benchmark error.
+// metric — aligned, multiple-valid-approach, benchmark error, or same-evidence
+// different valid conclusion (SEDC).
 func AdjustedCorrect(label string) bool {
 	switch label {
-	case LabelAL, LabelMVA, LabelBE:
+	case LabelAL, LabelMVA, LabelBE, LabelSEDC:
 		return true
 	default:
 		return false
@@ -161,7 +162,7 @@ type MafinRecord struct {
 }
 
 // Summary is the run-level summary.json: configuration plus the funnel and both the
-// raw (judge-only) and adjusted (MVA/BE excused) answer accuracy.
+// raw (judge-only) and adjusted (MVA/BE/SEDC excused) answer accuracy.
 type Summary struct {
 	GeneratedAt            string         `json:"generated_at,omitempty"`
 	Model                  string         `json:"model"`
@@ -492,7 +493,7 @@ func ExportEval(outDir string, sum Summary, qs []financebench.Question, results 
 }
 
 // Rescore reads a (possibly human-edited) result_<model>.json and recomputes the
-// adjusted accuracy (AL+MVA+BE over labeled records) and the label histogram. The
+// adjusted accuracy (AL+MVA+BE+SEDC over labeled records) and the label histogram. The
 // raw (judge-only) accuracy is read from a sibling summary.json when present
 // (rawKnown is false otherwise, since edited labels no longer carry the raw signal).
 func Rescore(resultPath string) (raw, adjusted float64, counts map[string]int, rawKnown bool, err error) {

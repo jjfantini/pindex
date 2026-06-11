@@ -35,7 +35,7 @@ func newEvalCmd() *cobra.Command {
 				} else {
 					_, _ = fmt.Fprintln(out, "  raw answer accuracy (judge only): n/a (no sibling summary.json)")
 				}
-				_, _ = fmt.Fprintf(out, "  adjusted accuracy (AL+MVA+BE):    %5.1f%%\n", adjusted*100)
+				_, _ = fmt.Fprintf(out, "  adjusted accuracy (AL+MVA+BE+SEDC): %5.1f%%\n", adjusted*100)
 				_, _ = fmt.Fprintf(out, "  labels: %v\n", counts)
 				return nil
 			}

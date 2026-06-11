@@ -277,7 +277,7 @@ flowchart TB
   per-question `answers/<id>.json`, and a run `summary`. Exported trees **strip raw page text by
   default** to stay readable (`--include-raw-text` on `index`, `--include-pages` on `ask`/`eval`
   re-includes it). `eval --rescore` reads a human-edited `result_<model>.json` back and recomputes
-  adjusted accuracy (AL+MVA+BE labels) with **no API calls** — the human-in-the-loop scoring path.
+  adjusted accuracy (AL+MVA+BE+SEDC labels) with **no API calls** — the human-in-the-loop scoring path.
 
 ---
 

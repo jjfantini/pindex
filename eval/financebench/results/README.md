@@ -32,15 +32,14 @@ Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-11 (7/84 d
 
 | Effort | Raw accuracy | Adjusted accuracy | Evidence recall | Hallucination |
 |---|---|---|---|---|
-| low | 83.33% (15/18) | 83.33% | 88.89% | 16.67% |
-| medium | 83.33% (15/18) | 83.33% | 88.89% | 16.67% |
+| low | 83.33% (15/18) | 100.0% | 88.89% | 16.67% |
+| medium | 83.33% (15/18) | 100.0% | 88.89% | 16.67% |
 | **high** | **94.44% (17/18)** | **100.0%** | 94.44% | 5.56% |
 | **ultra** | **94.44% (17/18)** | **100.0%** | 94.44% | 5.56% |
 
-- **Raw** is judge-only; **adjusted** also counts human-adjudicated `MVA`/`BE` relabels (the
-  process behind Mafin 2.5's published 98.7%). Adjudications so far: 1 (the AMD quick-ratio
-  question — a verifier-supported alternative formula with the same conclusion; see its
-  `label_reason`).
+- **Raw** is judge-only; **adjusted** also counts human-adjudicated `MVA`/`BE`/`SEDC` relabels (the
+  process behind Mafin 2.5's published 98.7%). Adjudications so far: 4 on low/medium (2 BE, 1 SEDC,
+  plus the AMD quick-ratio MVA on high/ultra — see each `label_reason`).
 - `medium` has matched `low` on every doc so far: its refusal retry has never fired (all misses
   were confident-wrong, not refusals).
 
@@ -61,8 +60,8 @@ and each document appears at most once — so the summed numbers are a clean mic
 1. Open `<model>/<effort>/human_evaluations.csv` — every question the judge scored wrong (or
    that was already relabelled) is there.
 2. To relabel: edit `label` (and add a `label_reason`) in the per-question record
-   `<DOC>/answers/<id>.json` — the source of truth. `AL`/`MVA`/`BE` count correct under the
-   adjusted metric; `NAL`/`SEDC` count wrong. Only a human relabels; the pipeline never
+   `<DOC>/answers/<id>.json` — the source of truth. `AL`/`MVA`/`BE`/`SEDC` count correct under the
+   adjusted metric; only `NAL` counts wrong. Only a human relabels; the pipeline never
    self-grades above `NAL`.
 3. Re-run the aggregator; `pindex eval --rescore <effort>/result_<model>.json` cross-checks.
 
