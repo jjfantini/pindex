@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00563",
+  "company": "AMD",
+  "doc_name": "AMD_2022_10K.pdf",
+  "question": "From FY21 to FY22, excluding Embedded, in which AMD reporting segment did sales proportionally increase the most?",
+  "gold_answer": "Data Center",
+  "predicted": "Data Center had the largest proportional sales increase from FY21 to FY22, excluding Embedded. Data Center revenue grew from $3,694 million in FY21 to $6,043 million in FY22, representing a 63.6% increase. In comparison, Gaming grew 21.4% (from $5,607M to $6,805M), while Client actually declined 10.0% (from $6,887M to $6,201M).",
+  "reasoning": "Perfect! I have the segment revenue data for FY21 and FY22. Now I need to calculate the proportional increase for each segment excluding Embedded.\n\nFY22 Revenue:\n- Data Center: $6,043M\n- Client: $6,201M\n- Gaming: $6,805M\n- Embedded: $4,552M (excluded)\n\nFY21 Revenue:\n- Data Center: $3,694M\n- Client: $6,887M\n- Gaming: $5,607M\n- Embedded: $246M (excluded)\n\nNow I'll calculate the proportional increase (percentage growth) for each:\n\nData Center: ($6,043 - $3,694) / $3,694 = $2,349 / $3,694 = 0.6357 = 63.57%\n\nClient: ($6,201 - $6,887) / $6,887 = -$686 / $6,887 = -0.0996 = -9.96% (decrease)\n\nGaming: ($6,805 - $5,607) / $5,607 = $1,198 / $5,607 = 0.2136 = 21.36%\n\nSo Data Center had the largest proportional increase at 63.57%, followed by Gaming at 21.36%, while Client actually decreased.",
+  "verification": "supported",
+  "steps": 2,
+  "selected_pages": "68,69",
+  "cited_pages": [
+    68
+  ],
+  "gold_pages": [
+    47
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

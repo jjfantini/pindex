@@ -1,0 +1,36 @@
+{
+  "financebench_id": "financebench_id_00995",
+  "company": "AMD",
+  "doc_name": "AMD_2022_10K.pdf",
+  "question": "What are the major products and services that AMD sells as of FY22?",
+  "gold_answer": "AMD sells server microprocessors (CPUs) and graphics processing units (GPUs), data processing units (DPUs), Field Programmable Gate Arrays (FPGAs), and Adaptive System-on-Chip (SoC) products for data centers; CPUs, accelerated processing units (APUs) that integrate CPUs and GPUs, and chipsets for desktop and notebook personal computers; discrete GPUs, and semi-custom SoC products and development services; and embedded CPUs, GPUs, APUs, FPGAs, and Adaptive SoC products.",
+  "predicted": "As of fiscal year 2022, AMD's major products and services are organized into four reportable segments:\n\n**Data Center Segment:**\n- Server microprocessors (CPUs) - AMD EPYC Series processors (9004, 7003, and 7002 Series)\n- Graphics processing units (GPUs) - AMD Instinct family for AI training and supercomputing\n- Data processing units (DPUs) - AMD Pensando DPUs for infrastructure services\n- FPGAs and Adaptive SoCs - Virtex, Kintex, Zynq, and Versal products\n- Visual cloud GPUs - Radeon PRO V families for remote visualization\n\n**Client Segment:**\n- Desktop CPUs - AMD Ryzen and AMD Athlon series processors\n- Notebook/Mobile CPUs - AMD Ryzen and AMD Athlon mobile processors\n- Commercial CPUs - AMD PRO and AMD Threadripper PRO processors\n- Chipsets - X670, B650, X570, B550, A520, B450, A320, and WRX80 chipsets\n\n**Gaming Segment:**\n- Semi-custom SoCs - Custom solutions for gaming consoles (PlayStation 5, Xbox Series S/X, Steam Deck)\n- Discrete GPUs - AMD Radeon RX series (7900 and 6000 series)\n- Professional GPUs - AMD Radeon PRO workstation graphics\n\n**Embedded Segment:**\n- Embedded CPUs, APUs, and GPUs - AMD Embedded EPYC, Ryzen V-Series, and Ryzen R-Series\n- FPGAs - UltraScale+, UltraScale, 7 Series, and legacy families\n- Adaptive SoCs - Zynq, Zynq MPSoC, Zynq RFSoCs, and Versal products\n- Development boards and kits\n\nAdditionally, AMD sells or licenses portions of its intellectual property portfolio.",
+  "reasoning": "The user has fetched pages 4-17 which contain the Business section (Item 1) of AMD's 10-K. This provides comprehensive information about AMD's major products and services as of FY22. Let me compile the answer based on the content from these pages.",
+  "steps": 2,
+  "selected_pages": "4,5,6,7,8,9,10,11,12,13,14,15,16,17",
+  "cited_pages": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "gold_pages": [
+    3
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": true,
+  "label": "AL"
+}

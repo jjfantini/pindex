@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-06-11T02:04:04Z",
+  "model": "claude-haiku-4-5-20251001",
+  "judge_model": "gpt-4o-2024-11-20",
+  "effort": "medium",
+  "rpm": 0,
+  "questions_total": 7,
+  "scored": 7,
+  "extraction_rate": 1,
+  "retrieval_rate": 1,
+  "answer_accuracy_raw": 1,
+  "answer_accuracy_adjusted": 1,
+  "hallucination_rate": 0,
+  "recall_at_page": 0,
+  "label_counts": {
+    "AL": 7
+  }
+}

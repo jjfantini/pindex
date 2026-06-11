@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_01488",
+  "company": "Johnson \u0026 Johnson",
+  "doc_name": "JOHNSON_JOHNSON_2023_8K_dated-2023-08-30.pdf",
+  "question": "Which business segment of JnJ will be treated as a discontinued operation from August 30, 2023 onward?",
+  "gold_answer": "The Consumer Health business segment will be treated as a discontinued operation from August 30, 2023 onward.",
+  "predicted": "The Consumer Health business segment will be treated as a discontinued operation from August 30, 2023 onward. This business was separated as Kenvue Inc. through an exchange offer completed on August 30, 2023.",
+  "reasoning": "The question asks which business segment of J\u0026J will be treated as a discontinued operation from August 30, 2023 onward. Looking at page 4, the press release clearly states: 'As a result of the completion of the exchange offer, Johnson \u0026 Johnson will now present its Consumer Health business financial results as discontinued operations, including a gain of approximately $20 billion in the third quarter of 2023.' This directly answers the question - the Consumer Health business is the segment being treated as a discontinued operation from August 30, 2023 onward. This is also consistent with the earlier mention on page 2 that the Kenvue Separation was completed on August 30, 2023, and page 4 notes that Kenvue Inc. was 'formerly Johnson \u0026 Johnson's Consumer Health business.'",
+  "selected_pages": "2,4-5",
+  "cited_pages": [
+    2,
+    4
+  ],
+  "gold_pages": [
+    3
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

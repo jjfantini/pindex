@@ -1,0 +1,13 @@
+id,question,label,label reason,benchmark answer,pindex answer
+financebench_id_00222,"Does AMD have a reasonably healthy liquidity profile based on its quick ratio for FY22? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",NAL,,"Yes. The quick ratio is 1.57, calculated as (cash and cash equivalents+Short term investments+Accounts receivable, net+receivables from related parties)/ (current liabilities).","Yes, AMD has a reasonably healthy liquidity profile based on its quick ratio for FY22. As of December 31, 2022, AMD's quick ratio was approximately 1.77, calculated as follows:
+
+Quick Ratio = (Current Assets - Inventories) / Current Liabilities
+
+From the Consolidated Balance Sheet:
+- Total current assets: $15,019 million
+- Inventories: $3,771 million
+- Total current liabilities: $6,369 million
+
+Quick Ratio = ($15,019 - $3,771) / $6,369 = $11,248 / $6,369 = 1.77
+
+A quick ratio above 1.0 is generally considered healthy, as it indicates the company has more than $1 in liquid assets for every $1 of current liabilities. AMD's ratio of 1.77 suggests the company has strong liquidity and sufficient liquid resources to meet its short-term obligations without relying on inventory conversion. This indicates a solid liquidity position."

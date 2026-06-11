@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_01198",
+  "company": "AMD",
+  "doc_name": "AMD_2022_10K.pdf",
+  "question": "What drove revenue change as of the FY22 for AMD?",
+  "gold_answer": "In 2022, AMD reported Higher sales of their EPYC server processors, higher semi-custom product sales, and the inclusion of Xilinx embedded product sales",
+  "predicted": "AMD's FY22 revenue increased by $7.2 billion (44%) to $23.6 billion from $16.4 billion in FY21. The primary drivers were: (1) The Xilinx acquisition completed in February 2022, which added $4.3 billion in Embedded segment revenue; (2) Data Center segment growth of 64% ($2.3 billion increase) driven by higher sales of EPYC server processors; and (3) Gaming segment growth of 21% ($1.2 billion increase) driven by higher semi-custom product sales for gaming console SoCs. These gains were partially offset by a 10% decline in the Client segment ($686 million decrease) due to challenging PC market conditions and inventory correction.",
+  "reasoning": "The question asks what drove revenue change as of FY22 for AMD. I need to find information about AMD's revenue changes in fiscal year 2022 compared to 2021.\n\nFrom page 48, I can see the segment revenue comparison:\n- Total net revenue FY22: $23,601 million\n- Total net revenue FY21: $16,434 million\n- This represents an increase of $7,167 million or 43.6%\n\nLooking at the segment-by-segment breakdown on page 48:\n\n1. Data Center: $6,043M (2022) vs $3,694M (2021) = +64% increase\n   - Driven by \"higher sales of our EPYC server processors\"\n\n2. Client: $6,201M (2022) vs $6,887M (2021) = -10% decrease\n   - Driven by \"24% decrease in unit shipment, partially offset by 19% increase in average selling price\"\n   - Decrease due to \"challenging PC market conditions and significant inventory correction\"\n\n3. Gaming: $6,805M (2022) vs $5,607M (2021) = +21% increase\n   - Driven by \"higher semi-custom product sales due to higher demand for gaming console SoCs, partially offset by lower gaming graphics sales\"\n\n4. Embedded: $4,552M (2022) vs $246M (2021) = massive increase\n   - Driven by \"inclusion of Xilinx embedded product revenue as a result of the acquisition of Xilinx in February 2022\"\n\nThe PRIMARY drivers of overall revenue change were:\n1. The Xilinx acquisition (Embedded segment added $4.3B in new revenue)\n2. Data Center growth from EPYC processors (+$2.3B)\n3. Gaming growth from semi-custom products (+$1.2B)\n4. Partially offset by Client segment decline (-$686M)",
+  "selected_pages": "44-52, 67-69",
+  "cited_pages": [
+    48,
+    49
+  ],
+  "gold_pages": [
+    42
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}
