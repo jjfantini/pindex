@@ -18,5 +18,6 @@
   "answer_ok": false,
   "hallucinated": true,
   "page_hit": false,
-  "label": "NAL"
+  "label": "BE",
+  "label_reason": "Label: BE - Benchmark Error\n\nDetailed Reason: The questions asks for top-line revenue, but the answers gives the best by comparable-sales percentage. Pindex is correct by listing the highest revenue category by revenue and market share."
 }

@@ -19,5 +19,6 @@
   "answer_ok": false,
   "hallucinated": true,
   "page_hit": false,
-  "label": "NAL"
+  "label": "SEDC",
+  "label_reason": "Label: SEDC - Same Evidence, Different Conclusion\n\nDetailed Reason: low cited the same CEO background as gold (Mary N. Dillon, Ulta CEO 2013-2021, omni-channel retail on p.2/30). Evidence extraction and facts are correct. Conclusion diverges on subjective \"similar company\": pindex treated athletic vs beauty retail as not similar; gold treats large B&M+online retail (Ulta) as similar to Foot Locker. Both are defensible readings of the same passages. Adjudicated 2026-06-11."
 }

@@ -157,12 +157,12 @@ func TestAutoLabelAndAdjusted(t *testing.T) {
 	if AutoLabel(false) != LabelNAL {
 		t.Error("wrong should auto-label NAL")
 	}
-	for _, l := range []string{LabelAL, LabelMVA, LabelBE} {
+	for _, l := range []string{LabelAL, LabelMVA, LabelBE, LabelSEDC} {
 		if !AdjustedCorrect(l) {
 			t.Errorf("%s should count as adjusted-correct", l)
 		}
 	}
-	for _, l := range []string{LabelNAL, LabelSEDC, ""} {
+	for _, l := range []string{LabelNAL, ""} {
 		if AdjustedCorrect(l) {
 			t.Errorf("%s should NOT count as adjusted-correct", l)
 		}
@@ -381,6 +381,18 @@ func TestRescoreExcusesMVABE(t *testing.T) {
 	}
 	if adjusted != 1.0 {
 		t.Errorf("adjusted after NAL->BE = %v, want 1.0", adjusted)
+	}
+
+	// Same-evidence different valid conclusion is also excused.
+	if _, err := WriteMafinResult(dir, "gpt-4o", mk(LabelSEDC)); err != nil {
+		t.Fatal(err)
+	}
+	_, adjusted, _, _, err = Rescore(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if adjusted != 1.0 {
+		t.Errorf("adjusted after NAL->SEDC = %v, want 1.0", adjusted)
 	}
 }
 

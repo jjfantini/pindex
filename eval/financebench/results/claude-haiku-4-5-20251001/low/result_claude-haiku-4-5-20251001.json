@@ -16,7 +16,7 @@
  {
   "id": "financebench_id_00460",
   "question": "Was there any change in the number of Best Buy stores between Q2 of FY2024 and FY2023?",
-  "label": "NAL",
+  "label": "BE",
   "benchmark_answer": "Yes, there is decline in number stores by 1.32% from 982 stores in Q2 FY 2023 to 969 by the end of Q2 FY2024.",
   "pindex_answer": "Yes, there was a change in the number of Best Buy stores between Q2 of FY2024 and Q2 of FY2023. Best Buy stores decreased from 930 stores at the end of Q2 FY2023 to 907 stores at the end of Q2 FY2024, representing a decrease of 23 stores."
  },
@@ -51,7 +51,7 @@
  {
   "id": "financebench_id_00839",
   "question": "Does Foot Locker's new CEO have previous CEO experience in a similar company to Footlocker?",
-  "label": "NAL",
+  "label": "SEDC",
   "benchmark_answer": "Yes. She was previous CEO of Ulta Beauty which means she had to manage a large retail company that has brick and mortar + online business. So yes she was a CEO in a similar company to Foot Locker before this.",
   "pindex_answer": "Mary N. Dillon has previous CEO experience in retail (Ulta Beauty, where she served as CEO from July 2013 through June 2021), but not in a company similar to Foot Locker. Ulta Beauty is a beauty retailer, whereas Foot Locker is a specialty athletic retailer. Her other CEO experience was at U.S. Cellular (telecom), which is also not similar to Foot Locker's business. While she has extensive consumer-driven business experience across multiple industries, she does not have prior CEO experience in athletic retail or a company directly comparable to Foot Locker."
  },
@@ -121,7 +121,7 @@
  {
   "id": "financebench_id_01902",
   "question": "Which Best Buy product category performed the best (by top line) in the domestic (USA) Market during Q2 of FY2024?",
-  "label": "NAL",
+  "label": "BE",
   "benchmark_answer": "The entertainment segment experienced the highest growth of 9% during Q2 FY2024, primarily from gaming division.",
   "pindex_answer": "Computing and Mobile Phones performed the best in the domestic (USA) market during Q2 of FY2024 (three months ended July 29, 2023) with revenue of $3,674 million."
  }

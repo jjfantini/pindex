@@ -19,5 +19,6 @@
   "answer_ok": false,
   "hallucinated": true,
   "page_hit": false,
-  "label": "NAL"
+  "label": "SEDC",
+  "label_reason": "Label: SEDC - Same Evidence, Different Conclusion\n\nDetailed Reason: medium matched low (no refusal retry). Same CEO/Ulta evidence on p.2/30; disagreement is interpretive on \"similar company\" not missing or misread data. Adjudicated 2026-06-11."
 }
