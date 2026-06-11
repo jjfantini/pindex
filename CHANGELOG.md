@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0](https://github.com/jjfantini/pindex/compare/v0.3.0...v0.4.0) (2026-06-10)
+
+
+### Features
+
+* **eval:** always save results, defaulting to .pindex/evals next to the workspace ([3a332ce](https://github.com/jjfantini/pindex/commit/3a332ce921d2105518ddc562a52ace135b3bb43d))
+* **eval:** always save results, defaulting to .pindex/evals next to the workspace ([eb175ef](https://github.com/jjfantini/pindex/commit/eb175efbdc79adb4a8f82c3bd284ad52c310682e))
+* **eval:** default eval output to .pindex/evals (always-saved, suffixed re-runs) ([348c539](https://github.com/jjfantini/pindex/commit/348c539b6490c1241d236d146c0f04fdc6bc82b7))
+
 ## [0.3.0](https://github.com/jjfantini/pindex/compare/v0.2.0...v0.3.0) (2026-06-10)
 
 
