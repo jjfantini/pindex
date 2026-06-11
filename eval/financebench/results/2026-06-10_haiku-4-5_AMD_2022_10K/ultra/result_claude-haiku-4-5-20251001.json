@@ -1,51 +1,51 @@
 [
-  {
-    "id": "financebench_id_00222",
-    "question": "Does AMD have a reasonably healthy liquidity profile based on its quick ratio for FY22? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
-    "label": "NAL",
-    "benchmark_answer": "Yes. The quick ratio is 1.57, calculated as (cash and cash equivalents+Short term investments+Accounts receivable, net+receivables from related parties)/ (current liabilities).",
-    "pindex_answer": "Yes, AMD has a reasonably healthy liquidity profile based on its quick ratio for FY22. As of December 31, 2022, AMD's quick ratio was approximately 1.77, calculated as follows:\n\nQuick Ratio = (Current Assets - Inventories) / Current Liabilities\n\nFrom the Consolidated Balance Sheet:\n- Total current assets: $15,019 million\n- Inventories: $3,771 million\n- Total current liabilities: $6,369 million\n\nQuick Ratio = ($15,019 - $3,771) / $6,369 = $11,248 / $6,369 = 1.77\n\nA quick ratio above 1.0 is generally considered healthy, as it indicates the company has more than $1 in liquid assets for every $1 of current liabilities. AMD's ratio of 1.77 suggests the company has strong liquidity and sufficient liquid resources to meet its short-term obligations without relying on inventory conversion. This indicates a solid liquidity position."
-  },
-  {
-    "id": "financebench_id_00995",
-    "question": "What are the major products and services that AMD sells as of FY22?",
-    "label": "AL",
-    "benchmark_answer": "AMD sells server microprocessors (CPUs) and graphics processing units (GPUs), data processing units (DPUs), Field Programmable Gate Arrays (FPGAs), and Adaptive System-on-Chip (SoC) products for data centers; CPUs, accelerated processing units (APUs) that integrate CPUs and GPUs, and chipsets for desktop and notebook personal computers; discrete GPUs, and semi-custom SoC products and development services; and embedded CPUs, GPUs, APUs, FPGAs, and Adaptive SoC products.",
-    "pindex_answer": "As of fiscal year 2022, AMD's major products and services are organized into four reportable segments:\n\n**Data Center Segment:**\n- Server microprocessors (CPUs) - AMD EPYC Series processors (9004, 7003, and 7002 Series)\n- Graphics processing units (GPUs) - AMD Instinct family for AI training and supercomputing\n- Data processing units (DPUs) - AMD Pensando DPUs for infrastructure services\n- FPGAs and Adaptive SoCs - Virtex, Kintex, Zynq, and Versal products\n- Visual cloud GPUs - Radeon PRO V families for remote visualization\n\n**Client Segment:**\n- Desktop CPUs - AMD Ryzen and AMD Athlon series processors\n- Notebook/Mobile CPUs - AMD Ryzen and AMD Athlon mobile processors\n- Commercial CPUs - AMD PRO and AMD Threadripper PRO processors\n- Chipsets - X670, B650, X570, B550, A520, B450, A320, and WRX80 chipsets\n\n**Gaming Segment:**\n- Semi-custom SoCs - Custom solutions for gaming consoles (PlayStation 5, Xbox Series S/X, Steam Deck)\n- Discrete GPUs - AMD Radeon RX series (7900 and 6000 series)\n- Professional GPUs - AMD Radeon PRO workstation graphics\n\n**Embedded Segment:**\n- Embedded CPUs, APUs, and GPUs - AMD Embedded EPYC, Ryzen V-Series, and Ryzen R-Series\n- FPGAs - UltraScale+, UltraScale, 7 Series, and legacy families\n- Adaptive SoCs - Zynq, Zynq MPSoC, Zynq RFSoCs, and Versal products\n- Development boards and kits\n\nAdditionally, AMD sells or licenses portions of its intellectual property portfolio."
-  },
-  {
-    "id": "financebench_id_01198",
-    "question": "What drove revenue change as of the FY22 for AMD?",
-    "label": "AL",
-    "benchmark_answer": "In 2022, AMD reported Higher sales of their EPYC server processors, higher semi-custom product sales, and the inclusion of Xilinx embedded product sales",
-    "pindex_answer": "AMD's FY2022 revenue increased 44% to $23.6 billion from $16.4 billion in FY2021, driven by the following segment-specific factors:\n\n1. **Data Center (+64% growth)**: Primarily driven by higher sales of EPYC server processors.\n\n2. **Client (-10% decline)**: Decreased due to a 24% decline in unit shipments caused by challenging PC market conditions and significant inventory correction across the PC supply chain in the second half of 2022, partially offset by a 19% increase in average selling price from a richer mix of Ryzen mobile processor sales.\n\n3. **Gaming (+21% growth)**: Driven by higher semi-custom product sales due to increased demand for gaming console SoCs, partially offset by lower gaming graphics sales due to soft consumer demand from weakened macroeconomic conditions.\n\n4. **Embedded (significant increase)**: Primarily driven by the inclusion of Xilinx embedded product revenue following AMD's acquisition of Xilinx in February 2022, which increased revenue from $246 million to $4.6 billion.\n\nOverall, the major revenue growth was driven by strong Data Center performance and the Xilinx acquisition contribution to the Embedded segment, which more than offset the Client segment decline."
-  },
-  {
-    "id": "financebench_id_00917",
-    "question": "What drove operating margin change as of the FY22 for AMD? If operating margin is not a useful metric for a company like this, then please state that and explain why.",
-    "label": "AL",
-    "benchmark_answer": "The decrease in AMD's operating income was primarily driven by amortization of intangible assets associated with the Xilinx acquisition",
-    "pindex_answer": "Based on AMD's FY22 financial statements, operating margin declined significantly from 22.2% in FY21 to 5.4% in FY22 (a 1,680 basis point decrease).\n\n**Key Drivers of Operating Margin Decline:**\n\n1. **Gross Margin Compression (300 bps)**: Gross margin fell from 48% to 45%. As stated on page 49: \"The decrease in gross margin was primarily due to amortization of intangible assets associated with the Xilinx acquisition.\" Specifically, cost of sales included $1.448 billion in amortization of acquisition-related intangibles in FY22 versus $0 in FY21.\n\n2. **Operating Expense Increases (1,380 bps)**: Operating expenses increased substantially:\n   - R\u0026D expenses increased by $2.2 billion (76%) to $5.0 billion, \"primarily driven by strategic investments across all of our segments, including an increase in headcount through acquisitions and organic growth\" (page 50)\n   - MG\u0026A expenses increased by $888 million (61%) to $2.3 billion, \"primarily due to an increase in headcount through acquisitions and organic growth, go-to-market activities, and acquisition-related costs\" (page 50)\n   - Operating expenses included $2.1 billion in amortization of acquisition-related intangibles in FY22 versus $0 in FY21\n\n3. **\"All Other\" Operating Loss**: This category swung from a $409 million loss in FY21 to a $5.0 billion loss in FY22. As stated on page 49: \"All Other operating loss of $5.0 billion in 2022 primarily consisted of $3.5 billion of amortization of acquisition-related intangibles, $1.1 billion of stock-based compensation expense, and $452 million of acquisition-related costs.\"\n\nThe document does not explicitly state whether operating margin is or is not a useful metric for analyzing AMD in FY22."
-  },
-  {
-    "id": "financebench_id_01279",
-    "question": "Among operations, investing, and financing activities, which brought in the most (or lost the least) cash flow for AMD in FY22?",
-    "label": "AL",
-    "benchmark_answer": "In 2022, AMD brought in the most cashflow from Operations",
-    "pindex_answer": "Among the three categories of cash flow activities in FY22, **operating activities brought in the most cash** at **$3,565 million**. Investing activities also generated positive cash flow of $1,999 million, while financing activities used $3,264 million in cash."
-  },
-  {
-    "id": "financebench_id_00563",
-    "question": "From FY21 to FY22, excluding Embedded, in which AMD reporting segment did sales proportionally increase the most?",
-    "label": "AL",
-    "benchmark_answer": "Data Center",
-    "pindex_answer": "Data Center had the largest proportional sales increase from FY21 to FY22, excluding Embedded. Data Center revenue grew from $3,694 million in FY21 to $6,043 million in FY22, representing a 63.6% increase. In comparison, Gaming grew 21.4% (from $5,607M to $6,805M), while Client actually declined 10.0% (from $6,887M to $6,201M)."
-  },
-  {
-    "id": "financebench_id_00757",
-    "question": "Did AMD report customer concentration in FY22?",
-    "label": "AL",
-    "benchmark_answer": "Yes, one customer accounted for 16% of consolidated net revenue",
-    "pindex_answer": "Yes, AMD reported customer concentration in FY22. According to Note 4 (Segment Reporting) in the financial statements, Customer A accounted for 16% of the Company's consolidated net revenue in 2022. Additionally, the document notes that Customer A's sales came from the Gaming segment, while Customer B (which represented 11% of revenue in 2021) fell below the 10% threshold in 2022."
-  }
+ {
+  "id": "financebench_id_00222",
+  "question": "Does AMD have a reasonably healthy liquidity profile based on its quick ratio for FY22? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
+  "label": "MVA",
+  "benchmark_answer": "Yes. The quick ratio is 1.57, calculated as (cash and cash equivalents+Short term investments+Accounts receivable, net+receivables from related parties)/ (current liabilities).",
+  "pindex_answer": "Yes, AMD has a reasonably healthy liquidity profile based on its quick ratio for FY22. As of December 31, 2022, AMD's quick ratio was approximately 1.77, calculated as follows:\n\nQuick Ratio = (Current Assets - Inventories) / Current Liabilities\n\nFrom the Consolidated Balance Sheet:\n- Total current assets: $15,019 million\n- Inventories: $3,771 million\n- Total current liabilities: $6,369 million\n\nQuick Ratio = ($15,019 - $3,771) / $6,369 = $11,248 / $6,369 = 1.77\n\nA quick ratio above 1.0 is generally considered healthy, as it indicates the company has more than $1 in liquid assets for every $1 of current liabilities. AMD's ratio of 1.77 suggests the company has strong liquidity and sufficient liquid resources to meet its short-term obligations without relying on inventory conversion. This indicates a solid liquidity position."
+ },
+ {
+  "id": "financebench_id_00995",
+  "question": "What are the major products and services that AMD sells as of FY22?",
+  "label": "AL",
+  "benchmark_answer": "AMD sells server microprocessors (CPUs) and graphics processing units (GPUs), data processing units (DPUs), Field Programmable Gate Arrays (FPGAs), and Adaptive System-on-Chip (SoC) products for data centers; CPUs, accelerated processing units (APUs) that integrate CPUs and GPUs, and chipsets for desktop and notebook personal computers; discrete GPUs, and semi-custom SoC products and development services; and embedded CPUs, GPUs, APUs, FPGAs, and Adaptive SoC products.",
+  "pindex_answer": "As of fiscal year 2022, AMD's major products and services are organized into four reportable segments:\n\n**Data Center Segment:**\n- Server microprocessors (CPUs) - AMD EPYC Series processors (9004, 7003, and 7002 Series)\n- Graphics processing units (GPUs) - AMD Instinct family for AI training and supercomputing\n- Data processing units (DPUs) - AMD Pensando DPUs for infrastructure services\n- FPGAs and Adaptive SoCs - Virtex, Kintex, Zynq, and Versal products\n- Visual cloud GPUs - Radeon PRO V families for remote visualization\n\n**Client Segment:**\n- Desktop CPUs - AMD Ryzen and AMD Athlon series processors\n- Notebook/Mobile CPUs - AMD Ryzen and AMD Athlon mobile processors\n- Commercial CPUs - AMD PRO and AMD Threadripper PRO processors\n- Chipsets - X670, B650, X570, B550, A520, B450, A320, and WRX80 chipsets\n\n**Gaming Segment:**\n- Semi-custom SoCs - Custom solutions for gaming consoles (PlayStation 5, Xbox Series S/X, Steam Deck)\n- Discrete GPUs - AMD Radeon RX series (7900 and 6000 series)\n- Professional GPUs - AMD Radeon PRO workstation graphics\n\n**Embedded Segment:**\n- Embedded CPUs, APUs, and GPUs - AMD Embedded EPYC, Ryzen V-Series, and Ryzen R-Series\n- FPGAs - UltraScale+, UltraScale, 7 Series, and legacy families\n- Adaptive SoCs - Zynq, Zynq MPSoC, Zynq RFSoCs, and Versal products\n- Development boards and kits\n\nAdditionally, AMD sells or licenses portions of its intellectual property portfolio."
+ },
+ {
+  "id": "financebench_id_01198",
+  "question": "What drove revenue change as of the FY22 for AMD?",
+  "label": "AL",
+  "benchmark_answer": "In 2022, AMD reported Higher sales of their EPYC server processors, higher semi-custom product sales, and the inclusion of Xilinx embedded product sales",
+  "pindex_answer": "AMD's FY2022 revenue increased 44% to $23.6 billion from $16.4 billion in FY2021, driven by the following segment-specific factors:\n\n1. **Data Center (+64% growth)**: Primarily driven by higher sales of EPYC server processors.\n\n2. **Client (-10% decline)**: Decreased due to a 24% decline in unit shipments caused by challenging PC market conditions and significant inventory correction across the PC supply chain in the second half of 2022, partially offset by a 19% increase in average selling price from a richer mix of Ryzen mobile processor sales.\n\n3. **Gaming (+21% growth)**: Driven by higher semi-custom product sales due to increased demand for gaming console SoCs, partially offset by lower gaming graphics sales due to soft consumer demand from weakened macroeconomic conditions.\n\n4. **Embedded (significant increase)**: Primarily driven by the inclusion of Xilinx embedded product revenue following AMD's acquisition of Xilinx in February 2022, which increased revenue from $246 million to $4.6 billion.\n\nOverall, the major revenue growth was driven by strong Data Center performance and the Xilinx acquisition contribution to the Embedded segment, which more than offset the Client segment decline."
+ },
+ {
+  "id": "financebench_id_00917",
+  "question": "What drove operating margin change as of the FY22 for AMD? If operating margin is not a useful metric for a company like this, then please state that and explain why.",
+  "label": "AL",
+  "benchmark_answer": "The decrease in AMD's operating income was primarily driven by amortization of intangible assets associated with the Xilinx acquisition",
+  "pindex_answer": "Based on AMD's FY22 financial statements, operating margin declined significantly from 22.2% in FY21 to 5.4% in FY22 (a 1,680 basis point decrease).\n\n**Key Drivers of Operating Margin Decline:**\n\n1. **Gross Margin Compression (300 bps)**: Gross margin fell from 48% to 45%. As stated on page 49: \"The decrease in gross margin was primarily due to amortization of intangible assets associated with the Xilinx acquisition.\" Specifically, cost of sales included $1.448 billion in amortization of acquisition-related intangibles in FY22 versus $0 in FY21.\n\n2. **Operating Expense Increases (1,380 bps)**: Operating expenses increased substantially:\n   - R&D expenses increased by $2.2 billion (76%) to $5.0 billion, \"primarily driven by strategic investments across all of our segments, including an increase in headcount through acquisitions and organic growth\" (page 50)\n   - MG&A expenses increased by $888 million (61%) to $2.3 billion, \"primarily due to an increase in headcount through acquisitions and organic growth, go-to-market activities, and acquisition-related costs\" (page 50)\n   - Operating expenses included $2.1 billion in amortization of acquisition-related intangibles in FY22 versus $0 in FY21\n\n3. **\"All Other\" Operating Loss**: This category swung from a $409 million loss in FY21 to a $5.0 billion loss in FY22. As stated on page 49: \"All Other operating loss of $5.0 billion in 2022 primarily consisted of $3.5 billion of amortization of acquisition-related intangibles, $1.1 billion of stock-based compensation expense, and $452 million of acquisition-related costs.\"\n\nThe document does not explicitly state whether operating margin is or is not a useful metric for analyzing AMD in FY22."
+ },
+ {
+  "id": "financebench_id_01279",
+  "question": "Among operations, investing, and financing activities, which brought in the most (or lost the least) cash flow for AMD in FY22?",
+  "label": "AL",
+  "benchmark_answer": "In 2022, AMD brought in the most cashflow from Operations",
+  "pindex_answer": "Among the three categories of cash flow activities in FY22, **operating activities brought in the most cash** at **$3,565 million**. Investing activities also generated positive cash flow of $1,999 million, while financing activities used $3,264 million in cash."
+ },
+ {
+  "id": "financebench_id_00563",
+  "question": "From FY21 to FY22, excluding Embedded, in which AMD reporting segment did sales proportionally increase the most?",
+  "label": "AL",
+  "benchmark_answer": "Data Center",
+  "pindex_answer": "Data Center had the largest proportional sales increase from FY21 to FY22, excluding Embedded. Data Center revenue grew from $3,694 million in FY21 to $6,043 million in FY22, representing a 63.6% increase. In comparison, Gaming grew 21.4% (from $5,607M to $6,805M), while Client actually declined 10.0% (from $6,887M to $6,201M)."
+ },
+ {
+  "id": "financebench_id_00757",
+  "question": "Did AMD report customer concentration in FY22?",
+  "label": "AL",
+  "benchmark_answer": "Yes, one customer accounted for 16% of consolidated net revenue",
+  "pindex_answer": "Yes, AMD reported customer concentration in FY22. According to Note 4 (Segment Reporting) in the financial statements, Customer A accounted for 16% of the Company's consolidated net revenue in 2022. Additionally, the document notes that Customer A's sales came from the Gaming segment, while Customer B (which represented 11% of revenue in 2021) fell below the 10% threshold in 2022."
+ }
 ]
