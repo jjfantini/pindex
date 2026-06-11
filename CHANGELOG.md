@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0](https://github.com/jjfantini/pindex/compare/v0.5.0...v0.6.0) (2026-06-11)
+
+
+### Features
+
+* Charm-based animated, agent-safe CLI presentation layer ([0be41a6](https://github.com/jjfantini/pindex/commit/0be41a6b0400d03b04df6fc9462c5ba08528d1bc))
+* **cli:** wire animated, agent-safe Charm UI into every command ([fa1ecc9](https://github.com/jjfantini/pindex/commit/fa1ecc9f0d6110b82b481fab20ddef478008e8e0))
+* **index:** report build-stage progress from the Builder ([3eecf6d](https://github.com/jjfantini/pindex/commit/3eecf6de10cd9b6544ab00bc00e9d8133f9fe6cc))
+* **llm:** emit resilience and cache events through an Observer hook ([1ab7d4b](https://github.com/jjfantini/pindex/commit/1ab7d4b2f734c0154d76e03a896b4d5ce439bb17))
+* **ui:** add Charm-based terminal presentation layer ([dedd67d](https://github.com/jjfantini/pindex/commit/dedd67dafe157e6eddabe5f04206af2d96ac911d))
+
 ## [0.5.0](https://github.com/jjfantini/pindex/compare/v0.4.0...v0.5.0) (2026-06-11)
 
 
