@@ -82,12 +82,13 @@ func newEvalCmd() *cobra.Command {
 				return err
 			}
 
+			u, logger, _ := newUI(c)
 			rpm, _ := c.Flags().GetInt("rpm")
-			retrieveProvider, err := buildProvider(cfg.RetrieveModelOrDefault(), cacheDir, rpm)
+			retrieveProvider, err := buildProvider(cfg.RetrieveModelOrDefault(), cacheDir, rpm, llmObserver(logger))
 			if err != nil {
 				return err
 			}
-			judgeProvider, err := buildProvider(judgeModel, cacheDir, rpm)
+			judgeProvider, err := buildProvider(judgeModel, cacheDir, rpm, llmObserver(logger))
 			if err != nil {
 				return err
 			}
@@ -99,37 +100,55 @@ func newEvalCmd() *cobra.Command {
 			}
 			asker := ask.New(retrieveProvider, cfg.RetrieveModelOrDefault())
 			asker.Effort = effort
-			results, agg := financebench.Run(c.Context(), asker, judgeProvider, judgeModel, questions, lookup)
 
+			u.Header("eval", qpath)
+			u.Infof("%d questions · model %s · judge %s · effort %s",
+				len(questions), cfg.RetrieveModelOrDefault(), judgeModel, effort)
+			st := u.Styles()
 			flag := func(b bool, yes string) string {
 				if b {
 					return yes
 				}
 				return "-"
 			}
-			for _, r := range results {
+			// Per-question lines stream as each finishes, so a long run shows
+			// live progress instead of going silent until the end.
+			done := 0
+			progress := func(r financebench.RunResult) {
+				done++
+				prefix := st.Dim.Render(fmt.Sprintf("[%d/%d]", done, len(questions))) + " "
 				if r.Err != nil {
-					_, _ = fmt.Fprintf(c.ErrOrStderr(), "[err] %s: %v\n", r.Question.ID, r.Err)
-					continue
+					u.Errorf("%s%s: %v", prefix, r.Question.ID, r.Err)
+					return
+				}
+				icon := st.IconErr
+				if r.Correct {
+					icon = st.IconOK
 				}
 				hal := ""
 				if r.Hallucinated {
-					hal = " HALLUC"
+					hal = " " + st.Error.Render("HALLUC")
 				}
 				// Per-question stage flags: extraction / retrieval / answer.
-				_, _ = fmt.Fprintf(c.ErrOrStderr(), "[ext:%s ret:%s ans:%s%s] %s  gold=%q pred=%q cited=%v\n",
-					flag(r.EvidenceInDoc, "Y"), flag(r.EvidenceHit, "Y"), flag(r.Correct, "Y"), hal,
-					r.Question.ID, clip(r.Question.Answer, 50), clip(r.Predicted, 80), r.Cited)
+				flags := fmt.Sprintf("ext:%s ret:%s ans:%s", flag(r.EvidenceInDoc, "Y"), flag(r.EvidenceHit, "Y"), flag(r.Correct, "Y"))
+				u.Println(icon + " " + prefix + st.Accent.Render(r.Question.ID) + " " + st.Dim.Render("["+flags+"]") + hal +
+					st.Dim.Render(fmt.Sprintf("  gold=%q pred=%q cited=%v", clip(r.Question.Answer, 50), clip(r.Predicted, 80), r.Cited)))
 			}
+			results, agg := financebench.Run(c.Context(), asker, judgeProvider, judgeModel, questions, lookup, progress)
 
 			ext, ret, ansr, hal := agg.Funnel()
-			out := c.OutOrStdout()
-			_, _ = fmt.Fprintf(out, "\n=== stage funnel (scored %d/%d) ===\n", agg.Scored, agg.Total)
-			_, _ = fmt.Fprintf(out, "  extraction (evidence in extracted text): %5.1f%%\n", ext*100)
-			_, _ = fmt.Fprintf(out, "  retrieval  (cited page holds evidence):  %5.1f%%   [evidence-recall]\n", ret*100)
-			_, _ = fmt.Fprintf(out, "  answer     (judged correct):             %5.1f%%   [answer-accuracy]\n", ansr*100)
-			_, _ = fmt.Fprintf(out, "  hallucination (confident-wrong):         %5.1f%%\n", hal*100)
-			_, _ = fmt.Fprintf(out, "  (page-number recall %.1f%%, alignment-sensitive)\n", agg.RecallAtPage()*100)
+			uo := newUIWriter(c, c.OutOrStdout())
+			pct := func(v float64) string { return fmt.Sprintf("%5.1f%%", v*100) }
+			_, _ = fmt.Fprintln(c.OutOrStdout(), "\n"+uo.Styles().Title.Render(fmt.Sprintf("stage funnel · scored %d/%d", agg.Scored, agg.Total)))
+			_, _ = fmt.Fprintln(c.OutOrStdout(), uo.Table(
+				[]string{"stage", "rate", "meaning"},
+				[][]string{
+					{"extraction", pct(ext), "evidence present in extracted text"},
+					{"retrieval", pct(ret), "cited page holds evidence (evidence-recall)"},
+					{"answer", pct(ansr), "judged correct (answer-accuracy)"},
+					{"hallucination", pct(hal), "confident-wrong"},
+					{"page recall", pct(agg.RecallAtPage()), "page-number match (alignment-sensitive)"},
+				}))
 
 			// Results are always saved: an eval run costs real API calls, so its
 			// artifacts are never thrown away. Without --out they land in
@@ -161,7 +180,7 @@ func newEvalCmd() *cobra.Command {
 			if err := exportout.ExportEval(outDir, sum, questions, results, lookup, inclPages, model); err != nil {
 				return err
 			}
-			_, _ = fmt.Fprintf(c.ErrOrStderr(), "wrote results to %s\n", outDir)
+			u.Notef("wrote results to %s", outDir)
 			return nil
 		},
 	}

@@ -86,6 +86,14 @@ pindex extract report.pdf --backend mupdf
 
 Common flags: `--model`, `--workspace`, `--cache-dir`, `--env-file`, `--config`.
 
+### Output modes
+
+The CLI separates payload from presentation so both humans and agents can drive it:
+
+- **stdout** carries only machine-readable payload (JSON trees, answer text, extracted pages) — safe to pipe or parse.
+- **stderr** carries the presentation layer: on a TTY it animates (spinner, colors, summary boxes); when piped or sandboxed it automatically degrades to plain line-oriented progress with zero control codes. Force it with `--plain` or `PINDEX_PLAIN=1`; `NO_COLOR` is honored.
+- `--verbose` streams under-the-hood diagnostics to stderr — per-call LLM timings, prompt-cache hits, retry backoff, and circuit-breaker state — so a failing run is diagnosable from its own output.
+
 ## Configuration
 
 A YAML config (via `--config`) overrides the built-in defaults, which mirror PageIndex:

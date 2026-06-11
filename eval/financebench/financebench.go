@@ -289,22 +289,30 @@ func (a Aggregate) EvidenceRecall() float64 {
 }
 
 // Run answers and scores each question against a pre-indexed corpus. lookup maps
-// a FinanceBench doc_name to its indexed Document.
-func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel string, questions []Question, lookup func(docName string) (tree.Document, bool)) ([]RunResult, Aggregate) {
+// a FinanceBench doc_name to its indexed Document. progress, if non-nil, is
+// invoked once per question as it finishes (the run is sequential, so it is
+// safe to print from).
+func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel string, questions []Question, lookup func(docName string) (tree.Document, bool), progress func(RunResult)) ([]RunResult, Aggregate) {
 	results := make([]RunResult, 0, len(questions))
 	agg := Aggregate{Total: len(questions)}
+	emit := func(r RunResult) {
+		results = append(results, r)
+		if progress != nil {
+			progress(r)
+		}
+	}
 	for _, q := range questions {
 		r := RunResult{Question: q, GoldPages: GoldPages(q)}
 		doc, ok := lookup(q.DocName)
 		if !ok {
 			r.Err = fmt.Errorf("document %q not indexed in workspace", q.DocName)
-			results = append(results, r)
+			emit(r)
 			continue
 		}
 		ans, err := asker.Ask(ctx, doc, q.Question)
 		if err != nil {
 			r.Err = err
-			results = append(results, r)
+			emit(r)
 			continue
 		}
 		r.Predicted = ans.Text
@@ -319,7 +327,7 @@ func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel s
 		correct, jerr := Judge(ctx, judge, judgeModel, q, ans.Text)
 		if jerr != nil {
 			r.Err = jerr
-			results = append(results, r)
+			emit(r)
 			continue
 		}
 		r.Correct = correct
@@ -341,7 +349,7 @@ func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel s
 		if r.Hallucinated {
 			agg.HallucinatedCount++
 		}
-		results = append(results, r)
+		emit(r)
 	}
 	return results, agg
 }

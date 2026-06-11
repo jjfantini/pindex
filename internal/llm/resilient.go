@@ -76,6 +76,7 @@ type ResilientProvider struct {
 	policy  RetryPolicy
 	breaker *circuitBreaker
 	limiter Limiter
+	obs     Observer
 	wait    func(ctx context.Context, d time.Duration) error
 }
 
@@ -84,6 +85,10 @@ type Option func(*ResilientProvider)
 
 // WithLimiter sets the rate limiter.
 func WithLimiter(l Limiter) Option { return func(p *ResilientProvider) { p.limiter = l } }
+
+// WithObserver streams resilience events (attempt timings, retries, breaker
+// trips) to obs for diagnostics. A nil obs is a no-op.
+func WithObserver(obs Observer) Option { return func(p *ResilientProvider) { p.obs = obs } }
 
 // WithBreaker enables a circuit breaker that opens after maxFailures and recovers
 // after cooldown.
@@ -132,15 +137,19 @@ func (p *ResilientProvider) Complete(ctx context.Context, req Request) (Response
 	var lastErr error
 	for attempt := 1; attempt <= p.policy.MaxAttempts; attempt++ {
 		if p.breaker != nil && !p.breaker.allow() {
+			p.obs.emit(Event{Kind: EventBreakerOpen, Provider: p.inner.Name(), Model: req.Model, Attempt: attempt})
 			return Response{}, ErrCircuitOpen
 		}
+		start := time.Now()
 		resp, err := p.inner.Complete(ctx, req)
 		if err == nil {
 			if p.breaker != nil {
 				p.breaker.onSuccess()
 			}
+			p.obs.emit(Event{Kind: EventCallOK, Provider: p.inner.Name(), Model: req.Model, Attempt: attempt, Duration: time.Since(start)})
 			return resp, nil
 		}
+		p.obs.emit(Event{Kind: EventCallError, Provider: p.inner.Name(), Model: req.Model, Attempt: attempt, Duration: time.Since(start), Err: err})
 		// Rate-limit 429s are backpressure, not provider death — retry them but
 		// do NOT count them toward opening the breaker (else a busy provider
 		// cascades into ErrCircuitOpen across a whole batch).
@@ -151,7 +160,9 @@ func (p *ResilientProvider) Complete(ctx context.Context, req Request) (Response
 		if !IsRetryable(err) || attempt == p.policy.MaxAttempts {
 			return Response{}, err
 		}
-		if werr := p.wait(ctx, backoffDelay(attempt, p.policy.BaseDelay, p.policy.MaxDelay)); werr != nil {
+		delay := backoffDelay(attempt, p.policy.BaseDelay, p.policy.MaxDelay)
+		p.obs.emit(Event{Kind: EventRetry, Provider: p.inner.Name(), Model: req.Model, Attempt: attempt, Delay: delay, Err: err})
+		if werr := p.wait(ctx, delay); werr != nil {
 			return Response{}, werr
 		}
 	}

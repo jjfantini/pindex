@@ -30,6 +30,8 @@ pindex index <pdf-or-dir> [flags]
 
 ```
       --config string   path to a pindex config YAML (optional)
+      --plain           force plain line-oriented output: no colors or animations (also via PINDEX_PLAIN=1; auto when piped)
+      --verbose         stream under-the-hood diagnostics to stderr (LLM calls, cache hits, retries, build stages)
 ```
 
 ### SEE ALSO

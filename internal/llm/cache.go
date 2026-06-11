@@ -94,6 +94,8 @@ func (c *FileCache) Set(key string, r Response) error {
 type CachingProvider struct {
 	inner Provider
 	cache Cache
+	// Observer, when set, receives EventCacheHit/EventCacheMiss per request.
+	Observer Observer
 }
 
 // NewCaching wraps inner with cache.
@@ -108,8 +110,10 @@ func (p *CachingProvider) Name() string { return p.inner.Name() }
 func (p *CachingProvider) Complete(ctx context.Context, req Request) (Response, error) {
 	key := CacheKey(req)
 	if r, ok := p.cache.Get(key); ok {
+		p.Observer.emit(Event{Kind: EventCacheHit, Provider: p.inner.Name(), Model: req.Model})
 		return r, nil
 	}
+	p.Observer.emit(Event{Kind: EventCacheMiss, Provider: p.inner.Name(), Model: req.Model})
 	r, err := p.inner.Complete(ctx, req)
 	if err != nil {
 		return Response{}, err

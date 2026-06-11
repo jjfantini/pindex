@@ -108,6 +108,7 @@ func (b *Builder) buildSubtree(ctx context.Context, node *tree.TreeNode, sub []e
 // an LLM-generated description. Bounded-concurrent over a flattened node list.
 func (b *Builder) addSummaries(ctx context.Context, nodes []tree.TreeNode, pages []extract.Page) error {
 	flat := flattenPtrs(nodes)
+	b.progressf("enrich", "summarizing %d sections", len(flat))
 	g, ctx := errgroup.WithContext(ctx)
 	g.SetLimit(b.concurrency())
 	for _, n := range flat {
