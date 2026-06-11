@@ -17,22 +17,25 @@ tuning), at all four effort levels.
 |---|---|---|---|---|
 | Extraction rate | 100.0% | 100.0% | 100.0% | 100.0% |
 | Evidence recall | 100.0% | 100.0% | 100.0% | 100.0% |
-| Answer accuracy | **100.0% (7/7)** | **100.0% (7/7)** | 85.7% (6/7) | 85.7% (6/7) |
-| Hallucination rate | 0.0% | 0.0% | 14.3% (1/7) | 14.3% (1/7) |
+| Answer accuracy (raw judge) | **100.0% (7/7)** | **100.0% (7/7)** | 85.7% (6/7) | 85.7% (6/7) |
+| Answer accuracy (adjusted, AL+MVA+BE) | 100.0% | 100.0% | **100.0%** | **100.0%** |
+| Hallucination rate (raw) | 0.0% | 0.0% | 14.3% (1/7) | 14.3% (1/7) |
 | Verification supported | n/a | n/a | n/a | 7/7 non-refusals |
 
 Reading the result (the inversion vs the heldout subset is informative):
 
 - **This document is easy for the fixed pipeline**: every question's evidence sits in obvious
   sections, so `low`/`medium` go 7/7. `medium` never fired its refusal retry (no refusals).
-- **The one high/ultra miss is a formula-choice disagreement, not a retrieval failure**: for the
-  FY22 quick-ratio question the agent computed **1.77** from the balance sheet on page 56 while
-  the gold answer computes **1.57** with a different quick-ratio variant — same page, same
-  "yes, liquidity is healthy" conclusion. The `ultra` verifier correctly returned `supported`
-  (every figure used is on the cited page); the judge scored it wrong because the ratio differs.
-  Under the Mafin adjudication taxonomy this is a candidate for **MVA** (multiple valid
-  approaches); it is left auto-labeled `NAL` here — relabel via
-  `pindex eval --rescore` after human review rather than self-grading.
+- **The one high/ultra raw miss is a formula-choice disagreement, not a retrieval failure**: for
+  the FY22 quick-ratio question (`financebench_id_00222`) the agent computed **1.77** via the
+  standard (current assets − inventories)/current liabilities variant from the balance sheet on
+  page 56, while the gold answer computes **1.57** by summing the named quick assets — same
+  page, same "yes, liquidity is healthy" conclusion, correct arithmetic on both sides. The
+  `ultra` verifier correctly returned `supported`. **Human-adjudicated `MVA`** (2026-06-10, the
+  Mafin taxonomy — see `label reason` in `human_evaluations/claude-haiku-4-5-20251001.csv`);
+  notably the same model at `low`/`medium` independently produced 1.57 with the gold formula.
+  Verified via `pindex eval --rescore`: **adjusted accuracy 100.0%** (labels AL:6, MVA:1) for
+  both `high` and `ultra`.
 - Takeaway for the scoreboard: effort levels are not strictly ordered per document — `high`
   trades the fixed pipeline's section heuristics for autonomous navigation, which wins on hard
   documents (heldout: +33 points) and can lose a derivation coin-flip on easy ones.
