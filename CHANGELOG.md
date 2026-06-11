@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.0](https://github.com/jjfantini/pindex/compare/v0.4.0...v0.5.0) (2026-06-11)
+
+
+### Features
+
+* **eval:** accumulating benchmark tree + one-command per-doc runs ([a56a449](https://github.com/jjfantini/pindex/commit/a56a4491650e26bfde4e7d865de368b355e6c2e8))
+* **eval:** accumulating benchmark tree + one-command per-doc runs ([2754742](https://github.com/jjfantini/pindex/commit/2754742fb18b82156385bf33a805929498a5dba4))
+* **eval:** accumulating benchmark tree with one-command per-doc runs ([62363b3](https://github.com/jjfantini/pindex/commit/62363b3fae7ec6493c2211cc47bcddd09328f5c9))
+
 ## [0.4.0](https://github.com/jjfantini/pindex/compare/v0.3.0...v0.4.0) (2026-06-10)
 
 
