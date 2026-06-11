@@ -94,7 +94,59 @@ type AnswerRecord struct {
 	Hallucinated   bool   `json:"hallucinated"`
 	PageHit        bool   `json:"page_hit"`
 	Label          string `json:"label,omitempty"`
+	LabelReason    string `json:"label_reason,omitempty"`
 	Error          string `json:"error,omitempty"`
+}
+
+// AggregateRecords sums per-question AnswerRecords (the single source of truth in
+// an accumulating benchmark tree) into a Summary. Records with an Error are
+// counted in QuestionsTotal but excluded from Scored and every rate, matching the
+// live eval funnel. Rates are over Scored.
+func AggregateRecords(records []AnswerRecord) Summary {
+	var s Summary
+	s.QuestionsTotal = len(records)
+	s.LabelCounts = map[string]int{}
+	var ext, ret, ans, adj, hal, hit int
+	for _, r := range records {
+		if r.Error != "" {
+			continue
+		}
+		s.Scored++
+		if r.ExtractionOK {
+			ext++
+		}
+		if r.RetrievalOK {
+			ret++
+		}
+		if r.AnswerOK {
+			ans++
+		}
+		if r.Hallucinated {
+			hal++
+		}
+		if r.PageHit {
+			hit++
+		}
+		label := r.Label
+		if label == "" {
+			label = AutoLabel(r.AnswerOK)
+		}
+		s.LabelCounts[label]++
+		if AdjustedCorrect(label) {
+			adj++
+		}
+	}
+	if s.Scored == 0 {
+		return s
+	}
+	n := float64(s.Scored)
+	s.ExtractionRate = float64(ext) / n
+	s.RetrievalRate = float64(ret) / n
+	s.AnswerAccuracyRaw = float64(ans) / n
+	s.AnswerAccuracyAdjusted = float64(adj) / n
+	s.HallucinationRate = float64(hal) / n
+	s.RecallAtPage = float64(hit) / n
+	return s
 }
 
 // MafinRecord mirrors Mafin2.5's result_<model>.json schema exactly, with

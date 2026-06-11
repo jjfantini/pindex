@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00705",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2023_8K_dated-2023-05-30.pdf",
+  "question": "By how much did Pepsico increase its unsecured five year revolving credit agreement on May 26, 2023?",
+  "gold_answer": "$400,000,000 increase.",
+  "predicted": "PepsiCo increased its unsecured five year revolving credit agreement by $400,000,000 on May 26, 2023 (from $3,800,000,000 to $4,200,000,000).",
+  "reasoning": "The question asks about the increase in PepsiCo's unsecured five year revolving credit agreement on May 26, 2023. Looking at page 2, I can find the relevant information:\n\n1. The old 2022 Five Year Credit Agreement was for $3,800,000,000\n2. The new 2023 Five Year Credit Agreement is for $4,200,000,000\n\nTo calculate the increase:\n$4,200,000,000 - $3,800,000,000 = $400,000,000\n\nThis is stated in the document: 'Effective May 26, 2023, PepsiCo terminated the $3,800,000,000 five year unsecured revolving credit agreement... On May 26, 2023, PepsiCo entered into a new $4,200,000,000 five year unsecured revolving credit agreement'",
+  "selected_pages": "1-9",
+  "cited_pages": [
+    2
+  ],
+  "gold_pages": [
+    1
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

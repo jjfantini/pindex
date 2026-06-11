@@ -1,0 +1,9 @@
+{
+ "doc_name": "AMD_2022_10K",
+ "generated_at": "2026-06-11T02:04:03Z",
+ "model": "claude-haiku-4-5-20251001",
+ "judge_model": "gpt-4o-2024-11-20",
+ "effort": "low",
+ "questions": 7,
+ "note": "migrated from 2026-06-10_haiku-4-5_AMD_2022_10K"
+}

@@ -1,59 +1,88 @@
-# FinanceBench running scoreboard (incremental, one document at a time)
+# FinanceBench results — the accumulating benchmark
 
 pindex is benchmarked against the full [FinanceBench](https://github.com/patronus-ai/financebench)
-open-source set (150 questions, 84 documents) **incrementally**: one document (or small subset)
-per run, indexed once, evaluated at every effort level, committed here. The final accuracy per
-(model, effort) is the **micro-average** over all committed runs — pool every scored question
-and compute `sum(correct) / sum(scored)`. This is valid because every run uses the same
-generation model, the same judge (`gpt-4o-2024-11-20`, Mafin 2.5's judge), and no document
-appears in two runs.
+open-source set (150 questions, 84 documents) **incrementally**: one document at a time, each
+indexed once and evaluated at every effort level, folded into this tree. Running the full suite
+in one shot would be expensive; accumulating it document by document costs about a dollar per
+installment and never recomputes what's already done.
 
-## Scoreboard — claude-haiku-4-5 (generation + indexing), gpt-4o judge
+## Layout
 
-**Coverage: 16/150 questions (6/84 documents)** across
-[`2026-06-10_haiku-4-5_heldout-subset`](2026-06-10_haiku-4-5_heldout-subset/) (5 docs, 9 q) and
-[`2026-06-10_haiku-4-5_AMD_2022_10K`](2026-06-10_haiku-4-5_AMD_2022_10K/) (1 doc, 7 q).
-
-| Effort | Raw accuracy | Adjusted accuracy (AL+MVA+BE) | Evidence recall | Hallucination rate |
-|---|---|---|---|---|
-| low | 81.25% (13/16) | 81.25% (13/16) | 87.5% (14/16) | 18.75% (3/16) |
-| medium | 81.25% (13/16) | 81.25% (13/16) | 87.5% (14/16) | 18.75% (3/16) |
-| **high** | **93.75% (15/16)** | **100.0% (16/16)** | **93.75% (15/16)** | **6.25% (1/16)** |
-| **ultra** | **93.75% (15/16)** | **100.0% (16/16)** | **93.75% (15/16)** | **6.25% (1/16)** |
-
-Notes:
-
-- **Raw** is judge-only; **adjusted** additionally counts human-adjudicated BE/MVA/SEDC
-  relabels as correct — the same process behind Mafin 2.5's published 98.7%. One adjudication
-  so far: the AMD quick-ratio question (`financebench_id_00222`) at high/ultra is labeled
-  **MVA** (verifier-supported alternative quick-ratio formula, same conclusion as gold; the
-  same model at low/medium independently used the gold formula). The three low/medium misses
-  remain auto-labeled `NAL` (confident-wrong answers, not yet human-reviewed). Adjusted numbers
-  are recomputable per run via `pindex eval --rescore <result_file>`.
-- `medium` equals `low` so far because no run has produced a refusal (its retry never fires).
-- Per-document effort ordering varies (high wins big on the hard heldout docs, low wins the easy
-  AMD doc) — the pooled number is the meaningful comparison.
-
-## Recompute from the committed files
-
-```sh
-python3 - <<'EOF'
-import json, glob, collections
-agg = collections.defaultdict(lambda: [0, 0])
-for f in glob.glob('eval/financebench/results/*/*/summary.json'):
-    s = json.load(open(f))
-    k = (s['model'], s['effort'])
-    agg[k][0] += round(s['answer_accuracy_raw'] * s['scored'])
-    agg[k][1] += s['scored']
-for (m, e), (c, n) in sorted(agg.items()):
-    print(f'{m} {e:6s} {c}/{n} = {c/n:.1%}')
-EOF
+```
+results/
+  <model>/                      e.g. claude-haiku-4-5-20251001
+    trees/<DOC>_pindex.json     one text-stripped tree per doc (shared by all efforts)
+    low|medium|high|ultra/
+      summary.json              aggregate over ALL docs — regenerated on every run
+      result_<model>.json       Mafin2.5-compatible aggregate record list
+      human_evaluations.csv     every non-AL question, for human review
+      <DOC>/
+        run.json                provenance: date, model, judge, question count
+        answers/<id>.json       per-question records — THE SOURCE OF TRUTH
 ```
 
-## Adding the next document
+Everything except `<DOC>/answers/` and `<DOC>/run.json` is **derived**: the aggregator
+(`go run ./eval/financebench/aggregate`) rebuilds every `summary.json`, `result_<model>.json`,
+and `human_evaluations.csv` from the per-question records and prints the scoreboard. Never
+hand-edit the derived files.
 
-1. Pick an uncovered `doc_name` (prefer high question count; check it is not in the diagnostic
-   train split if you care about tuning-contamination).
-2. Index it once with the target model, eval at all four effort levels, curate per the existing
-   run READMEs (no `questions.jsonl`, no PDFs, no raw page text — CC-BY-NC-4.0).
-3. Add the run directory here and update the scoreboard table (or re-run the snippet above).
+## Scoreboard — claude-haiku-4-5-20251001 (generation + indexing), gpt-4o-2024-11-20 judge
+
+Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-11 (7/84 docs, 18/150 questions):
+
+| Effort | Raw accuracy | Adjusted accuracy | Evidence recall | Hallucination |
+|---|---|---|---|---|
+| low | 83.33% (15/18) | 83.33% | 88.89% | 16.67% |
+| medium | 83.33% (15/18) | 83.33% | 88.89% | 16.67% |
+| **high** | **94.44% (17/18)** | **100.0%** | 94.44% | 5.56% |
+| **ultra** | **94.44% (17/18)** | **100.0%** | 94.44% | 5.56% |
+
+- **Raw** is judge-only; **adjusted** also counts human-adjudicated `MVA`/`BE` relabels (the
+  process behind Mafin 2.5's published 98.7%). Adjudications so far: 1 (the AMD quick-ratio
+  question — a verifier-supported alternative formula with the same conclusion; see its
+  `label_reason`).
+- `medium` has matched `low` on every doc so far: its refusal retry has never fired (all misses
+  were confident-wrong, not refusals).
+
+## Adding a document (one command)
+
+```sh
+./eval/financebench/bench.sh BOEING_2022_10K                # all four efforts, haiku, gpt-4o judge
+./eval/financebench/bench.sh PEPSICO_2022_10K --model gpt-4o-mini --efforts "low high"
+```
+
+`bench.sh` fetches the questions + PDF (`fetch.sh`), indexes into the gitignored
+`testdata/ws` workspace, evals each effort, folds the records into this tree, and re-aggregates.
+Pooling rule: one judge per `<model>/<effort>` directory (the aggregator fails loudly on a mix),
+and each document appears at most once — so the summed numbers are a clean micro-average.
+
+## Human adjudication workflow
+
+1. Open `<model>/<effort>/human_evaluations.csv` — every question the judge scored wrong (or
+   that was already relabelled) is there.
+2. To relabel: edit `label` (and add a `label_reason`) in the per-question record
+   `<DOC>/answers/<id>.json` — the source of truth. `AL`/`MVA`/`BE` count correct under the
+   adjusted metric; `NAL`/`SEDC` count wrong. Only a human relabels; the pipeline never
+   self-grades above `NAL`.
+3. Re-run the aggregator; `pindex eval --rescore <effort>/result_<model>.json` cross-checks.
+
+## Provenance notes
+
+- Documents in the diagnostic **train** split (`../testdata/diagnostic_set.json`) were used while
+  tuning prompts; if one is added to the benchmark its scores carry that caveat. There is no
+  ML-style train/test split — nothing is trained — the split exists purely to track
+  prompt-tuning contamination. All docs benchmarked so far are untainted.
+- Key historical finding (PR #31): without mechanically enforced read-before-answering grounding,
+  haiku at `high` answered from tree summaries on 5/9 heldout questions and scored *below* `low`
+  (55.6%). The enforced agentic loop took the same questions to 9/9.
+
+## License & attribution
+
+Questions, gold answers, and source PDFs are FinanceBench content (Patronus AI,
+[arXiv:2311.11944](https://arxiv.org/abs/2311.11944)), licensed **CC-BY-NC-4.0** (per the
+[Hugging Face dataset card](https://huggingface.co/datasets/PatronusAI/financebench)). The raw
+dataset (`fb.jsonl`, PDFs, page text) is therefore fetched at eval time and never committed.
+The committed `result_<model>.json` files contain question text and gold answers for evaluated
+questions — the same format upstream
+[VectifyAI/Mafin2.5-FinanceBench](https://github.com/VectifyAI/Mafin2.5-FinanceBench) publishes —
+included with attribution, **for research / non-commercial purposes only**.

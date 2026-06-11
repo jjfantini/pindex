@@ -1,26 +1,26 @@
-# Accuracy diagnostic set
+# Dataset cache & diagnostic set
 
-`diagnostic_set.json` defines 15 short FinanceBench documents (4–72 pages, 29 questions) split into
-`train` (tune here) and `heldout` (report here, unseen during tuning). It stores only doc names +
-the split; the questions are CC-BY-NC-4.0 FinanceBench content and are fetched at eval time.
-
-## Reproduce a run
+This directory is the **gitignored cache** for the FinanceBench dataset (CC-BY-NC-4.0 — fetched
+at eval time, never committed): `fb.jsonl` (all 150 questions), `pdfs/` (source documents), and
+`ws/` (the indexed benchmark workspace). Populate it with:
 
 ```sh
-# 1. Fetch the question set + the diagnostic PDFs
-curl -sSL -o fb.jsonl https://raw.githubusercontent.com/patronus-ai/financebench/main/data/financebench_open_source.jsonl
-jq -r '.train[],.heldout[]' eval/financebench/testdata/diagnostic_set.json | while read d; do
-  curl -sSL -o "pdfs/$d.pdf" "https://raw.githubusercontent.com/patronus-ai/financebench/main/pdfs/$d.pdf"
-done
-
-# 2. Filter the questions to one split (e.g. heldout) and index its docs
-jq -c 'select(.doc_name as $d | $SPLIT | index($d))' \
-   --argjson SPLIT "$(jq '.heldout' eval/financebench/testdata/diagnostic_set.json)" fb.jsonl > heldout.jsonl
-pindex index pdfs/ --workspace ws --model gpt-4o --env-file .env
-
-# 3. Score with the stage funnel (extraction / retrieval / answer / hallucination)
-pindex eval --questions heldout.jsonl --workspace ws --model gpt-4o --judge-model gpt-4o --env-file .env
+../fetch.sh                    # questions only
+../fetch.sh AMD_2022_10K       # questions + one PDF
+../fetch.sh --all              # the full 84-document set (hundreds of MB)
 ```
 
-The funnel localizes where accuracy is lost; tune prompts against `train`, then report `heldout`.
-PDFs and `*.jsonl` are gitignored — never committed.
+For benchmark runs you normally don't call `fetch.sh` directly —
+`../bench.sh <DOC_NAME>` fetches, indexes, evals every effort level, and folds the results into
+[`../results/`](../results/README.md) in one command.
+
+## `diagnostic_set.json`
+
+15 short FinanceBench documents (4–72 pages, 29 questions) used during development. The `train`
+list marks documents that were used while **tuning prompts** — that is its only meaning (nothing
+is trained; this is contamination tracking, not an ML split). Tune against `train`, sanity-check
+on `heldout`, and flag any `train` doc that gets added to the public benchmark. The file stores
+only doc names; the questions themselves are fetched.
+
+The eval's stage funnel (extraction / retrieval / answer / hallucination) localizes where
+accuracy is lost — see the eval guide on the docs site for reading it.

@@ -12,6 +12,45 @@ import (
 	"github.com/jjfantini/pindex/internal/tree"
 )
 
+func TestAggregateRecords(t *testing.T) {
+	recs := []AnswerRecord{
+		{AnswerOK: true, ExtractionOK: true, RetrievalOK: true, PageHit: true},    // AL (auto)
+		{AnswerOK: true, ExtractionOK: true, RetrievalOK: true, Label: LabelAL},   // AL (explicit)
+		{AnswerOK: false, ExtractionOK: true, Hallucinated: true},                 // NAL (auto)
+		{AnswerOK: false, ExtractionOK: true, RetrievalOK: true, Label: LabelMVA}, // adjudicated: raw wrong, adjusted right
+		{Error: "doc not indexed"}, // excluded from rates
+	}
+	s := AggregateRecords(recs)
+	if s.QuestionsTotal != 5 || s.Scored != 4 {
+		t.Fatalf("total=%d scored=%d want 5/4", s.QuestionsTotal, s.Scored)
+	}
+	if s.AnswerAccuracyRaw != 0.5 {
+		t.Errorf("raw = %v want 0.5 (2/4)", s.AnswerAccuracyRaw)
+	}
+	if s.AnswerAccuracyAdjusted != 0.75 {
+		t.Errorf("adjusted = %v want 0.75 (AL+AL+MVA of 4)", s.AnswerAccuracyAdjusted)
+	}
+	if s.HallucinationRate != 0.25 {
+		t.Errorf("hallucination = %v want 0.25", s.HallucinationRate)
+	}
+	if s.ExtractionRate != 1.0 || s.RetrievalRate != 0.75 || s.RecallAtPage != 0.25 {
+		t.Errorf("ext/ret/recall = %v/%v/%v want 1/0.75/0.25", s.ExtractionRate, s.RetrievalRate, s.RecallAtPage)
+	}
+	want := map[string]int{"AL": 2, "NAL": 1, "MVA": 1}
+	for k, v := range want {
+		if s.LabelCounts[k] != v {
+			t.Errorf("label %s = %d want %d", k, s.LabelCounts[k], v)
+		}
+	}
+}
+
+func TestAggregateRecordsEmpty(t *testing.T) {
+	s := AggregateRecords(nil)
+	if s.Scored != 0 || s.AnswerAccuracyRaw != 0 {
+		t.Errorf("empty aggregate should be zeroed, got %+v", s)
+	}
+}
+
 func TestEvalRunDirSiblingOfWorkspace(t *testing.T) {
 	root := t.TempDir()
 	ws := filepath.Join(root, ".pindex", "workspace")
