@@ -41,6 +41,17 @@ type Builder struct {
 	// TOCVerifyThreshold is the minimum verified-title fraction to trust the TOC
 	// branch; below it the build falls back to the structure-generation path.
 	TOCVerifyThreshold float64
+	// Progress, when set, receives human-readable build-stage updates
+	// (stage key + message). It may be called from concurrent goroutines and
+	// must be cheap; nil disables progress reporting.
+	Progress func(stage, msg string)
+}
+
+// progressf reports a build stage to the optional Progress hook (nil-safe).
+func (b *Builder) progressf(stage, format string, args ...any) {
+	if b.Progress != nil {
+		b.Progress(stage, fmt.Sprintf(format, args...))
+	}
 }
 
 // NewBuilder returns a Builder with sensible defaults.
@@ -91,11 +102,13 @@ func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, erro
 	if len(items) == 0 {
 		return Result{}, fmt.Errorf("index: no valid sections extracted from %d pages", len(pages))
 	}
+	b.progressf("verify", "verifying %d section starts", len(items))
 	if err := b.markAppearStart(ctx, items, pages); err != nil {
 		return Result{}, err
 	}
 
 	nodes := tree.PostProcess(toPostItems(items), maxIndex(pages))
+	b.progressf("split", "splitting oversized sections")
 	if err := b.splitLargeNodes(ctx, nodes, pages, 0); err != nil {
 		return Result{}, err
 	}
@@ -109,6 +122,7 @@ func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, erro
 	}
 	desc := ""
 	if b.cfg.AddDocDescription {
+		b.progressf("describe", "writing document description")
 		if desc, err = b.docDescription(ctx, nodes); err != nil {
 			return Result{}, err
 		}
@@ -126,10 +140,13 @@ func (b *Builder) Build(ctx context.Context, pages []extract.Page) (Result, erro
 // structureFromTOC does the per-section verify+repair and gates on the threshold.
 func (b *Builder) sections(ctx context.Context, pages []extract.Page) ([]item, int, error) {
 	if b.cfg.TOCCheckPageNum > 0 {
+		b.progressf("toc", "scanning %d leading pages for a table of contents", min(b.cfg.TOCCheckPageNum, len(pages)))
 		if toc, found, err := b.detectTOC(ctx, pages); err == nil && found && toc.hasPageNumbers {
+			b.progressf("toc", "page-numbered TOC found — using the fast path")
 			if items, offset, terr := b.structureFromTOC(ctx, pages, toc); terr == nil {
 				return items, offset, nil
 			}
+			b.progressf("toc", "TOC sections failed verification — falling back to structure generation")
 		}
 	}
 	raw, err := b.generateStructure(ctx, pages)
@@ -146,6 +163,7 @@ func (b *Builder) generateStructure(ctx context.Context, pages []extract.Page) (
 	if len(groups) == 0 {
 		return nil, fmt.Errorf("index: no page groups produced")
 	}
+	b.progressf("structure", "generating structure · group 1/%d", len(groups))
 	nonEmpty := func(items []prompts.TOCItem) error {
 		if len(items) == 0 {
 			return fmt.Errorf("structure was empty")
@@ -159,7 +177,8 @@ func (b *Builder) generateStructure(ctx context.Context, pages []extract.Page) (
 	if err != nil {
 		return nil, fmt.Errorf("index: generate structure: %w", err)
 	}
-	for _, g := range groups[1:] {
+	for gi, g := range groups[1:] {
+		b.progressf("structure", "generating structure · group %d/%d", gi+2, len(groups))
 		prev, _ := json.Marshal(all)
 		contP := prompts.GenerateTOCContinue(string(prev), g.Text)
 		cont, err := llm.CompleteJSON[[]prompts.TOCItem](ctx, b.provider,
