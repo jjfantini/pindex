@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00882",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2023_8K_dated-2023-05-30.pdf",
+  "question": "As of May 26, 2023, what is the total amount Pepsico may borrow under its unsecured revolving credit agreements?",
+  "gold_answer": "Total amount Pepsico may borrow under unsecured revolving credit agreements = $8,400,000,000.",
+  "predicted": "As of May 26, 2023, PepsiCo may borrow a total of $8,400,000,000 ($8.4 billion) under its unsecured revolving credit agreements. This consists of: (1) a $4,200,000,000 364-day unsecured revolving credit agreement expiring May 24, 2024, and (2) a $4,200,000,000 five-year unsecured revolving credit agreement expiring May 26, 2028. Both agreements allow borrowings in U.S. Dollars and/or Euros and can be increased to $4,950,000,000 each with lender consent, for a potential maximum of $9,900,000,000.",
+  "reasoning": "The user is asking for the total amount PepsiCo may borrow under its unsecured revolving credit agreements as of May 26, 2023. From the fetched pages, I can see that on May 26, 2023, PepsiCo entered into two new credit agreements: (1) a $4,200,000,000 364-day unsecured revolving credit agreement, and (2) a $4,200,000,000 five-year unsecured revolving credit agreement. The total would be $4.2 billion + $4.2 billion = $8.4 billion.",
+  "verification": "supported",
+  "steps": 2,
+  "selected_pages": "1,2,3,4,5,6,7,8,9",
+  "cited_pages": [
+    2
+  ],
+  "gold_pages": [
+    1
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}
