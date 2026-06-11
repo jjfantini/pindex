@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 	"golang.org/x/time/rate"
 
@@ -18,6 +19,7 @@ import (
 	"github.com/jjfantini/pindex/internal/pipeline"
 	"github.com/jjfantini/pindex/internal/store"
 	"github.com/jjfantini/pindex/internal/tree"
+	"github.com/jjfantini/pindex/internal/ui"
 )
 
 func newIndexCmd() *cobra.Command {
@@ -46,13 +48,14 @@ func newIndexCmd() *cobra.Command {
 			}
 			cacheDir, _ := c.Flags().GetString("cache-dir")
 			ws, _ := c.Flags().GetString("workspace")
+			u, logger, verbose := newUI(c)
 
 			ex, err := extract.New(cfg.Extractor)
 			if err != nil {
 				return err
 			}
 			rpm, _ := c.Flags().GetInt("rpm")
-			provider, err := buildProvider(cfg.Model, cacheDir, rpm)
+			provider, err := buildProvider(cfg.Model, cacheDir, rpm, llmObserver(logger))
 			if err != nil {
 				return err
 			}
@@ -75,23 +78,40 @@ func newIndexCmd() *cobra.Command {
 				return err
 			}
 			if info.IsDir() {
-				return runBatch(c, fi, args[0])
+				return runBatch(c, fi, args[0], u, logger, verbose)
 			}
 
+			u.Header("index", args[0])
+			base := filepath.Base(args[0])
+			step := u.Step("indexing " + base)
+			// Build-stage updates feed the spinner; with --verbose they go to
+			// the logger instead, alongside the per-call LLM diagnostics.
+			if verbose {
+				fi.Builder.Progress = func(stage, msg string) { logger.Debug(msg, "stage", stage) }
+			} else {
+				fi.Builder.Progress = func(_, msg string) { step.Update("%s", msg) }
+			}
 			doc, err := fi.IndexOne(c.Context(), args[0])
 			if err != nil {
+				step.Fail("indexing %s failed", base)
 				return err
 			}
+			step.Done("indexed %s · %d pages · %d sections", base, doc.PageCount, countSections(doc.Structure))
 			out, err := (tree.JSONRenderer{Indent: true}).Render(doc.Structure)
 			if err != nil {
 				return err
 			}
 			_, _ = fmt.Fprintln(c.OutOrStdout(), out)
-			if st != nil {
-				_, _ = fmt.Fprintf(c.ErrOrStderr(), "saved to %s (doc id %s)\n", ws, doc.ID)
+
+			u.Println(u.DocTree(doc.DocName, doc.Structure, 12))
+			rows := [][2]string{
+				{"doc id", doc.ID},
+				{"pages", fmt.Sprintf("%d", doc.PageCount)},
+				{"sections", fmt.Sprintf("%d", countSections(doc.Structure))},
+				{"model", cfg.Model},
 			}
-			if doc.DocDescription != "" {
-				_, _ = fmt.Fprintln(c.ErrOrStderr(), "description:", doc.DocDescription)
+			if st != nil {
+				rows = append(rows, [2]string{"workspace", ws})
 			}
 			if outDir := exportDir(ws); outDir != "" {
 				inclPages, _ := c.Flags().GetBool("include-raw-text")
@@ -99,7 +119,11 @@ func newIndexCmd() *cobra.Command {
 				if werr != nil {
 					return werr
 				}
-				_, _ = fmt.Fprintf(c.ErrOrStderr(), "wrote tree to %s\n", path)
+				rows = append(rows, [2]string{"tree", path})
+			}
+			u.Println(u.SummaryBox("index complete", rows))
+			if doc.DocDescription != "" {
+				u.Notef("%s", doc.DocDescription)
 			}
 			return nil
 		},
@@ -117,7 +141,7 @@ func newIndexCmd() *cobra.Command {
 	return cmd
 }
 
-func runBatch(c *cobra.Command, fi *pipeline.FileIndexer, dir string) error {
+func runBatch(c *cobra.Command, fi *pipeline.FileIndexer, dir string, u *ui.UI, logger *log.Logger, verbose bool) error {
 	if fi.Store == nil {
 		return fmt.Errorf("indexing a directory requires a --workspace to persist into")
 	}
@@ -130,19 +154,37 @@ func runBatch(c *cobra.Command, fi *pipeline.FileIndexer, dir string) error {
 	}
 	conc, _ := c.Flags().GetInt("concurrency")
 	force, _ := c.Flags().GetBool("force")
+
+	u.Header("index", dir)
+	u.Infof("indexing %d documents · concurrency %d", len(paths), conc)
+	if verbose {
+		// Docs build in parallel, so stage updates interleave; the stage key
+		// plus doc-relative ordering keeps them diagnosable.
+		fi.Builder.Progress = func(stage, msg string) { logger.Debug(msg, "stage", stage) }
+	}
+	st := u.Styles()
+	done := 0
 	results := pipeline.BatchIndex(c.Context(), fi, paths, conc, force, func(r pipeline.Result) {
-		status := "indexed"
+		done++
+		prefix := st.Dim.Render(fmt.Sprintf("[%d/%d]", done, len(paths))) + " "
 		switch {
 		case r.Err != nil:
-			status = "FAILED: " + r.Err.Error()
+			u.Errorf("%s%s — %v", prefix, r.Path, r.Err)
 		case r.Skipped:
-			status = "skipped"
+			u.Println(st.IconSkip + " " + prefix + r.Path + st.Dim.Render(" (already indexed — skipped)"))
+		default:
+			u.Successf("%s%s", prefix, r.Path)
 		}
-		_, _ = fmt.Fprintf(c.ErrOrStderr(), "[%s] %s\n", status, r.Path)
 	})
 	indexed, skipped, failed := pipeline.Summarize(results)
 	_, _ = fmt.Fprintf(c.OutOrStdout(), "indexed=%d skipped=%d failed=%d total=%d\n", indexed, skipped, failed, len(results))
 
+	rows := [][2]string{
+		{"indexed", fmt.Sprintf("%d", indexed)},
+		{"skipped", fmt.Sprintf("%d", skipped)},
+		{"failed", fmt.Sprintf("%d", failed)},
+		{"total", fmt.Sprintf("%d", len(results))},
+	}
 	ws, _ := c.Flags().GetString("workspace")
 	if outDir := exportDir(ws); outDir != "" {
 		inclPages, _ := c.Flags().GetBool("include-raw-text")
@@ -158,12 +200,22 @@ func runBatch(c *cobra.Command, fi *pipeline.FileIndexer, dir string) error {
 				return werr
 			}
 		}
-		_, _ = fmt.Fprintf(c.ErrOrStderr(), "wrote trees to %s\n", outDir)
+		rows = append(rows, [2]string{"trees", outDir})
 	}
+	u.Println(u.SummaryBox("batch complete", rows))
 	if failed > 0 {
 		return fmt.Errorf("%d document(s) failed to index", failed)
 	}
 	return nil
+}
+
+// countSections counts every node in the tree (all depths).
+func countSections(nodes []tree.TreeNode) int {
+	n := len(nodes)
+	for i := range nodes {
+		n += countSections(nodes[i].Nodes)
+	}
+	return n
 }
 
 // exportDir is where the browsable {doc_name}_pindex.json trees are written: the
@@ -179,12 +231,13 @@ func exportDir(workspace string) string {
 // read-through cache. Cache is outermost so a hit avoids the network entirely.
 // rpm > 0 enables a request-rate limiter (useful on low TPM tiers); the deeper
 // retry budget + rate-limit-aware breaker ride out 429s without cascading.
-func buildProvider(model, cacheDir string, rpm int) (llm.Provider, error) {
+// obs receives resilience/cache diagnostics (nil disables).
+func buildProvider(model, cacheDir string, rpm int, obs llm.Observer) (llm.Provider, error) {
 	base, err := llm.NewHTTPProvider(model)
 	if err != nil {
 		return nil, err
 	}
-	opts := []llm.Option{llm.WithBreaker(5, 30*time.Second)}
+	opts := []llm.Option{llm.WithBreaker(5, 30*time.Second), llm.WithObserver(obs)}
 	if rpm > 0 {
 		opts = append(opts, llm.WithLimiter(rate.NewLimiter(rate.Limit(float64(rpm)/60.0), 1)))
 	}
@@ -196,7 +249,9 @@ func buildProvider(model, cacheDir string, rpm int) (llm.Provider, error) {
 		if err != nil {
 			return nil, err
 		}
-		p = llm.NewCaching(p, fc)
+		cp := llm.NewCaching(p, fc)
+		cp.Observer = obs
+		p = cp
 	}
 	return p, nil
 }
