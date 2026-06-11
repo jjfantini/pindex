@@ -1,0 +1,25 @@
+{
+  "financebench_id": "financebench_id_00917",
+  "company": "AMD",
+  "doc_name": "AMD_2022_10K.pdf",
+  "question": "What drove operating margin change as of the FY22 for AMD? If operating margin is not a useful metric for a company like this, then please state that and explain why.",
+  "gold_answer": "The decrease in AMD's operating income was primarily driven by amortization of intangible assets associated with the Xilinx acquisition",
+  "predicted": "Based on AMD's FY22 financial statements, operating margin declined significantly from 22.2% in FY21 to 5.4% in FY22 (a 1,680 basis point decrease).\n\n**Key Drivers of Operating Margin Decline:**\n\n1. **Gross Margin Compression (300 bps)**: Gross margin fell from 48% to 45%, primarily driven by $1.448 billion in amortization of acquisition-related intangibles in cost of sales from the Xilinx acquisition.\n\n2. **Operating Expense Increases (1,380 bps)**: Operating expenses increased dramatically:\n   - R\u0026D expenses: +$2.2B (+76%) to $5.0B\n   - MG\u0026A expenses: +$888M (+61%) to $2.3B\n   - Amortization of acquisition-related intangibles in operating expenses: $2.1B (vs. $0 in FY21)\n   - These increases were driven by the Xilinx and Pensando acquisitions and organic growth\n\n3. **\"All Other\" Operating Loss**: The \"All Other\" category swung from a $409M loss in FY21 to a $5.0B loss in FY22, consisting primarily of $3.5B in acquisition-related intangible amortization, $1.1B in stock-based compensation, and $452M in acquisition-related costs.\n\n**Is Operating Margin a Useful Metric?**\n\nOperating margin is **not particularly useful** for AMD in FY22 due to the massive one-time acquisition impacts. The $3.5B in amortization of acquisition-related intangibles is a non-cash charge that distorts underlying operational performance. For analytical purposes, investors should focus on adjusted operating income or EBITDA-based metrics that exclude these acquisition-related charges to better assess the company's core operational efficiency.",
+  "reasoning": "Now I have the actual financial data. Let me look at the operating margin calculation and drivers. From page 49, I can see the consolidated statement of operations data for 2022 and 2021. Let me calculate operating income and margins, and identify the key drivers of the change.",
+  "steps": 3,
+  "selected_pages": "44,45,46,47,48,49,50,51,52",
+  "cited_pages": [
+    48,
+    49,
+    50
+  ],
+  "gold_pages": [
+    42
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

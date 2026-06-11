@@ -1,0 +1,25 @@
+{
+  "financebench_id": "financebench_id_01198",
+  "company": "AMD",
+  "doc_name": "AMD_2022_10K.pdf",
+  "question": "What drove revenue change as of the FY22 for AMD?",
+  "gold_answer": "In 2022, AMD reported Higher sales of their EPYC server processors, higher semi-custom product sales, and the inclusion of Xilinx embedded product sales",
+  "predicted": "AMD's FY2022 revenue increased 44% to $23.6 billion from $16.4 billion in FY2021, driven by the following segment-specific factors:\n\n1. **Data Center (+64% growth)**: Primarily driven by higher sales of EPYC server processors.\n\n2. **Client (-10% decline)**: Decreased due to a 24% decline in unit shipments caused by challenging PC market conditions and significant inventory correction across the PC supply chain in the second half of 2022, partially offset by a 19% increase in average selling price from a richer mix of Ryzen mobile processor sales.\n\n3. **Gaming (+21% growth)**: Driven by higher semi-custom product sales due to increased demand for gaming console SoCs, partially offset by lower gaming graphics sales due to soft consumer demand from weakened macroeconomic conditions.\n\n4. **Embedded (significant increase)**: Primarily driven by the inclusion of Xilinx embedded product revenue following AMD's acquisition of Xilinx in February 2022, which increased revenue from $246 million to $4.6 billion.\n\nOverall, the major revenue growth was driven by strong Data Center performance and the Xilinx acquisition contribution to the Embedded segment, which more than offset the Client segment decline.",
+  "reasoning": "The user is asking what drove revenue change for AMD in FY22. Looking at the fetched pages, I can see detailed segment-by-segment analysis of revenue drivers. Let me compile the key drivers from pages 48-49.",
+  "verification": "supported",
+  "steps": 2,
+  "selected_pages": "44,45,46,47,48,49,50,51,52",
+  "cited_pages": [
+    48,
+    49
+  ],
+  "gold_pages": [
+    42
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_01279",
+  "company": "AMD",
+  "doc_name": "AMD_2022_10K.pdf",
+  "question": "Among operations, investing, and financing activities, which brought in the most (or lost the least) cash flow for AMD in FY22?",
+  "gold_answer": "In 2022, AMD brought in the most cashflow from Operations",
+  "predicted": "Among the three categories of cash flow activities in FY22, **operating activities brought in the most cash** at **$3,565 million**. Investing activities also generated positive cash flow of $1,999 million, while financing activities used $3,264 million in cash.",
+  "reasoning": "Perfect! I have the Consolidated Statements of Cash Flows for AMD in FY22. Let me look at the three categories:\n\n1. Operating activities: Net cash provided = $3,565 million\n2. Investing activities: Net cash provided = $1,999 million\n3. Financing activities: Net cash used = $(3,264) million\n\nSo operating activities brought in the most cash at $3,565 million. Investing activities also brought in cash at $1,999 million. Financing activities used cash of $3,264 million.\n\nThe question asks which brought in the most (or lost the least) cash flow. Operating activities brought in the most at $3,565 million.",
+  "verification": "supported",
+  "steps": 2,
+  "selected_pages": "58,59,60",
+  "cited_pages": [
+    58
+  ],
+  "gold_pages": [
+    57
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

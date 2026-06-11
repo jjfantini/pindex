@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00288",
+  "company": "Best Buy",
+  "doc_name": "BESTBUY_2024Q2_10Q.pdf",
+  "question": "Was there any drop in Cash \u0026 Cash equivalents between FY 2023 and Q2 of FY2024?",
+  "gold_answer": "Yes, there was a decline of ~42% between FY2023 and Q2 of FY 2024.",
+  "predicted": "Yes, there was a drop in Cash \u0026 Cash equivalents between FY 2023 and Q2 of FY2024. Cash and cash equivalents decreased from $1,874 million at January 28, 2023 (end of FY 2023) to $1,093 million at July 29, 2023 (Q2 of FY2024), a decrease of $781 million.",
+  "reasoning": "The question asks about a drop in Cash \u0026 Cash equivalents between FY 2023 and Q2 of FY2024. I need to find the cash and cash equivalents values for these two periods.\n\nFrom page 3 (Condensed Consolidated Balance Sheets):\n- As of July 29, 2023 (which is Q2 of FY2024, since Best Buy's fiscal year ends in January): Cash and cash equivalents = $1,093 million\n- As of January 28, 2023 (which is the end of FY 2023): Cash and cash equivalents = $1,874 million\n\nCalculating the change:\n$1,093 million (July 29, 2023) - $1,874 million (January 28, 2023) = -$781 million\n\nThis is a decrease of $781 million, which represents a drop in cash and cash equivalents between FY 2023 and Q2 of FY2024.",
+  "selected_pages": "3-4,6-7",
+  "cited_pages": [
+    3
+  ],
+  "gold_pages": [
+    19
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": false,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

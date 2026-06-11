@@ -1,0 +1,26 @@
+{
+  "financebench_id": "financebench_id_00917",
+  "company": "AMD",
+  "doc_name": "AMD_2022_10K.pdf",
+  "question": "What drove operating margin change as of the FY22 for AMD? If operating margin is not a useful metric for a company like this, then please state that and explain why.",
+  "gold_answer": "The decrease in AMD's operating income was primarily driven by amortization of intangible assets associated with the Xilinx acquisition",
+  "predicted": "Based on AMD's FY22 financial statements, operating margin declined significantly from 22.2% in FY21 to 5.4% in FY22 (a 1,680 basis point decrease).\n\n**Key Drivers of Operating Margin Decline:**\n\n1. **Gross Margin Compression (300 bps)**: Gross margin fell from 48% to 45%. As stated on page 49: \"The decrease in gross margin was primarily due to amortization of intangible assets associated with the Xilinx acquisition.\" Specifically, cost of sales included $1.448 billion in amortization of acquisition-related intangibles in FY22 versus $0 in FY21.\n\n2. **Operating Expense Increases (1,380 bps)**: Operating expenses increased substantially:\n   - R\u0026D expenses increased by $2.2 billion (76%) to $5.0 billion, \"primarily driven by strategic investments across all of our segments, including an increase in headcount through acquisitions and organic growth\" (page 50)\n   - MG\u0026A expenses increased by $888 million (61%) to $2.3 billion, \"primarily due to an increase in headcount through acquisitions and organic growth, go-to-market activities, and acquisition-related costs\" (page 50)\n   - Operating expenses included $2.1 billion in amortization of acquisition-related intangibles in FY22 versus $0 in FY21\n\n3. **\"All Other\" Operating Loss**: This category swung from a $409 million loss in FY21 to a $5.0 billion loss in FY22. As stated on page 49: \"All Other operating loss of $5.0 billion in 2022 primarily consisted of $3.5 billion of amortization of acquisition-related intangibles, $1.1 billion of stock-based compensation expense, and $452 million of acquisition-related costs.\"\n\nThe document does not explicitly state whether operating margin is or is not a useful metric for analyzing AMD in FY22.",
+  "reasoning": "The fact-checker is correct. I made an analytical judgment that operating margin is 'not particularly useful' without that being explicitly stated in the document. I should stick to what the pages actually say about the operating margin drivers and acknowledge that while the document shows the large acquisition-related charges, it doesn't explicitly state whether operating margin is or isn't useful as a metric. Let me provide a corrected answer that only includes claims directly supported by the text.",
+  "verification": "supported",
+  "steps": 4,
+  "selected_pages": "44,45,46,47,48,49,50,51,52",
+  "cited_pages": [
+    48,
+    49,
+    50
+  ],
+  "gold_pages": [
+    42
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

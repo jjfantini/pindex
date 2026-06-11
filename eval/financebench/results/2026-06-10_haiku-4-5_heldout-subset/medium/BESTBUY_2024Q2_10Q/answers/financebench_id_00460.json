@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00460",
+  "company": "Best Buy",
+  "doc_name": "BESTBUY_2024Q2_10Q.pdf",
+  "question": "Was there any change in the number of Best Buy stores between Q2 of FY2024 and FY2023?",
+  "gold_answer": "Yes, there is decline in number stores by 1.32% from 982 stores in Q2 FY 2023 to 969 by the end of Q2 FY2024.",
+  "predicted": "Yes, there was a change in the number of Best Buy stores between Q2 of FY2024 and Q2 of FY2023. Best Buy stores decreased from 930 stores at the end of Q2 FY2023 to 907 stores at the end of Q2 FY2024, representing a decrease of 23 stores.",
+  "reasoning": "I need to find the number of Best Buy stores at the end of Q2 for both FY2024 and FY2023, then compare them to determine if there was a change.\n\nLooking at page 17, I can find the Domestic segment store data table titled 'Domestic segment stores open at the beginning and end of the second quarters of fiscal 2024 and fiscal 2023'.\n\nFor Best Buy stores specifically:\n- FY2024 (Fiscal 2024): Total Stores at End of Second Quarter = 907\n- FY2023 (Fiscal 2023): Total Stores at End of Second Quarter = 930\n\nChange calculation:\n907 - 930 = -23 stores\n\nSo there was a decrease of 23 Best Buy stores between Q2 of FY2024 and Q2 of FY2023.",
+  "selected_pages": "14-24",
+  "cited_pages": [
+    17
+  ],
+  "gold_pages": [
+    16
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": false,
+  "hallucinated": true,
+  "page_hit": false,
+  "label": "NAL"
+}
