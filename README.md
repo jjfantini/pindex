@@ -9,9 +9,9 @@ pindex builds a hierarchical **tree index** from a PDF and answers questions by 
 they used.
 
 > **Status: working v1.** `index`, `ask`, and `eval` all run live against OpenAI and Anthropic.
-> Validated end-to-end on a real [FinanceBench](https://github.com/patronus-ai/financebench)
-> earnings release (see [results](#financebench)). What's deferred is in [`roadmap.md`](roadmap.md);
-> the design is in [`docs/PLAN.md`](docs/PLAN.md).
+> Validated on [FinanceBench](https://github.com/patronus-ai/financebench) — an accumulating
+> open-source benchmark (see [results](#financebench)). What's deferred is in
+> [`roadmap.md`](roadmap.md); the design is in [`docs/PLAN.md`](docs/PLAN.md).
 
 **📖 Full documentation: [jjfantini.github.io/pindex](https://jjfantini.github.io/pindex/)** —
 installation, getting started, guides, architecture, and the generated CLI reference. A worked
@@ -140,7 +140,29 @@ eval/financebench FinanceBench harness (LLM-judge accuracy + evidence recall)
 
 ## FinanceBench
 
-Run the harness over a pre-indexed workspace:
+pindex benchmarks incrementally against the full FinanceBench set (150 questions, 84 documents).
+One document at a time via `./eval/financebench/bench.sh <DOC_NAME>` — fetch, index once, eval at
+all four effort levels, fold into `eval/financebench/results/`. See
+[`eval/financebench/results/README.md`](eval/financebench/results/README.md) for layout, adjudication
+workflow, and the live scoreboard (`go run ./eval/financebench/aggregate` regenerates it).
+
+**Accumulating scoreboard** — `claude-haiku-4-5-20251001` (index + ask), `gpt-4o-2024-11-20` judge.
+As of 2026-06-11: **7/84 docs, 18/150 questions**.
+
+| Effort | Raw accuracy | Adjusted accuracy | Evidence recall | Hallucination |
+|---|---|---|---|---|
+| low | 83.33% (15/18) | 100.0% | 88.89% | 16.67% |
+| medium | 83.33% (15/18) | 100.0% | 88.89% | 16.67% |
+| high | 94.44% (17/18) | 100.0% | 94.44% | 5.56% |
+| ultra | 94.44% (17/18) | 100.0% | 94.44% | 5.56% |
+
+- **Raw** = LLM-judge only. **Adjusted** = human-adjudicated relabels (`MVA` / `BE` / `SEDC` count
+  correct; only `NAL` counts wrong) — the process behind Mafin 2.5's published 98.7%.
+- **`high`/`ultra`** beat **`low`/`medium`** on raw accuracy: the agentic loop (`high`) and
+  verification pass (`ultra`) recover questions where fixed page selection misses.
+- **`medium`** has matched **`low`** on every doc so far (refusal retry never fired).
+
+Ad-hoc harness over a pre-indexed workspace:
 
 ```sh
 pindex index ./financebench/pdfs/SOME_DOC.pdf --model gpt-4o-mini --workspace ws
@@ -153,15 +175,14 @@ It reports **LLM-judge answer accuracy** (the permissive Mafin 2.5 rubric, for c
 page-number recall is also printed but is *alignment-sensitive* (pindex's physical page index can
 differ from a filing's printed page label).
 
-Live result on a real earnings release (`ULTABEAUTY_2023Q4_EARNINGS`, 9 pages, 4 questions):
+**Smoke test** on a single earnings release (`ULTABEAUTY_2023Q4_EARNINGS`, 9 pages, 4 questions):
 
 | ask/judge model | answer accuracy | evidence recall |
 |---|---|---|
 | gpt-4o-mini | 0% | 0% |
 | **gpt-4o** *(same stored index)* | **50%** | **75%** |
 
-Swapping only the model (no re-index) recovered accuracy — the pipeline is sound and model-bound
-(PageIndex's published 98.7% used GPT-4o/DeepSeek, not mini).
+Swapping only the model (no re-index) recovered accuracy — the pipeline is sound and model-bound.
 
 ## License
 
