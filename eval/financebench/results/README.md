@@ -28,22 +28,28 @@ hand-edit the derived files.
 
 ## Scoreboard — claude-haiku-4-5-20251001 (generation + indexing), gpt-4o-2024-11-20 judge
 
-Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (9/84 docs, 32/150 questions):
+Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (11/84 docs, 39/150 questions):
 
 | Effort | Raw accuracy | Adjusted accuracy | Evidence recall | Hallucination |
 |---|---|---|---|---|
-| low | 87.50% (28/32) | 96.88% | 81.25% | 12.50% |
-| medium | 87.50% (28/32) | 96.88% | 84.38% | 12.50% |
-| **high** | **90.62% (29/32)** | **93.75%** | 87.50% | 9.38% |
-| ultra | 87.50% (28/32) | 90.62% | 87.50% | 12.50% |
+| low | 89.74% (35/39) | 100.00% | 84.62% | 10.26% |
+| medium | 89.74% (35/39) | 100.00% | 87.18% | 10.26% |
+| **high** | **89.74% (35/39)** | **94.87%** | 89.74% | 10.26% |
+| ultra | 87.18% (34/39) | 92.31% | 89.74% | 12.82% |
 
-Adjusted numbers are provisional: the three misses introduced by the 2026-06-12 installment
-(see below) are auto-labelled `NAL` and still await human adjudication.
+Adjusted numbers for high/ultra are provisional: three misses (see below) are auto-labelled
+`NAL` and still await human adjudication.
+
+> **Known limitation:** `PEPSICO_2022_10K` (503 pages) is excluded — every `ask` fails with
+> `prompt is too long: 205330 tokens > 200000 maximum` at the select-pages step because the
+> full tree structure exceeds the model context window. Re-benchmark once the pipeline guards
+> large trees.
 
 ### Documents in the pool so far
 
 | Document | Questions |
 |---|---|
+| AMCOR_2023_10K | 4 |
 | AMD_2022_10K | 7 |
 | AMERICANEXPRESS_2022_10K | 7 |
 | BESTBUY_2024Q2_10Q | 3 |
@@ -53,6 +59,7 @@ Adjusted numbers are provisional: the three misses introduced by the 2026-06-12 
 | JOHNSON_JOHNSON_2023Q2_EARNINGS | 1 |
 | JOHNSON_JOHNSON_2023_8K_dated-2023-08-30 | 3 |
 | PEPSICO_2023_8K_dated-2023-05-30 | 2 |
+| VERIZON_2022_10K | 3 |
 
 All are outside the diagnostic **train** split (no prompt-tuning contamination).
 
@@ -64,14 +71,15 @@ All are outside the diagnostic **train** split (no prompt-tuning contamination).
 | financebench_id_01902 | low, medium | BE | Gold uses comp-sales growth; question asks top-line revenue category |
 | financebench_id_00839 | low, medium | SEDC | Same CEO/Ulta evidence; interpretive split on "similar company" |
 | financebench_id_00222 | high, ultra | MVA | AMD quick ratio — alternate valid formula, same conclusion |
+| financebench_id_00585 | all four | MVA | Boeing effective tax rate — pindex reports the 10-K's own reconciliation rates ((0.6)% / 14.7%, p.77); gold flips signs by normalizing the loss denominator |
 
-### Pending human review (2026-06-12 installment, auto-labelled `NAL`)
+### Pending human review (2026-06-12 installments, auto-labelled `NAL`)
 
 | ID | Effort(s) | Question |
 |---|---|---|
-| financebench_id_00585 | all four | Boeing FY2022 vs FY2021 effective tax rate — gold says 0.62% vs -14.76%; pindex read (0.6)% vs 14.7% off the page-77 reconciliation (sign convention differs) |
-| financebench_id_00476 | high, ultra | Amex debt securities registered on a national exchange — gold "There are none"; pindex listed Note 8 parent-company debt instead |
-| financebench_id_00494 | ultra | Boeing FY2023 production rate forecasts — pindex cited the 737/787 increases but hedged on specificity |
+| financebench_id_00476 | high, ultra | Amex debt securities registered on a national exchange — gold "There are none" (cover-page 12(b) table lists only common shares); pindex retrieved Note 8 parent-company debt and claimed the filing doesn't specify |
+| financebench_id_00494 | ultra | Boeing FY2023 production rate forecasts — pindex grounded 737/787 increases but missed p.9's "777X expected to resume in 2023" and framed guidance as limited |
+| financebench_id_00216 | high, ultra | Verizon quick ratio — pindex computed gold's exact 0.54 but took the question's invited "not relevant, here's why" path; gold concludes "unhealthy" (low/medium said the same 0.54 = less healthy and were judged AL) |
 
 - **Raw** is judge-only; **adjusted** also counts human-adjudicated `MVA`/`BE`/`SEDC` relabels (the
   process behind Mafin 2.5's published 98.7%). See each answer record's `label_reason` for detail.

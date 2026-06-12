@@ -1,20 +1,20 @@
 {
- "generated_at": "2026-06-12T13:55:16Z",
+ "generated_at": "2026-06-12T16:51:18Z",
  "model": "claude-haiku-4-5-20251001",
  "judge_model": "gpt-4o-2024-11-20",
  "effort": "ultra",
  "rpm": 0,
- "questions_total": 32,
- "scored": 32,
+ "questions_total": 39,
+ "scored": 39,
  "extraction_rate": 1,
- "retrieval_rate": 0.875,
- "answer_accuracy_raw": 0.875,
- "answer_accuracy_adjusted": 0.90625,
- "hallucination_rate": 0.125,
- "recall_at_page": 0.09375,
+ "retrieval_rate": 0.8974358974358975,
+ "answer_accuracy_raw": 0.8717948717948718,
+ "answer_accuracy_adjusted": 0.9230769230769231,
+ "hallucination_rate": 0.1282051282051282,
+ "recall_at_page": 0.07692307692307693,
  "label_counts": {
-  "AL": 28,
-  "MVA": 1,
+  "AL": 34,
+  "MVA": 2,
   "NAL": 3
  }
 }

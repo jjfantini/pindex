@@ -1,0 +1,26 @@
+{
+  "financebench_id": "financebench_id_00215",
+  "company": "Verizon",
+  "doc_name": "VERIZON_2022_10K.pdf",
+  "question": "Is Verizon a capital intensive business based on FY 2022 data?",
+  "gold_answer": "Yes. Verizon's capital intensity ratio was approximately 2.774729. This means that it took approximately $2.77 of assets to generate $1 of revenue and thus, Verizon can be considered capital intensive.",
+  "predicted": "Yes, Verizon is a capital intensive business based on FY 2022 data. Capital expenditures of $23.1 billion represented approximately 16.9% of operating revenues of $136.8 billion. More significantly, Verizon's gross investment in property, plant and equipment totaled $308 billion at December 31, 2022, and combined property, plant and equipment ($107.4 billion net) and wireless licenses ($149.8 billion) comprised 67.8% of total assets ($379.7 billion). The company explicitly states that its strategy requires significant capital investments for wireless spectrum, fiber networks, and advanced technologies, with 2022 being a peak year of capital investment for C-Band spectrum deployment.",
+  "reasoning": "To determine if Verizon is a capital intensive business, I need to examine the relationship between capital expenditures and revenues, and the overall asset base relative to the business size.\n\nFrom page 21, FY 2022 data:\n- Operating Revenues: $136,835 million\n- Capital Expenditures: $23,087 million\n- Capital Intensity Ratio = $23,087 / $136,835 = 0.1687 or 16.87%\n\nFrom page 19:\n- Total gross investment in property, plant and equipment: $308 billion at December 31, 2022\n- This represents massive fixed asset investment\n\nFrom page 56 (Balance Sheet):\n- Property, plant and equipment, net: $107,434 million\n- Wireless licenses: $149,796 million\n- Total assets: $379,680 million\n- Combined PP\u0026E and wireless licenses: $257,230 million (67.8% of total assets)\n\nFrom page 21:\n- The company explicitly states: \"Our strategy requires significant capital investments primarily to acquire wireless spectrum, put the spectrum into service, provide additional capacity for growth in our networks, invest in the fiber that supports our businesses, evolve and maintain our networks and develop and maintain significant advanced information technology systems and data system capabilities.\"\n- \"2022 was a peak year of capital investment for us as we rapidly deployed C-Band spectrum.\"\n\nFrom page 38:\n- Capital expenditures for 2023 are expected to be between $18.25 billion and $19.25 billion\n\nThe evidence clearly shows Verizon is capital intensive: capital expenditures represent ~17% of revenues, the company has $308 billion in gross PP\u0026E, and capital-intensive assets (PP\u0026E + wireless licenses) comprise nearly 68% of total assets.",
+  "selected_pages": "19,21-23,38,39,56,57",
+  "cited_pages": [
+    19,
+    21,
+    38,
+    56
+  ],
+  "gold_pages": [
+    55,
+    22
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

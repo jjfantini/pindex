@@ -18,5 +18,6 @@
   "answer_ok": false,
   "hallucinated": true,
   "page_hit": false,
-  "label": "NAL"
+  "label": "MVA",
+  "label_reason": "Label: MVA - Multiple Valid Approaches\n\nDetailed Reason: Both answers report the same two effective tax rates under opposite sign conventions. Gold computes tax/(absolute pre-tax loss) from the income statement: 0.62% (FY2022) vs -14.76% (FY2021). pindex reports the rates exactly as published in the 10-K's own reconciliation table (PDF p.77): (0.6)% for FY2022 ($31M expense on a $5,022M pre-tax loss) vs 14.7% for FY2021 ($743M benefit on a $5,033M loss). Magnitudes agree to rounding and the substance is identical: a large tax benefit on a loss in FY2021, essentially none in FY2022. The high/ultra runs additionally ground the driver (the $1,199M valuation allowance increase, p.78), arguably exceeding the gold answer's detail. Adjudicated by maintainer 2026-06-12."
 }

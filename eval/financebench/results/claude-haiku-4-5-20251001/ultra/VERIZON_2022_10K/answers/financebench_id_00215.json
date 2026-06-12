@@ -1,0 +1,28 @@
+{
+  "financebench_id": "financebench_id_00215",
+  "company": "Verizon",
+  "doc_name": "VERIZON_2022_10K.pdf",
+  "question": "Is Verizon a capital intensive business based on FY 2022 data?",
+  "gold_answer": "Yes. Verizon's capital intensity ratio was approximately 2.774729. This means that it took approximately $2.77 of assets to generate $1 of revenue and thus, Verizon can be considered capital intensive.",
+  "predicted": "Yes, Verizon is a capital intensive business based on FY 2022 data. According to the document, Verizon invested $23.1 billion in capital expenditures during 2022, which represented a significant increase of $2.8 billion compared to 2021's $20.3 billion. This capital spending was primarily driven by accelerating 5G technology deployment, with approximately $6.2 billion specifically allocated to C-Band related capital expenditures. The document explicitly states that \"2022 was a peak year of capital investment for us as we rapidly deployed C-Band spectrum.\" Additionally, the company's strategy \"requires significant capital investments primarily to acquire wireless spectrum, put the spectrum into service, provide additional capacity for growth in our networks, invest in the fiber that supports our businesses, evolve and maintain our networks and develop and maintain significant advanced information technology systems and data system capabilities.\" Looking forward, Verizon anticipates capital requirements for 2023 between $18.25 billion and $19.25 billion, demonstrating the ongoing substantial capital intensity of the business.",
+  "reasoning": "Now I have the actual page text. Let me ground my answer in the specific data from these pages about capital intensity.",
+  "verification": "supported",
+  "steps": 3,
+  "selected_pages": "21,22,23,24,25,26,27,38,39",
+  "cited_pages": [
+    21,
+    23,
+    38,
+    39
+  ],
+  "gold_pages": [
+    55,
+    22
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

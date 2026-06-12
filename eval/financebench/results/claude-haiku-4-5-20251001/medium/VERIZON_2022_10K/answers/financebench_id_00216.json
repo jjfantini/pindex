@@ -1,0 +1,27 @@
+{
+  "financebench_id": "financebench_id_00216",
+  "company": "Verizon",
+  "doc_name": "VERIZON_2022_10K.pdf",
+  "question": "Does Verizon have a reasonably healthy liquidity profile based on its quick ratio for FY 2022? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
+  "gold_answer": "No. The quick ratio was approximately 0.54 for Verizon. It indicated that Verizon does not have a healthy liquidity profile.",
+  "predicted": "Verizon's quick ratio for FY 2022 is approximately 0.54 (using the strict definition of (Cash + Accounts Receivable) / Current Liabilities = $27,111M / $50,171M), or 0.71 if including all current assets except inventory. A quick ratio below 1.0 is generally considered less healthy, as it suggests the company cannot cover all current liabilities with its most liquid assets alone. However, the quick ratio alone does not tell the full liquidity story for Verizon. The company demonstrates a reasonably healthy overall liquidity profile based on: (1) strong operating cash flows of $37.1 billion in 2022, (2) free cash flow of $14.1 billion, (3) access to $10.4 billion in unused credit facilities, and (4) management's statement that 'sources of funds...are sufficient to meet ongoing operating and investing requirements over the next 12 months and beyond.' Therefore, while the quick ratio appears weak in isolation, Verizon's broader liquidity position is reasonably healthy.",
+  "reasoning": "To assess Verizon's liquidity using the quick ratio, I need to find the quick assets and current liabilities from the balance sheet. The quick ratio formula is: (Current Assets - Inventories) / Current Liabilities, as it measures the most liquid assets.\n\nFrom page 56 (Consolidated Balance Sheets at December 31, 2022):\n- Cash and cash equivalents: $2,605 million\n- Accounts receivable, net: $24,506 million\n- Inventories: $2,388 million\n- Prepaid expenses and other: $8,358 million\n- Total current assets: $37,857 million\n- Total current liabilities: $50,171 million\n\nQuick assets = Current Assets - Inventories = $37,857 - $2,388 = $35,469 million\n\nQuick Ratio = Quick Assets / Current Liabilities = $35,469 / $50,171 = 0.707\n\nHowever, I should note that the quick ratio is typically calculated as (Cash + Accounts Receivable + Marketable Securities) / Current Liabilities, which would be:\n($2,605 + $24,506) / $50,171 = $27,111 / $50,171 = 0.541\n\nEither way, the quick ratio is below 1.0, which is generally considered less healthy. A quick ratio below 1.0 suggests the company may have difficulty meeting short-term obligations with its most liquid assets alone.\n\nThe pages also discuss liquidity extensively. Page 37 states: 'Our sources of funds, primarily from operations and, to the extent necessary, from external financing arrangements, are sufficient to meet ongoing operating and investing requirements over the next 12 months and beyond.' Page 42 shows free cash flow of $14,054 million for 2022, and page 38 shows operating cash flows of $37,141 million. The company also has access to credit facilities with $10,436 million in unused capacity (page 41).",
+  "selected_pages": "56,37-42",
+  "cited_pages": [
+    37,
+    38,
+    40,
+    41,
+    42,
+    56
+  ],
+  "gold_pages": [
+    55
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

@@ -1,5 +1,19 @@
 [
  {
+  "id": "financebench_id_00215",
+  "question": "Is Verizon a capital intensive business based on FY 2022 data?",
+  "label": "AL",
+  "benchmark_answer": "Yes. Verizon's capital intensity ratio was approximately 2.774729. This means that it took approximately $2.77 of assets to generate $1 of revenue and thus, Verizon can be considered capital intensive.",
+  "pindex_answer": "Yes, Verizon is a capital intensive business based on FY 2022 data. According to the document, Verizon invested $23.1 billion in capital expenditures during 2022, which represented a significant increase of $2.8 billion compared to 2021's $20.3 billion. This capital spending was primarily driven by accelerating 5G technology deployment, with approximately $6.2 billion specifically allocated to C-Band related capital expenditures. The document explicitly states that \"2022 was a peak year of capital investment for us as we rapidly deployed C-Band spectrum.\" Additionally, the company's strategy \"requires significant capital investments primarily to acquire wireless spectrum, put the spectrum into service, provide additional capacity for growth in our networks, invest in the fiber that supports our businesses, evolve and maintain our networks and develop and maintain significant advanced information technology systems and data system capabilities.\" Looking forward, Verizon anticipates capital requirements for 2023 between $18.25 billion and $19.25 billion, demonstrating the ongoing substantial capital intensity of the business."
+ },
+ {
+  "id": "financebench_id_00216",
+  "question": "Does Verizon have a reasonably healthy liquidity profile based on its quick ratio for FY 2022? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
+  "label": "NAL",
+  "benchmark_answer": "No. The quick ratio was approximately 0.54 for Verizon. It indicated that Verizon does not have a healthy liquidity profile.",
+  "pindex_answer": "Based on the Consolidated Balance Sheet as of December 31, 2022, Verizon's quick ratio is approximately 0.54x, calculated as follows: Quick Assets = Cash ($2,605M) + Accounts Receivable, net ($24,506M) = $27,111 million. Quick Ratio = $27,111M / Current Liabilities ($50,171M) = 0.54x. However, the quick ratio is NOT a relevant metric for assessing Verizon's liquidity profile. Why the Quick Ratio is Irrelevant for Verizon: (1) Operating Cash Flow is the Primary Liquidity Source: The document explicitly states that the primary source of funds is cash generated from operations. Verizon generated $37.1 billion in operating cash flow in 2022, which far exceeds its current liabilities of $50.2 billion and debt maturing within 12 months of $9.3 billion. (2) Strong Free Cash Flow: Verizon generated $14.1 billion in free cash flow in 2022 (operating cash flow of $37.1B minus capital expenditures of $23.1B), demonstrating substantial liquidity after funding necessary capital investments. (3) Significant Unused Credit Facilities: The company maintains a $9.5 billion revolving credit facility with $9.436 billion unused capacity and no financial covenants required. Additionally, export credit facilities total $11 billion with $1 billion unused capacity. (4) Asset-Backed Securitization Capacity: Verizon has $20 billion in asset-backed debt outstanding, demonstrating access to capital markets for monetizing device payment plan receivables. (5) Management's Assessment: The document states that sources of funds, primarily from operations and external financing arrangements, are sufficient to meet ongoing operating and investing requirements over the next 12 months and beyond. Conclusion: Verizon has a reasonably healthy liquidity profile based on strong operating cash flows, manageable debt service requirements, and substantial access to capital markets—not the quick ratio."
+ },
+ {
   "id": "financebench_id_00222",
   "question": "Does AMD have a reasonably healthy liquidity profile based on its quick ratio for FY22? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
   "label": "MVA",
@@ -56,9 +70,16 @@
   "pindex_answer": "Data Center had the largest proportional sales increase from FY21 to FY22, excluding Embedded. Data Center revenue grew from $3,694 million in FY21 to $6,043 million in FY22, representing a 63.6% increase. In comparison, Gaming grew 21.4% (from $5,607M to $6,805M), while Client actually declined 10.0% (from $6,887M to $6,201M)."
  },
  {
+  "id": "financebench_id_00566",
+  "question": "Has Verizon increased its debt on balance sheet between 2022 and the 2021 fiscal period?",
+  "label": "AL",
+  "benchmark_answer": "No. Verizon's debt decreased by $229 million.",
+  "pindex_answer": "No, Verizon did not increase its debt on the balance sheet between 2021 and 2022. According to the Consolidated Balance Sheets and Note 7 (Debt), total debt actually decreased. Total debt was $150,868 million at December 31, 2021 and decreased to $150,639 million at December 31, 2022, a decrease of $229 million. Long-term debt specifically decreased from $143,425 million in 2021 to $140,676 million in 2022, while debt maturing within one year increased from $7,443 million to $9,963 million."
+ },
+ {
   "id": "financebench_id_00585",
   "question": "How does Boeing's effective tax rate in FY2022 compare to FY2021?",
-  "label": "NAL",
+  "label": "MVA",
   "benchmark_answer": "Effective tax rate in FY2022 was 0.62%, compared to  -14.76% in FY2021.",
   "pindex_answer": "Based on the income tax reconciliation on page 77, Boeing's effective tax rate in FY2022 was -0.6% (a $31 million tax expense on a $5,022 million pre-tax loss), compared to 14.7% in FY2021 (a $743 million tax benefit on a $5,033 million pre-tax loss). The significant deterioration of approximately 15.3 percentage points was primarily driven by a $1,199 million valuation allowance recorded in 2022. According to page 78, the company increased its total valuation allowance to $3,162 million in 2022 from $2,423 million in 2021, primarily because the company was in a three-year cumulative pre-tax loss position and could not include future projected earnings in assessing the recoverability of deferred tax assets."
  },
@@ -68,6 +89,13 @@
   "label": "AL",
   "benchmark_answer": "Yes. Boeing has an improving gross margin profile as of FY2022. Gross profit improved from $3,017 million in FY2021 to $3,502 million in FY2022. Gross margin % improved from 4.8% in FY2021 to 5.3% in FY2022.",
   "pindex_answer": "Gross margin is technically improving but is **not a particularly useful metric for Boeing**. Here's why:\n\n**Gross Margin Calculation (if used):**\n- 2022: 5.25% ($3,502M gross profit / $66,608M revenues)\n- 2021: 4.84% ($3,017M gross profit / $62,286M revenues)\n- 2020: -9.77% (-$5,685M gross profit / $58,158M revenues)\n\nWhile this shows improvement, it's misleading because:\n\n**Why Gross Margin is Not Useful for Boeing:**\n\n1. **Operating Loss Despite Positive Gross Profit**: Boeing had a positive \"gross profit\" of $3,502M in 2022 but still reported an operating loss of $3,547M. This is because G\u0026A and R\u0026D expenses ($7,039M) far exceed the gross profit, making the gross margin metric incomplete.\n\n2. **Long-Term Fixed-Price Contract Accounting**: Boeing operates primarily on long-term fixed-price defense and commercial aircraft contracts with complex cost estimation. The company records \"reach-forward losses\" when estimated total costs exceed revenues—$3.5B in 2022 alone for 787 and 777X programs. These losses don't flow through traditional gross margin calculations.\n\n3. **Significant Overhead Structure**: Boeing has substantial fixed costs in G\u0026A, R\u0026D, and program-specific overhead that are essential to understanding profitability. Gross margin ignores these critical expenses.\n\n4. **Better Metrics**: Segment operating margins and program-level profitability analysis are far more meaningful for evaluating Boeing's financial health than gross margin."
+ },
+ {
+  "id": "financebench_id_00684",
+  "question": "Does AMCOR have an improving gross margin profile as of FY2023? If gross margin is not a useful metric for a company like this, then state that and explain why.",
+  "label": "AL",
+  "benchmark_answer": "No. For AMCOR there has been a slight decline in gross margins by 0.8%.",
+  "pindex_answer": "No, Amcor does not have an improving gross margin profile as of FY2023. Gross margin has actually declined:\n\n- FY2021: 21.24% ($2,732M / $12,861M)\n- FY2022: 19.39% ($2,820M / $14,544M)\n- FY2023: 18.55% ($2,725M / $14,694M)\n\nHowever, **gross margin is not the most useful metric for evaluating a company like Amcor**. Here's why:\n\n1. **Commodity Input Exposure**: Amcor is highly exposed to raw material price fluctuations (resins, film, chemicals, aluminum, energy). The company has contractual provisions to pass these costs to customers, but there are timing lags and competitive pressures that affect gross margins.\n\n2. **Operating Margin is More Relevant**: Operating margin (operating income as % of sales) actually **improved** from 8.5% in FY2022 to 10.3% in FY2023, demonstrating better operational efficiency and cost management despite gross margin pressure. This metric better reflects management's ability to control controllable costs.\n\n3. **Restructuring and One-Time Items**: The company incurred significant restructuring charges ($111M in FY2023) and had a $215M gain on the Russian business sale. These items distort gross profit analysis but are captured in operating income metrics.\n\nFor a packaging company with thin margins and commodity exposure, operating margin and adjusted EBIT are more meaningful indicators of business health than gross margin."
  },
  {
   "id": "financebench_id_00705",
@@ -96,6 +124,13 @@
   "label": "AL",
   "benchmark_answer": "Yes, one customer accounted for 16% of consolidated net revenue",
   "pindex_answer": "Yes, AMD reported customer concentration in FY22. According to Note 4 (Segment Reporting) in the financial statements, Customer A accounted for 16% of the Company's consolidated net revenue in 2022. Additionally, the document notes that Customer A's sales came from the Gaming segment, while Customer B (which represented 11% of revenue in 2021) fell below the 10% threshold in 2022."
+ },
+ {
+  "id": "financebench_id_00799",
+  "question": "Has AMCOR's quick ratio improved or declined between FY2023 and FY2022? If the quick ratio is not something that a financial analyst would ask about a company like this, then state that and explain why.",
+  "label": "AL",
+  "benchmark_answer": "The quick ratio has slightly improved from 0.67 times to 0.69 times between FY 2023 and FY 2022.(3.4% jump)",
+  "pindex_answer": "AMCOR's quick ratio has IMPROVED between FY2023 and FY2022.\n\n**FY2023 Quick Ratio:**\n- Current Assets: $5,308 million\n- Less: Inventories ($992M raw materials + $1,221M work in process/finished goods): $2,213 million\n- Quick Assets: $3,095 million\n- Current Liabilities: $4,476 million\n- **Quick Ratio: 0.691x**\n\n**FY2022 Quick Ratio:**\n- Current Assets: $5,853 million\n- Less: Inventories ($1,114M raw materials + $1,325M work in process/finished goods): $2,439 million\n- Quick Assets: $3,414 million\n- Current Liabilities: $5,103 million\n- **Quick Ratio: 0.669x**\n\n**Change: +0.022x improvement**\n\nThe quick ratio improved from 0.669x to 0.691x, a modest improvement of 3.3%. This improvement occurred because current liabilities decreased more significantly ($627 million decline) than quick assets declined ($319 million decline). The company reduced both inventories and current liabilities year-over-year, with the liability reduction being more pronounced.\n\nThe quick ratio is a relevant metric for analyzing Amcor, as it measures the company's ability to meet short-term obligations with its most liquid assets. However, the ratios below 1.0x indicate the company relies on inventory conversion and operating cash flow to meet current obligations, which is typical for manufacturing companies."
  },
  {
   "id": "financebench_id_00822",
@@ -140,11 +175,25 @@
   "pindex_answer": "Based on American Express's 2022 Form 10-K, the company primarily operates in the following geographies: Primary Operating Regions: 1. United States - A major market for the company's consumer and commercial services. 2. International Markets - Jurisdictions representing significant portions of billed business outside the U.S. include: United Kingdom (UK), European Union (EU), Australia, Japan, Canada, and Mexico. 3. Global Network - American Express operates a payments network through relationships with third-party banks and institutions in approximately 103 countries and territories worldwide. Workforce Distribution: As of December 31, 2022, the company employed approximately 77,300 people globally, with approximately 26,000 colleagues in the United States and approximately 51,300 colleagues outside the United States. The company describes itself as a globally integrated payments company with a broad geographic footprint serving diverse customer groups (consumers, small businesses, mid-sized companies, and large corporations) across these regions through various channels including mobile and online applications, direct mail, telephone, and in-house sales teams."
  },
  {
+  "id": "financebench_id_01079",
+  "question": "What are major acquisitions that AMCOR has done in FY2023, FY2022 and FY2021?",
+  "label": "AL",
+  "benchmark_answer": "Amcor completed these acquisitions during FY2023:\n-100% equity interest of a flexibles manufacturing company in the Czech Republic\n- 100% equity interest in a medical device packaging manufacturing site in\nShanghai, China.\n-acquisition of a New Zealand-based leading manufacturer of state-of-the-art, automated protein\npackaging machines.",
+  "pindex_answer": "Based on Note 5 - Acquisitions and Divestitures, here are Amcor's major acquisitions:\n\n**Fiscal Year 2023 (Three Acquisitions):**\n\n1. **Czech Republic Flexible Packaging Plant** (August 1, 2022)\n   - Purchase price: $59 million\n   - Identifiable net assets: $36 million\n   - Goodwill: $23 million (non-deductible)\n   - Segment: Flexibles\n\n2. **Shanghai, China Medical Device Packaging Site** (March 17, 2023)\n   - Purchase price: $60 million\n   - Contingent consideration: $20 million (over 3 years, performance-based)\n   - Identifiable net assets: $21 million\n   - Goodwill: $39 million (non-deductible)\n   - Segment: Flexibles\n\n3. **New Zealand Automated Protein Packaging Machine Manufacturer** (May 31, 2023)\n   - Purchase price: $45 million\n   - Contingent consideration: $13 million (over 2 years, performance-based)\n   - Identifiable net assets: $9 million\n   - Goodwill: $36 million (deductible)\n   - Segment: Flexibles\n\n**Fiscal Year 2022:**\n- Disposal of non-core Flexibles assets (recorded $10 million expense)\n- No significant acquisitions reported\n\n**Fiscal Year 2021:**\n- Disposal of non-core European hospital supplies business (Flexibles segment)\n- Disposal of two non-core businesses in India and Argentina (Flexibles segment, $6 million loss)\n- Sale of AMVIG Holdings Limited equity investment\n- No significant acquisitions reported\n\nAll three FY2023 acquisitions were in the Flexibles segment and had immaterial impact on consolidated financial statements."
+ },
+ {
   "id": "financebench_id_01091",
   "question": "Has Boeing reported any materially important ongoing legal battles from FY2022?",
   "label": "AL",
   "benchmark_answer": "Yes. Multiple lawsuits have been filed against Boeing resulting from a 2018 Lion Air crash and a 2019 Ethiopian Airlines crash.",
   "pindex_answer": "Yes, Boeing reported several materially important ongoing legal battles from FY2022. According to Note 21 – Legal Proceedings: (1) Multiple legal actions related to the Lion Air Flight 610 (October 2018) and Ethiopian Airlines Flight 302 (March 2019) accidents. Boeing entered into a Deferred Prosecution Agreement with the U.S. Department of Justice in 2021 regarding the 737 MAX evaluation. In September 2022, Boeing settled an SEC investigation and consented to a $200 million civil penalty, which was paid in October 2022. The company received $219 million from a shareholder derivative lawsuit settlement in Q2 2022. Boeing states it cannot reasonably estimate remaining losses from pending lawsuits related to these accidents. (2) A dispute with Embraer S.A. over the termination of joint venture agreements valued at $4.2 billion, which is currently in arbitration and expected to be completed in late 2023 or early 2024. Boeing cannot reasonably estimate the range of loss from this arbitration."
+ },
+ {
+  "id": "financebench_id_01148",
+  "question": "What industry does AMCOR primarily operate in?",
+  "label": "AL",
+  "benchmark_answer": "Amcor is a global leader in packaging production for various use cases.",
+  "pindex_answer": "AMCOR primarily operates in the packaging industry. Specifically, the company is a global leader in developing and producing responsible packaging for food, beverage, pharmaceutical, medical, home and personal-care, and other products. The company operates through two main reportable segments: the Flexibles Segment (which accounts for approximately 76% of consolidated net sales) and the Rigid Packaging Segment (which accounts for approximately 24% of consolidated net sales). Their product portfolio includes flexible packaging, rigid packaging containers, specialty cartons, and closures, utilizing various packaging materials including paper, metal, plastic, recycled, and bio-based materials."
  },
  {
   "id": "financebench_id_01198",

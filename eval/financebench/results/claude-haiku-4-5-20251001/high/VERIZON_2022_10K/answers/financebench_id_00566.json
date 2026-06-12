@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00566",
+  "company": "Verizon",
+  "doc_name": "VERIZON_2022_10K.pdf",
+  "question": "Has Verizon increased its debt on balance sheet between 2022 and the 2021 fiscal period?",
+  "gold_answer": "No. Verizon's debt decreased by $229 million.",
+  "predicted": "No, Verizon did not increase its debt on the balance sheet between 2021 and 2022. According to the Consolidated Balance Sheets and Note 7 (Debt), total debt actually decreased. Total debt was $150,868 million at December 31, 2021 and decreased to $150,639 million at December 31, 2022, a decrease of $229 million. Long-term debt specifically decreased from $143,425 million in 2021 to $140,676 million in 2022, while debt maturing within one year increased from $7,443 million to $9,963 million.",
+  "reasoning": "Now I have the actual page content. Let me look at the debt figures from the balance sheet and debt note. From page 56 (Consolidated Balance Sheets): At December 31, 2022: Debt maturing within one year = $9,963 million; Long-term debt = $140,676 million. At December 31, 2021: Debt maturing within one year = $7,443 million; Long-term debt = $143,425 million. From page 77 (Note 7. Debt): Total debt at December 31, 2022 = $150,639 million; Total debt at December 31, 2021 = $150,868 million. So total debt decreased from $150,868 million in 2021 to $150,639 million in 2022, a decrease of $229 million.",
+  "steps": 3,
+  "selected_pages": "56,77,78,79,80,81,82",
+  "cited_pages": [
+    56,
+    77
+  ],
+  "gold_pages": [
+    76
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}
