@@ -89,6 +89,7 @@ func isRefusal(s string) bool {
 		"cannot find", "can't find", "could not find", "not provided", "not found",
 		"unable to", "does not provide", "not present", "not available",
 		"not stated", "not disclosed", "insufficient information",
+		"does not specify", "doesn't specify", "does not explicitly",
 	} {
 		if strings.Contains(a, p) {
 			return true
@@ -233,6 +234,8 @@ type agentSession struct {
 	msgs    []llm.Message
 	fetched map[int]bool
 	steps   int
+	// nudgedNotFound: the one-shot give-up redirect has fired (see run).
+	nudgedNotFound bool
 }
 
 // validAgentAction accepts a well-formed get_pages or answer action.
@@ -286,6 +289,24 @@ func (s *agentSession) run(ctx context.Context, budget int) (Answer, error) {
 				s.msgs = append(s.msgs, llm.Message{Role: llm.RoleUser, Content: "You answered without " +
 					"reading any pages — never answer from the structure summaries alone. Fetch the relevant " +
 					"pages with get_pages first, then answer again grounded in their text."})
+				continue
+			}
+			// Give-up redirect, also mechanical: a "not found / not specified"
+			// answer with turns remaining gets ONE push to keep exploring. The
+			// structure summaries can carry no scent at all for the right
+			// section (absence facts especially — the Amex 12(b) miss answered
+			// "doesn't specify" from the wrong note with six turns left), so a
+			// first-fetch surrender is treated like an ungrounded answer, not a
+			// conclusion. One redirect only: an honest "not found" after
+			// further exploration must stand.
+			if isRefusal(act.Answer) && !s.nudgedNotFound && i < budget-1 {
+				s.nudgedNotFound = true
+				s.msgs = append(s.msgs, llm.Message{Role: llm.RoleUser, Content: "You still have turns " +
+					"left — do not conclude the document lacks the answer after reading so few pages. " +
+					"Re-examine the structure and fetch other promising pages you have not read yet " +
+					"(front matter and cover pages, notes, schedules, and exhibits often hold facts the " +
+					"section summaries do not mention). If it is still not there after exploring, answer " +
+					"honestly that it is not found."})
 				continue
 			}
 			return s.answer(act), nil

@@ -335,9 +335,11 @@ func TestAskUltraBothVerifiesUnsupportedReturnsOriginal(t *testing.T) {
 }
 
 func TestAskUltraSkipsVerificationOnRefusal(t *testing.T) {
+	refusal := `{"thinking":"t","action":"answer","answer":"I cannot find it in the document.","pages_used":""}`
 	mock := llm.NewMock("m",
 		llm.MockResponse{Content: agentGetP2},
-		llm.MockResponse{Content: `{"thinking":"t","action":"answer","answer":"I cannot find it in the document.","pages_used":""}`},
+		llm.MockResponse{Content: refusal}, // redirected once (give-up nudge)
+		llm.MockResponse{Content: refusal}, // honest refusal stands
 	)
 	a := New(mock, "m")
 	a.Effort = EffortUltra
@@ -351,8 +353,8 @@ func TestAskUltraSkipsVerificationOnRefusal(t *testing.T) {
 	if ans.Verification != "" {
 		t.Errorf("verification = %q want \"\" (refusals are never verified)", ans.Verification)
 	}
-	if mock.CallCount() != 2 {
-		t.Errorf("calls = %d want 2 (fetch + refusal, no verification on a refusal)", mock.CallCount())
+	if mock.CallCount() != 3 {
+		t.Errorf("calls = %d want 3 (fetch, redirected refusal, final refusal; no verification)", mock.CallCount())
 	}
 }
 
@@ -488,5 +490,84 @@ func TestAskBigContextModelGetsFullStructure(t *testing.T) {
 	}
 	if len(user) < 500_000 {
 		t.Errorf("select prompt = %d chars; full oversized structure should be embedded", len(user))
+	}
+}
+
+const agentRefusal = `{"thinking":"the fetched pages lack it","action":"answer","answer":"The document does not specify this.","pages_used":"2"}`
+
+// Regression (Amex 12(b)): a "not found / not specified" answer with turns
+// remaining is redirected ONCE to keep exploring instead of surrendering on
+// the first fetched range.
+func TestAskAgenticNotFoundRedirectExploresThenAnswers(t *testing.T) {
+	mock := llm.NewMock("m",
+		llm.MockResponse{Content: agentGetP2},   // fetch wrong-ish pages
+		llm.MockResponse{Content: agentRefusal}, // gives up -> redirected
+		llm.MockResponse{Content: `{"thinking":"trying page 1","action":"get_pages","pages":"1"}`},
+		llm.MockResponse{Content: agentAnswer}, // finds it after the nudge
+	)
+	a := New(mock, "m")
+	a.Effort = EffortHigh
+	ans, err := a.Ask(context.Background(), sampleDoc(), "What was revenue?")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ans.Text != "Revenue was $1,234." {
+		t.Errorf("answer = %q (the post-redirect answer should be returned)", ans.Text)
+	}
+	if ans.SelectedPages != "1,2" {
+		t.Errorf("selected = %q want 1,2 (both fetches)", ans.SelectedPages)
+	}
+	if mock.CallCount() != 4 {
+		t.Fatalf("calls = %d want 4 (fetch, refusal, fetch, answer)", mock.CallCount())
+	}
+	// The turn after the refusal must carry the redirect message.
+	msgs := mock.Calls()[2].Messages
+	last := msgs[len(msgs)-1]
+	if last.Role != llm.RoleUser || !strings.Contains(last.Content, "do not conclude the document lacks") {
+		t.Errorf("expected the give-up redirect as the next user turn, got %q %q", last.Role, last.Content)
+	}
+}
+
+func TestAskAgenticNotFoundRedirectFiresOnlyOnce(t *testing.T) {
+	mock := llm.NewMock("m",
+		llm.MockResponse{Content: agentGetP2},
+		llm.MockResponse{Content: agentRefusal}, // redirected
+		llm.MockResponse{Content: agentRefusal}, // honest second refusal stands
+	)
+	a := New(mock, "m")
+	a.Effort = EffortHigh
+	ans, err := a.Ask(context.Background(), sampleDoc(), "q")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(ans.Text, "does not specify") {
+		t.Errorf("answer = %q (post-redirect refusal must be returned, not re-redirected)", ans.Text)
+	}
+	if mock.CallCount() != 3 {
+		t.Fatalf("calls = %d want 3", mock.CallCount())
+	}
+}
+
+func TestAskAgenticNoRedirectOnFinalBudgetTurn(t *testing.T) {
+	// Fill every turn but the last with fetches; the last in-budget turn
+	// refuses. There is no room left to explore, so no redirect — the refusal
+	// is returned without consuming the forced-answer path.
+	rs := make([]llm.MockResponse, 0, agentMaxIterations)
+	for i := 0; i < agentMaxIterations-1; i++ {
+		rs = append(rs, llm.MockResponse{Content: agentGetP2})
+	}
+	rs = append(rs, llm.MockResponse{Content: agentRefusal})
+	mock := llm.NewMock("m", rs...)
+	a := New(mock, "m")
+	a.Effort = EffortHigh
+	ans, err := a.Ask(context.Background(), sampleDoc(), "q")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(ans.Text, "does not specify") {
+		t.Errorf("answer = %q", ans.Text)
+	}
+	if mock.CallCount() != agentMaxIterations {
+		t.Fatalf("calls = %d want %d (no redirect, no forced turn)", mock.CallCount(), agentMaxIterations)
 	}
 }
