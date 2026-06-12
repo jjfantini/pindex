@@ -61,5 +61,17 @@
       "Gold: \"Effective tax rate in FY2022 was 0.62%, compared to -14.76% in FY2021.\""
     ],
     "suggested_reason": ""
+  },
+  "financebench_id_00790": {
+    "suggested": "SEDC",
+    "verdict": "Same verified statements, opposite verdicts on an interpretive question — gold's own caveats half-support pindex.",
+    "reasoning": "\"Is CVS Health a capital-intensive business?\" has no computational answer — it is a judgment call, and both sides ground theirs in accurate figures (all verified directly from the PDF). Gold says yes via the asset base: total assets $228,275M against net income $4,149M gives the 1.82% ROA gold quotes. pindex says no via capital spending: purchases of property and equipment were $2,727M against ~$322.5B revenue (~0.85%), with PP&E net of $12,873M just 5.6% of total assets and goodwill at $78,150M (34%) dominating the balance sheet. Notably gold itself concedes both of pindex's strongest points — \"a significant portion of this asset base is goodwill, and CVS's fixed assets/total assets ratio is on the lower side of 5.6%\" — i.e. the asset heaviness comes from acquisition intangibles, not productive fixed capital. pindex held the same conclusion with consistent grounding at all four efforts. Same evidence, defensibly different conclusion: SEDC.",
+    "evidence": [
+      "PDF balance sheet: Total assets $228,275M; Goodwill $78,150M; Property and equipment, net $12,873M (5.6% of assets).",
+      "Net income attributable to CVS Health $4,149M -> ROA 1.82% (gold's figure, verified).",
+      "Cash flow: Purchases of property and equipment $(2,727)M -> ~0.85% of $322.5B revenue (pindex's figure, verified).",
+      "Gold's own caveat: \"a significant portion of this asset base is goodwill, and CVS's fixed assets/total assets ratio is on the lower side of 5.6%\"."
+    ],
+    "suggested_reason": "Interpretive question with no computational answer; both conclusions are grounded in accurate, PDF-verified figures. Gold argues capital intensity from the $228.3B asset base / 1.82% ROA; pindex argues the opposite from capex of $2,727M (~0.85% of revenue) and PP&E at just 5.6% of total assets — and gold's own caveats (goodwill-dominated asset base, low fixed-asset ratio) concede exactly those points. Same evidence, defensibly different conclusion at all four efforts."
   }
 }

@@ -133,6 +133,13 @@
   "pindex_answer": "Yes, AMD reported customer concentration in FY22. The company disclosed that Customer A accounted for 16% of consolidated net revenue in 2022, with sales primarily from the Gaming segment. Customer B accounted for less than 10% in 2022 (marked with *), with sales from the Client segment."
  },
  {
+  "id": "financebench_id_00790",
+  "question": "Is CVS Health a capital-intensive business based on FY2022 data?",
+  "label": "NAL",
+  "benchmark_answer": "Yes, CVS Health requires an extensive asset base to operate, which is evident from its ROA of only 1.82% in 2022 and 3.39% in 2021, though it should be noted that a significant portion of this asset base is goodwill, and CVS's fixed assets/total assets ratio is on the lower side of 5.6%.",
+  "pindex_answer": "No, CVS Health is not a capital-intensive business based on FY2022 data. Capital expenditures were approximately $2.7 billion, representing only 0.87% of customer cash receipts ($313.7 billion) and 1.19% of total assets ($228.3 billion). Property and equipment represented just 5.64% of total assets. These metrics are well below typical capital-intensive industry benchmarks. Additionally, 73% of capital expenditures were directed toward technology and digital initiatives rather than physical infrastructure, further indicating a relatively low capital intensity business model."
+ },
+ {
   "id": "financebench_id_00799",
   "question": "Has AMCOR's quick ratio improved or declined between FY2023 and FY2022? If the quick ratio is not something that a financial analyst would ask about a company like this, then state that and explain why.",
   "label": "AL",
@@ -203,6 +210,13 @@
   "pindex_answer": "Yes, Boeing reported two materially important ongoing legal battles from FY2022: (1) Multiple pending lawsuits related to the 737 MAX accidents (Lion Air Flight 610 in October 2018 and Ethiopian Airlines Flight 302 in March 2019), for which Boeing cannot reasonably estimate remaining losses not covered by insurance; and (2) An arbitration dispute with Embraer over Boeing's termination of joint venture agreements, expected to be completed in late 2023 or early 2024, for which Boeing cannot reasonably estimate potential losses."
  },
  {
+  "id": "financebench_id_01107",
+  "question": "Has CVS Health reported any materially important ongoing legal battles from 2022, 2021 and 2020?",
+  "label": "AL",
+  "benchmark_answer": "Yes, CVS Health has been involved in multiple ongoing legal battles. Some notable legal dispute areas for CVS are: (1) usual and customary pricing litigation: where it's claimed that CVSâs retail pharmacies overcharged for prescription drugs; (2) PBM litigation and investigations: where it's claimed that that rebate agreements between the drug manufacturers and PBMs caused inflated prices for certain drug products; and (3) controlled substances litigation: legal matters around opioids for which CVS has agreed to pay up to $4.3 billion to claimants in remediation and $625 million to attorneys and fees",
+  "pindex_answer": "Yes, CVS Health reported several materially important ongoing legal battles from 2020-2022:\n\n1. **Opioid Litigation (Most Significant)**: The company faced extensive opioid-related litigation. In November 2021, CVS was found liable in Ohio with a judgment of $651 million (over 15 years) in August 2022. More significantly, in December 2022, CVS agreed to a major settlement with state Attorneys General and the Plaintiffs' Executive Committee for approximately $4.3 billion in opioid remediation plus $625 million in attorneys' fees and costs, payable over 10 years beginning in 2023. Additionally, a separate December 2022 settlement with tribes would cost $113 million plus $18 million in attorneys' fees. The company recorded $5.2 billion in pre-tax charges in Q3 2022 and $99 million in Q4 2022 related to these settlements.\n\n2. **PBM Litigation and Investigations**: Multiple lawsuits and investigations by state Attorneys General and the FTC regarding drug pricing and rebate arrangements with drug manufacturers.\n\n3. **Usual and Customary Pricing Litigation**: Lawsuits alleging retail pharmacies overcharged for prescription drugs by not submitting correct usual and customary prices.\n\n4. **CMS Risk Adjustment Data Validation (RADV) Audits**: Ongoing audits that could result in material premium refunds to CMS.\n\n5. **Prescription Processing Litigation**: Multiple qui tam cases and investigations regarding prescription processing practices.\n\n6. **Provider Payment Litigation**: Class actions regarding out-of-network benefit payments and claim administration practices."
+ },
+ {
   "id": "financebench_id_01148",
   "question": "What industry does AMCOR primarily operate in?",
   "label": "AL",
@@ -215,6 +229,13 @@
   "label": "AL",
   "benchmark_answer": "In 2022, AMD reported Higher sales of their EPYC server processors, higher semi-custom product sales, and the inclusion of Xilinx embedded product sales",
   "pindex_answer": "AMD's FY22 revenue increased by $7.2 billion (44%) to $23.6 billion from $16.4 billion in FY21. The primary drivers were: (1) The Xilinx acquisition completed in February 2022, which added $4.3 billion in Embedded segment revenue; (2) Data Center segment growth of 64% ($2.3 billion increase) driven by higher sales of EPYC server processors; and (3) Gaming segment growth of 21% ($1.2 billion increase) driven by higher semi-custom product sales for gaming console SoCs. These gains were partially offset by a 10% decline in the Client segment ($686 million decrease) due to challenging PC market conditions and inventory correction."
+ },
+ {
+  "id": "financebench_id_01244",
+  "question": "Has CVS Health paid dividends to common shareholders in Q2 of FY2022?",
+  "label": "AL",
+  "benchmark_answer": "Yes, CVS paid a $ 0.55 dividend per share every quarter in FY2022",
+  "pindex_answer": "Yes, CVS Health paid dividends to common shareholders in Q2 of FY2022. The quarterly cash dividend was $0.55 per share in 2022. The company has paid cash dividends every quarter since becoming a public company."
  },
  {
   "id": "financebench_id_01279",

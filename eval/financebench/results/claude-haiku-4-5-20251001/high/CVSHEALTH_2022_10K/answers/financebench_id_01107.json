@@ -1,0 +1,39 @@
+{
+  "financebench_id": "financebench_id_01107",
+  "company": "CVS Health",
+  "doc_name": "CVSHEALTH_2022_10K.pdf",
+  "question": "Has CVS Health reported any materially important ongoing legal battles from 2022, 2021 and 2020?",
+  "gold_answer": "Yes, CVS Health has been involved in multiple ongoing legal battles. Some notable legal dispute areas for CVS are: (1) usual and customary pricing litigation: where it's claimed that CVSâs retail pharmacies overcharged for prescription drugs; (2) PBM litigation and investigations: where it's claimed that that rebate agreements between the drug manufacturers and PBMs caused inflated prices for certain drug products; and (3) controlled substances litigation: legal matters around opioids for which CVS has agreed to pay up to $4.3 billion to claimants in remediation and $625 million to attorneys and fees",
+  "predicted": "Yes, CVS Health reported several materially important ongoing legal battles during 2022, 2021, and 2020:\n\n**Opioid-Related Litigation (Most Significant):**\n- In December 2022, CVS agreed to a settlement with state Attorneys General and the Plaintiffs' Executive Committee for approximately **$4.3 billion in opioid remediation and $625 million in attorneys' fees**, payable over 10 years beginning in 2023. This resolves substantially all opioid claims by states and political subdivisions (45 states, DC, and all eligible territories have joined).\n- In December 2022, CVS also agreed to settle tribal opioid claims for **$113 million in remediation and $18 million in attorneys' fees**, payable over 10 years.\n- In August 2022, a federal court judgment ordered CVS and two other defendants to pay **$651 million over 15 years** for opioid-related claims (CVS is appealing).\n- CVS recorded pre-tax charges of **$5.2 billion (Q3 2022) and $99 million (Q4 2022)** related to opioid settlements.\n\n**Other Material Litigation:**\n- **Usual and Customary Pricing Litigation**: Multiple lawsuits alleging CVS retail pharmacies overcharged for prescription drugs by not submitting correct usual and customary prices.\n- **PBM Litigation**: Multiple lawsuits and investigations by state Attorneys General and the FTC regarding drug pricing and rebate arrangements with manufacturers.\n- **Out-of-Network Provider Claims**: Class actions and individual lawsuits alleging CVS paid too little to members and providers for out-of-network services.\n- **Medicare Risk Adjustment (RADV) Audits**: CMS audits that could result in material premium refunds if risk-adjusted premiums are not properly supported by medical records.\n- **Controlled Substances/False Claims Act Cases**: Multiple qui tam cases and government investigations regarding prescription processing and opioid dispensing practices.\n\nThe document states that while individual accruals for outstanding legal matters are not material individually, the aggregate impact—particularly the opioid settlements—could have a material adverse effect on the Company's financial condition and operating results.",
+  "reasoning": "The user asked about materially important ongoing legal battles from 2022, 2021, and 2020. I now have detailed information from pages 172-178 about CVS Health's litigation and regulatory proceedings. Let me identify the most materially important ones based on the document.",
+  "steps": 2,
+  "selected_pages": "172,173,174,175,176,177,178",
+  "cited_pages": [
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178
+  ],
+  "cited_pages_printed": [
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176
+  ],
+  "gold_pages": [
+    172,
+    173
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": true,
+  "label": "AL"
+}

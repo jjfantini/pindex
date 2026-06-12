@@ -1,0 +1,27 @@
+{
+  "financebench_id": "financebench_id_01244",
+  "company": "CVS Health",
+  "doc_name": "CVSHEALTH_2022_10K.pdf",
+  "question": "Has CVS Health paid dividends to common shareholders in Q2 of FY2022?",
+  "gold_answer": "Yes, CVS paid a $ 0.55 dividend per share every quarter in FY2022",
+  "predicted": "Yes, CVS Health paid dividends to common shareholders in Q2 of FY2022. The quarterly cash dividend was $0.55 per share in 2022. The company has paid cash dividends every quarter since becoming a public company.",
+  "reasoning": "The question asks whether CVS Health paid dividends to common shareholders in Q2 of FY2022. I need to find information about dividend payments in Q2 2022.\n\nFrom page 92, I find: 'During 2022, 2021 and 2020 the quarterly cash dividend was $0.55, $0.50 and $0.50 per share, respectively.'\n\nThis indicates that in 2022, the quarterly cash dividend was $0.55 per share. Since this was the quarterly dividend amount throughout 2022, and Q2 is one of the four quarters in the year, CVS Health would have paid this dividend in Q2 2022.\n\nAdditionally, page 92 states: 'CVS Health Corporation has paid cash dividends every quarter since becoming a public company.' This confirms that dividends were paid every quarter, including Q2 2022.\n\nPage 168 provides the same information: 'The quarterly cash dividend declared by the Board was $0.55 and $0.50 per share in 2022 and 2021, respectively.'\n\nTherefore, yes, CVS Health paid dividends to common shareholders in Q2 of FY2022 at the rate of $0.55 per share.",
+  "selected_pages": "89-94, 168",
+  "cited_pages": [
+    92,
+    168
+  ],
+  "cited_pages_printed": [
+    90,
+    166
+  ],
+  "gold_pages": [
+    67
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

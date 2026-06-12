@@ -1,0 +1,42 @@
+{
+  "financebench_id": "financebench_id_01107",
+  "company": "CVS Health",
+  "doc_name": "CVSHEALTH_2022_10K.pdf",
+  "question": "Has CVS Health reported any materially important ongoing legal battles from 2022, 2021 and 2020?",
+  "gold_answer": "Yes, CVS Health has been involved in multiple ongoing legal battles. Some notable legal dispute areas for CVS are: (1) usual and customary pricing litigation: where it's claimed that CVSâs retail pharmacies overcharged for prescription drugs; (2) PBM litigation and investigations: where it's claimed that that rebate agreements between the drug manufacturers and PBMs caused inflated prices for certain drug products; and (3) controlled substances litigation: legal matters around opioids for which CVS has agreed to pay up to $4.3 billion to claimants in remediation and $625 million to attorneys and fees",
+  "predicted": "Yes, CVS Health reported several materially important ongoing legal battles from 2020-2022:\n\n1. **Opioid Litigation (Most Significant)**: The company faced extensive opioid-related litigation. In November 2021, CVS was found liable in Ohio with a judgment of $651 million (over 15 years) in August 2022. More significantly, in December 2022, CVS agreed to a major settlement with state Attorneys General and the Plaintiffs' Executive Committee for approximately $4.3 billion in opioid remediation plus $625 million in attorneys' fees and costs, payable over 10 years beginning in 2023. Additionally, a separate December 2022 settlement with tribes would cost $113 million plus $18 million in attorneys' fees. The company recorded $5.2 billion in pre-tax charges in Q3 2022 and $99 million in Q4 2022 related to these settlements.\n\n2. **PBM Litigation and Investigations**: Multiple lawsuits and investigations by state Attorneys General and the FTC regarding drug pricing and rebate arrangements with drug manufacturers.\n\n3. **Usual and Customary Pricing Litigation**: Lawsuits alleging retail pharmacies overcharged for prescription drugs by not submitting correct usual and customary prices.\n\n4. **CMS Risk Adjustment Data Validation (RADV) Audits**: Ongoing audits that could result in material premium refunds to CMS.\n\n5. **Prescription Processing Litigation**: Multiple qui tam cases and investigations regarding prescription processing practices.\n\n6. **Provider Payment Litigation**: Class actions regarding out-of-network benefit payments and claim administration practices.",
+  "reasoning": "The question asks about materially important ongoing legal battles from 2022, 2021, and 2020. I need to search the provided pages for significant litigation matters during these years.\n\nFrom page 173-174, I find the Controlled Substances Litigation section which describes opioid-related litigation:\n- November 2021: CVS was found liable by a jury in Ohio; August 2022: judgment of $651 million over 15 years (appealing, not accrued)\n- March 2022: Settlement with Florida for $484 million over 18 years (accrued)\n- August 2022: Settlement with New Mexico\n- September 2022: Settlement with West Virginia\n- September 2022: Settlement with Cherokee Nation\n- December 2022: Major settlement agreement with state Attorneys General and PEC for approximately $4.3 billion in remediation plus $625 million in attorneys' fees over 10 years\n- December 2022: Settlement with tribes for $113 million plus $18 million in attorneys' fees over 10 years\n- The company recorded $5.2 billion in charges in Q3 2022 and $99 million in Q4 2022\n\nFrom pages 173-177, other significant ongoing matters include:\n- Usual and Customary Pricing Litigation (page 173)\n- PBM Litigation and Investigations regarding drug pricing and rebates (page 173)\n- United States ex rel. Behnke v. CVS Caremark (qui tam case, page 173)\n- Prescription Processing Litigation (page 175)\n- Provider Proceedings regarding out-of-network payment practices (page 175-176)\n- CMS Actions and RADV audits (page 176)\n- Medicare and Medicaid CIDs (page 177)\n- Stockholder matters including securities litigation (page 177)\n\nThe most materially important ongoing legal battles appear to be the opioid litigation (with massive settlements in 2022) and the various PBM-related investigations and litigation regarding pricing and rebates.",
+  "selected_pages": "172-178,49-50",
+  "cited_pages": [
+    49,
+    50,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178
+  ],
+  "cited_pages_printed": [
+    47,
+    48,
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176
+  ],
+  "gold_pages": [
+    172,
+    173
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": true,
+  "label": "AL"
+}

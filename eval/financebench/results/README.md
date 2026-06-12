@@ -28,18 +28,20 @@ hand-edit the derived files.
 
 ## Scoreboard — claude-haiku-4-5-20251001 (generation + indexing), gpt-4o-2024-11-20 judge
 
-Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (12/84 docs, 44/150 questions):
+Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (13/84 docs, 47/150 questions):
 
 | Effort | Raw accuracy | Adjusted accuracy | Evidence recall | Hallucination |
 |---|---|---|---|---|
-| low | 86.36% (38/44) | 97.73% | 84.09% | 13.64% |
-| medium | 86.36% (38/44) | 97.73% | 86.36% | 13.64% |
-| **high** | **88.64% (39/44)** | **97.73%** | 88.64% | 11.36% |
-| ultra | 86.36% (38/44) | 97.73% | 88.64% | 13.64% |
+| low | 85.11% (40/47) | 95.74% | 85.11% | 14.89% |
+| medium | 85.11% (40/47) | 95.74% | 87.23% | 14.89% |
+| **high** | **87.23% (41/47)** | **95.74%** | 89.36% | 12.77% |
+| ultra | 85.11% (40/47) | 95.74% | 89.36% | 14.89% |
 
-All misses are human-adjudicated. Exactly one confirmed `NAL` remains per effort: the PepsiCo
-EBITDA-less-capex formula error at low/medium (financebench_id_03620), and the Amex 12(b)
-cover-page retrieval miss at high/ultra (financebench_id_00476).
+One new miss awaits review: CVS capital-intensity (financebench_id_00790, all four efforts —
+an interpretive question; PDF-verified figures on both sides, SEDC suggested in the
+adjudication UI). The confirmed `NAL`s stand: the PepsiCo EBITDA-less-capex formula error at
+low/medium (financebench_id_03620) and the Amex 12(b) cover-page retrieval miss at high/ultra
+(financebench_id_00476).
 
 `PEPSICO_2022_10K` (503 pages) initially could not be evaluated at all — every `ask` died with
 `prompt is too long: 205330 tokens > 200000 maximum` because the full tree structure was
@@ -55,6 +57,7 @@ truncated → titles-only) and the doc benchmarks normally.
 | AMERICANEXPRESS_2022_10K | 7 |
 | BESTBUY_2024Q2_10Q | 3 |
 | BOEING_2022_10K | 7 |
+| CVSHEALTH_2022_10K | 3 |
 | FOOTLOCKER_2022_8K_dated-2022-05-20 | 1 |
 | FOOTLOCKER_2022_8K_dated_2022-08-19 | 1 |
 | JOHNSON_JOHNSON_2023Q2_EARNINGS | 1 |

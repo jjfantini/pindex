@@ -1,0 +1,32 @@
+{
+  "financebench_id": "financebench_id_00790",
+  "company": "CVS Health",
+  "doc_name": "CVSHEALTH_2022_10K.pdf",
+  "question": "Is CVS Health a capital-intensive business based on FY2022 data?",
+  "gold_answer": "Yes, CVS Health requires an extensive asset base to operate, which is evident from its ROA of only 1.82% in 2022 and 3.39% in 2021, though it should be noted that a significant portion of this asset base is goodwill, and CVS's fixed assets/total assets ratio is on the lower side of 5.6%.",
+  "predicted": "Based on FY2022 data, CVS Health is not a highly capital-intensive business. Key evidence: Gross capital expenditures were $2.7 billion in 2022 against total revenues of $322.5 billion, yielding a CapEx-to-Revenue ratio of 0.84%, which is relatively low (capital-intensive industries typically require 5-10% or higher). Of the $2.7 billion in capital expenditures, 73% ($1.97 billion) was allocated to technology, digital, and strategic initiatives while 27% ($729 million) was for store, fulfillment, and support facilities. The company closed 306 stores and opened only 41 new stores in 2022, reflecting a mature retail footprint requiring minimal expansion capital. CVS Health operates a relatively asset-light business model generating substantial revenues ($322.5 billion) while maintaining modest capital requirements, indicating efficient capital deployment and a less capital-intensive operational structure.",
+  "reasoning": "I need to provide the answer in proper JSON format without newline characters in the string. Let me format it correctly.",
+  "verification": "supported",
+  "steps": 3,
+  "selected_pages": "75,76,77,89,90,91,92,93,94,108,109",
+  "cited_pages": [
+    75,
+    89,
+    108
+  ],
+  "cited_pages_printed": [
+    73,
+    87,
+    106
+  ],
+  "gold_pages": [
+    107,
+    109
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": false,
+  "hallucinated": true,
+  "page_hit": false,
+  "label": "NAL"
+}
