@@ -2,6 +2,7 @@ package tree
 
 import (
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -147,5 +148,41 @@ func TestCoverChildren(t *testing.T) {
 	}
 	if nodes[0].Nodes[1].EndIndex != 503 {
 		t.Errorf("child EndIndex = %d, want 503 (grandchild pushes it)", nodes[0].Nodes[1].EndIndex)
+	}
+}
+
+func TestTruncateSummariesCutsLongKeepsShort(t *testing.T) {
+	long := strings.Repeat("é", 300) // multibyte: truncation must be rune-safe
+	nodes := []TreeNode{
+		{Title: "A", Summary: long, Nodes: []TreeNode{{Title: "A1", Summary: long}}},
+		{Title: "B", Summary: "short"},
+	}
+	got := TruncateSummaries(nodes, 280)
+	want := strings.Repeat("é", 280) + "…"
+	if got[0].Summary != want {
+		t.Errorf("truncated summary = %d runes, want 281", len([]rune(got[0].Summary)))
+	}
+	if got[0].Nodes[0].Summary != want {
+		t.Error("truncation must recurse into children")
+	}
+	if got[1].Summary != "short" {
+		t.Errorf("short summary changed: %q", got[1].Summary)
+	}
+	if nodes[0].Summary != long || nodes[0].Nodes[0].Summary != long {
+		t.Error("TruncateSummaries must not mutate the input")
+	}
+}
+
+func TestStripSummariesDeepCopies(t *testing.T) {
+	nodes := []TreeNode{{Title: "A", Summary: "s", Nodes: []TreeNode{{Title: "A1", Summary: "s1"}}}}
+	got := StripSummaries(nodes)
+	if got[0].Summary != "" || got[0].Nodes[0].Summary != "" {
+		t.Errorf("summaries not stripped: %+v", got)
+	}
+	if nodes[0].Summary != "s" || nodes[0].Nodes[0].Summary != "s1" {
+		t.Error("StripSummaries must not mutate the input")
+	}
+	if StripSummaries(nil) != nil {
+		t.Error("nil in, nil out")
 	}
 }

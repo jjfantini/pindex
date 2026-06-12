@@ -38,6 +38,14 @@ func GetStructure(doc tree.Document) (string, error) {
 	return (tree.JSONRenderer{}).Render(tree.StripText(doc.Structure))
 }
 
+// GetStructureWithin is GetStructure under a size budget in characters
+// (~4 per token): an oversized structure degrades its node summaries
+// (truncated, then stripped) instead of overflowing the model's context
+// window. The returned StructureFit reports the degradation applied.
+func GetStructureWithin(doc tree.Document, budget int) (string, tree.StructureFit, error) {
+	return tree.RenderStructureWithin(tree.JSONRenderer{}, doc.Structure, budget)
+}
+
 // Pages returns the content of the requested pages (parsed from a selector like
 // "5-7,12"), in page order, skipping any not present.
 func Pages(doc tree.Document, pages string) ([]tree.PageContent, error) {

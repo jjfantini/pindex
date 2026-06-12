@@ -158,3 +158,37 @@ func StripText(nodes []TreeNode) []TreeNode {
 	}
 	return out
 }
+
+// TruncateSummaries returns a deep copy of the tree with every Summary longer
+// than max runes cut at a rune boundary with "…" appended, leaving the input
+// untouched. Shorter summaries pass through unchanged.
+func TruncateSummaries(nodes []TreeNode, max int) []TreeNode {
+	if nodes == nil {
+		return nil
+	}
+	out := make([]TreeNode, len(nodes))
+	for i, n := range nodes {
+		if r := []rune(n.Summary); len(r) > max {
+			n.Summary = string(r[:max]) + "…"
+		}
+		n.Nodes = TruncateSummaries(n.Nodes, max)
+		out[i] = n
+	}
+	return out
+}
+
+// StripSummaries returns a deep copy of the tree with every Summary cleared,
+// leaving the input untouched — the titles-only structure view, the smallest
+// rendering the ask loop can degrade to.
+func StripSummaries(nodes []TreeNode) []TreeNode {
+	if nodes == nil {
+		return nil
+	}
+	out := make([]TreeNode, len(nodes))
+	for i, n := range nodes {
+		n.Summary = ""
+		n.Nodes = StripSummaries(n.Nodes)
+		out[i] = n
+	}
+	return out
+}
