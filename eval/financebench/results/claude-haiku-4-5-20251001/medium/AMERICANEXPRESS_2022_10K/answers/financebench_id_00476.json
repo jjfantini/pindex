@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00476",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "Which debt securities are registered to trade on a national securities exchange under American Express' name as of 2022?",
+  "gold_answer": "There are none",
+  "predicted": "The provided pages do not contain information about which debt securities are registered to trade on a national securities exchange under American Express' name. While the pages list various debt instruments (Senior Notes, Subordinated Notes, etc.) issued by American Express Company and its subsidiaries as of 2022, they do not specify which of these securities are registered for trading on national securities exchanges.",
+  "reasoning": "The question asks which debt securities are registered to trade on a national securities exchange under American Express' name as of 2022. I need to search the provided pages for information about debt securities registered on national securities exchanges.\n\nLooking through the pages:\n- Page 124 discusses short-term borrowings\n- Page 125 provides a detailed table of long-term debt outstanding as of December 31, 2022 and 2021, listing various debt instruments issued by American Express Company (Parent Company only), American Express Credit Corporation, Lending Trust, Charge Trust, and Other\n- Page 126 shows aggregate annual maturities on long-term debt obligations\n- Page 127 discusses other liabilities\n\nHowever, none of these pages explicitly state which debt securities are \"registered to trade on a national securities exchange.\" The pages list the types of debt securities (Fixed Rate Senior Notes, Floating Rate Senior Notes, Fixed-to-Floating Rate Senior Notes, Fixed Rate Subordinated Notes, etc.) and their outstanding balances, maturity dates, and interest rates, but they do not specifically identify which ones are registered for trading on a national securities exchange.\n\nThe information needed to answer this question - specifically which debt securities are registered to trade on a national securities exchange - is not provided in the given pages. The pages show what debt exists but not their registration status on exchanges.",
+  "selected_pages": "124-127",
+  "cited_pages": [
+    124,
+    125,
+    126,
+    127
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": false,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

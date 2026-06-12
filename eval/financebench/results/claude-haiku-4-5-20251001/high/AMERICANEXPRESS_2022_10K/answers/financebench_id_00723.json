@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00723",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "Does AMEX have an improving operating margin profile as of 2022? If operating margin is not a useful metric for a company like this, then state that and explain why.",
+  "gold_answer": "Performance is not measured through operating margin",
+  "predicted": "Operating margin is NOT a particularly useful metric for American Express, and here's why: American Express is a financial services company (bank holding company), not a traditional operating business. For financial services firms, traditional operating margin concepts don't apply the same way because: (1) Interest income/expense is core to the business model - Unlike manufacturing or retail, financial services companies generate significant revenue from lending and deposit activities, making net interest margin more relevant than operating margin. (2) Credit losses are fundamental to the business - Provisions for credit losses are a core operating expense that fluctuates with economic conditions and portfolio quality, not a peripheral cost. (3) Different profitability metrics are more meaningful for financial services: Net Profit Margin: 14.2% (2022) vs. 19.0% (2021) - declining. Efficiency Ratio: 77.7% (2022) vs. 78.1% (2021) - slightly improving. Return on Equity: approximately 30% (2022) vs. 36% (2021) - declining. What actually happened in 2022: While revenues grew 24.8% to $52.9B from $42.4B, profitability declined due to: Credit loss provisions surged from a $1.4B release in 2021 to a $2.2B provision in 2022 (a $3.6B swing). Card Member rewards expenses jumped 27% to $14.0B. Interest expense nearly doubled to $2.8B from $1.3B due to rising deposit costs and debt rates. Net income fell 6.8% to $7.5B despite strong revenue growth. Conclusion: American Express's profitability profile deteriorated in 2022 despite strong revenue growth, driven by normalization of credit losses and rising operating costs.",
+  "reasoning": "The user is asking about American Express's operating margin profile as of 2022. I've fetched the consolidated statements of income. Let me analyze whether operating margin is a useful metric and what the actual trends show.",
+  "steps": 2,
+  "selected_pages": "96,97,98,99,100",
+  "cited_pages": [
+    96,
+    97
+  ],
+  "gold_pages": [
+    95
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

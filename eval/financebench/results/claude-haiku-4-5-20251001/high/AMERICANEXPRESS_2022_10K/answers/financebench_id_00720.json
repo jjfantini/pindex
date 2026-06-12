@@ -1,0 +1,40 @@
+{
+  "financebench_id": "financebench_id_00720",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "What drove gross margin change as of the FY2022 for American Express? If gross margin is not a useful metric for a company like this, then please state that and explain why.",
+  "gold_answer": "Performance is not measured through gross margin",
+  "predicted": "Gross margin is not a useful metric for American Express, and the company does not report or discuss gross margin in its financial statements or MD\u0026A.\n\nAmerican Express is a financial services company, not a manufacturing or product-based business. The pages show that American Express reports revenues from five sources: (1) Discount revenue ($30.7 billion in 2022), (2) Net card fees ($6.1 billion), (3) Service fees and other revenue ($4.5 billion), (4) Processed revenue ($1.6 billion), and (5) Interest income ($12.7 billion). These are service-based revenues, not product sales with identifiable cost of goods sold.\n\nGross margin is calculated as (Revenue - Cost of Goods Sold) / Revenue and is relevant for companies that manufacture or resell physical products. American Express has no COGS because it does not produce goods. Instead, the company reports:\n\n- Total revenues net of interest expense: $52.9 billion (2022)\n- Provisions for credit losses: $2.2 billion\n- Total expenses: $41.1 billion (including Card Member rewards, business development, Card Member services, marketing, salaries, and other operating expenses)\n- Pretax income: $9.6 billion\n\nMore relevant profitability metrics for American Express include Net Interest Margin (10.6% on Card Member loans), Return on Average Equity (32.3%), and the Cost-to-Income ratio implicit in the expense structure.",
+  "reasoning": "Now I have the actual pages from the MD\u0026A section. Let me look for information about gross margin. Looking through these pages, I can see American Express reports revenues broken down into: discount revenue, net card fees, service fees and other revenue, processed revenue, and interest income. They also report expenses. However, I don't see any mention of 'gross margin' as a metric. The company reports 'Total revenues net of interest expense' and then deducts 'Provisions for credit losses' and 'Expenses' to arrive at pretax income. This is typical for a financial services company. Let me confirm this is not a useful metric for American Express by examining the business model described in the pages.",
+  "steps": 3,
+  "selected_pages": "43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60",
+  "cited_pages": [
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60
+  ],
+  "gold_pages": [
+    95
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

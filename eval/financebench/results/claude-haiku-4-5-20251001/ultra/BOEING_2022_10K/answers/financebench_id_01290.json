@@ -1,0 +1,29 @@
+{
+  "financebench_id": "financebench_id_01290",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "Who are the primary customers of Boeing as of FY2022?",
+  "gold_answer": "Boeing's primary customers as of FY2022 are a limited number of commercial airlines and the US government. The US government accounted for 40% of Boeing's total revenues in FY2022.",
+  "predicted": "Based on Boeing's FY2022 10-K filing, the primary customers are:\n\n1. Commercial Airlines (BCA Segment - $25.9 billion in revenues)\n- Boeing's largest customer base for commercial aircraft\n- Customers located globally: U.S. ($12.2B), Asia ($4.5B), Europe ($4.0B), Middle East ($2.0B), and other regions ($3.0B)\n- Airlines purchase narrow-body (737) and wide-body (767, 777, 787) aircraft\n\n2. U.S. Government (40% of total consolidated revenues)\n- Primarily serves BDS ($23.2B segment) and BGS ($17.6B segment)\n- BDS: 89% of revenues from U.S. government contracts\n- BGS: 33% of revenues from U.S. government\n- Includes all branches of the U.S. military, NASA, FAA, and Department of Homeland Security\n\n3. International Governments and Defense Customers (BDS)\n- Non-U.S. government customers: $6.0 billion in BDS revenues\n- Includes allied nations' defense and security needs\n\n4. Commercial Airline Operators for Services (BGS Commercial - $9.6 billion)\n- Provides maintenance, spare parts, training, and logistics support\n- Supports both commercial and defense aircraft operators\n\n5. Boeing Capital Customers ($199 million)\n- Aircraft financing and leasing customers\n\nIn summary, Boeing's primary customers are commercial airlines worldwide and the U.S. government (representing 40% of total revenues), with supplementary revenue from international governments, commercial airline service customers, and financing arrangements.",
+  "reasoning": "The user is pointing out that my JSON has invalid escape sequences. I need to properly escape newlines in the JSON string values. Let me fix this by ensuring all newlines are properly escaped as \\n.",
+  "verification": "supported",
+  "steps": 4,
+  "selected_pages": "3,4,5,6,7,8,22,23,24,25,113,114,115,116,117,118,119",
+  "cited_pages": [
+    24,
+    114,
+    115,
+    116
+  ],
+  "gold_pages": [
+    7,
+    9,
+    13
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

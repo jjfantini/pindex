@@ -1,0 +1,27 @@
+{
+  "financebench_id": "financebench_id_00720",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "What drove gross margin change as of the FY2022 for American Express? If gross margin is not a useful metric for a company like this, then please state that and explain why.",
+  "gold_answer": "Performance is not measured through gross margin",
+  "predicted": "Gross margin is not a useful metric for American Express and is not reported in the provided financial statements. American Express is a financial services company (payments, lending, and merchant services), not a product-based business. Financial services companies do not have traditional 'cost of goods sold' that would be used to calculate gross margin. Instead, American Express reports operating expenses and uses metrics like net interest margin, operating margin, and return on equity (32.3% in FY2022) to evaluate financial performance. The company's profitability is driven by discount revenue, net card fees, service fees, net interest income, and operating expenses—not by a gross margin calculation.",
+  "reasoning": "The question asks about gross margin change for American Express in FY2022. Let me search the provided pages for gross margin information.\n\nLooking through the pages:\n- Page 43: Business introduction and revenue types\n- Page 44: Summary of Financial Performance table showing income statement data\n- Page 45: Business Environment discussion\n- Page 46: Operating expenses discussion\n- Page 47: Consolidated Results of Operations\n- Page 53: Business Segment Results discussion\n\nI do not see any mention of 'gross margin' or 'gross profit' in any of these pages. The financial statements show:\n- Total revenues net of interest expense: $52,862M (2022) vs $42,380M (2021)\n- Expenses: $41,095M (2022) vs $33,110M (2021)\n- Pretax income: $9,585M (2022) vs $10,689M (2021)\n\nHowever, gross margin is not presented as a metric in these pages.\n\nGross margin is typically calculated as (Revenue - Cost of Goods Sold) / Revenue. For a financial services company like American Express, this metric is not typically used because:\n1. American Express is a service-based business, not a product-based business\n2. They don't have traditional 'cost of goods sold' - instead they have operating expenses\n3. The relevant metrics for financial services companies are typically net interest margin, operating margin, or return on equity\n\nThe pages do not discuss gross margin at all, and it would not be a useful metric for this type of company.",
+  "selected_pages": "43-47, 53",
+  "cited_pages": [
+    43,
+    44,
+    45,
+    46,
+    47,
+    53
+  ],
+  "gold_pages": [
+    95
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

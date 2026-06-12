@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_01981",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "Was American Express able to retain card members during 2022?",
+  "gold_answer": "Yes",
+  "predicted": "Yes, American Express was able to retain card members during 2022. The company explicitly stated that 'Card Member retention remained high' in 2022. This was supported by record new card acquisitions and growth across all card categories - total cards-in-force increased 10% to 133.3 million, proprietary cards-in-force increased 7% to 76.7 million, and basic cards-in-force increased 11% to 111.5 million. Net card fees also increased 17% year-over-year, reflecting both new acquisitions and strong retention of existing premium card members.",
+  "reasoning": "The question asks whether American Express was able to retain card members during 2022. I need to look for information about card member retention metrics.\n\nFrom page 45, in the Business Environment section, it states: 'Net card fees increased 17 percent year over-year, as new card acquisitions reached record levels in 2022 and Card Member retention remained high, demonstrating the impact of investments we have made in our premium value propositions.'\n\nThis directly addresses the question - the document explicitly states that 'Card Member retention remained high' in 2022.\n\nAdditional supporting evidence from page 50 (Table 5) shows:\n- Cards-in-force increased from 121.7 million (2021) to 133.3 million (2022), a 10% increase\n- Proprietary cards-in-force increased from 71.4 million to 76.7 million, a 7% increase\n- Basic cards-in-force increased from 100.7 million to 111.5 million, an 11% increase\n\nThese metrics indicate growth in the card member base, which is consistent with retention.",
+  "selected_pages": "43-47, 47-53, 53-64",
+  "cited_pages": [
+    45,
+    50
+  ],
+  "gold_pages": [
+    44
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

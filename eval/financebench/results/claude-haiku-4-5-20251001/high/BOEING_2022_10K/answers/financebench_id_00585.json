@@ -1,0 +1,26 @@
+{
+  "financebench_id": "financebench_id_00585",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "How does Boeing's effective tax rate in FY2022 compare to FY2021?",
+  "gold_answer": "Effective tax rate in FY2022 was 0.62%, compared to  -14.76% in FY2021.",
+  "predicted": "Based on the income tax reconciliation on page 77, Boeing's effective tax rate in FY2022 was -0.6% (a $31 million tax expense on a $5,022 million pre-tax loss), compared to 14.7% in FY2021 (a $743 million tax benefit on a $5,033 million pre-tax loss). The significant deterioration of approximately 15.3 percentage points was primarily driven by a $1,199 million valuation allowance recorded in 2022. According to page 78, the company increased its total valuation allowance to $3,162 million in 2022 from $2,423 million in 2021, primarily because the company was in a three-year cumulative pre-tax loss position and could not include future projected earnings in assessing the recoverability of deferred tax assets.",
+  "reasoning": "Now I have the actual page content. Let me calculate the effective tax rates for both years from the reconciliation table on page 77. The effective tax rate is calculated as: Income tax expense/(benefit) divided by Loss before income taxes. For FY2022: $31 / ($5,022) = -0.6%. For FY2021: ($743) / ($5,033) = 14.7%. The page shows these rates directly in the reconciliation table.",
+  "steps": 3,
+  "selected_pages": "76,77,78,79",
+  "cited_pages": [
+    76,
+    77,
+    78,
+    79
+  ],
+  "gold_pages": [
+    54
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": false,
+  "hallucinated": true,
+  "page_hit": false,
+  "label": "NAL"
+}

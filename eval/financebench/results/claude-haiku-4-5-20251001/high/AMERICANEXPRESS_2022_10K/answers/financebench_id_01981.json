@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_01981",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "Was American Express able to retain card members during 2022?",
+  "gold_answer": "Yes",
+  "predicted": "Yes, American Express was able to retain card members during 2022. According to the document, Net card fees increased 17 percent year over-year, as new card acquisitions reached record levels in 2022 and Card Member retention remained high, demonstrating the impact of investments we have made in our premium value propositions. This indicates that the company successfully maintained high retention rates while also achieving record new card acquisitions during 2022.",
+  "reasoning": "Perfect! I found the answer. On page 45 of the document, there is a clear statement about card member retention in 2022.",
+  "steps": 3,
+  "selected_pages": "43,44,45,46,47,54",
+  "cited_pages": [
+    45
+  ],
+  "gold_pages": [
+    44
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

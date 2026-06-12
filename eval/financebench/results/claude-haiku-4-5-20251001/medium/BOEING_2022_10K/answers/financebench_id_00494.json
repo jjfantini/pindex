@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00494",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "What production rate changes is Boeing forecasting for FY2023?",
+  "gold_answer": "Boeing forecasts an increase in the production rates for the 737, 777X and 787 aircrafts in 2023.",
+  "predicted": "Boeing is forecasting the following production rate changes for FY2023: (1) 787 program: gradually increase to 5 per month in 2023 (from currently low rates); (2) 777X program: resume production in 2023 (after being paused during 2022 and 2023); (3) 737 program: gradually increase production rates from the stabilized 31 per month based on market demand and supply chain capacity.",
+  "reasoning": "The user is asking about Boeing's production rate changes forecasted for FY2023. I need to search through the pages for specific mentions of FY2023 production rate forecasts.\n\nLooking at page 9, I find: 'The 787 program is currently producing at low rates and we expect to gradually increase to 5 per month in 2023. Production of the 777X is currently paused and is expected to resume in 2023. The 737 program has experienced operational and supply chain challenges stabilizing production at 31 per month. We plan to gradually increase 737 production rates based on market demand and supply chain capacity.'\n\nOn page 31, there's more detail: 'We increased the production rate to 31 per month in 2022, and expect to implement further gradual production rate increases based on market demand and supply chain capacity.'\n\nOn page 32, regarding 787: 'We are currently producing at low rates and expect to gradually return to 5 per month in 2023.'\n\nOn page 32, regarding 777X: 'In April 2022, we decided to pause production of the 777X-9 during 2022 and 2023.'\n\nSo the key FY2023 production rate changes Boeing is forecasting are:\n1. 787: Gradually increase to 5 per month in 2023\n2. 777X: Resume production in 2023 (after pause in 2022-2023)\n3. 737: Gradually increase from 31 per month based on market demand and supply chain capacity",
+  "selected_pages": "22-54,1-21,55-65",
+  "cited_pages": [
+    9,
+    31,
+    32
+  ],
+  "gold_pages": [
+    8
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

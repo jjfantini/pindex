@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_01091",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "Has Boeing reported any materially important ongoing legal battles from FY2022?",
+  "gold_answer": "Yes. Multiple lawsuits have been filed against Boeing resulting from a 2018 Lion Air crash and a 2019 Ethiopian Airlines crash.",
+  "predicted": "Yes, Boeing reported several materially important ongoing legal battles from FY2022. According to Note 21 – Legal Proceedings: (1) Multiple legal actions related to the Lion Air Flight 610 (October 2018) and Ethiopian Airlines Flight 302 (March 2019) accidents. Boeing entered into a Deferred Prosecution Agreement with the U.S. Department of Justice in 2021 regarding the 737 MAX evaluation. In September 2022, Boeing settled an SEC investigation and consented to a $200 million civil penalty, which was paid in October 2022. The company received $219 million from a shareholder derivative lawsuit settlement in Q2 2022. Boeing states it cannot reasonably estimate remaining losses from pending lawsuits related to these accidents. (2) A dispute with Embraer S.A. over the termination of joint venture agreements valued at $4.2 billion, which is currently in arbitration and expected to be completed in late 2023 or early 2024. Boeing cannot reasonably estimate the range of loss from this arbitration.",
+  "reasoning": "Now I have the actual page text from pages 112-113. Let me look for information about Boeing's material legal proceedings from FY2022. Page 113 contains Note 21 - Legal Proceedings which discusses the ongoing legal matters.",
+  "verification": "supported",
+  "steps": 3,
+  "selected_pages": "112,113",
+  "cited_pages": [
+    113
+  ],
+  "gold_pages": [
+    112
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

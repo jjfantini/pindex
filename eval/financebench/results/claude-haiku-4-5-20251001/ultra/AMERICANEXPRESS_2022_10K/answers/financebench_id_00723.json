@@ -1,0 +1,26 @@
+{
+  "financebench_id": "financebench_id_00723",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "Does AMEX have an improving operating margin profile as of 2022? If operating margin is not a useful metric for a company like this, then state that and explain why.",
+  "gold_answer": "Performance is not measured through operating margin",
+  "predicted": "You're correct - I should have shown my calculations. Here's the corrected analysis with proper support:\n\nOperating Margin is NOT a useful metric for American Express for the reasons stated above (financial services company, interest income/expense is core, credit losses are fundamental).\n\nMore Relevant Profitability Metrics (with proper calculations):\n\nReturn on Equity (using average shareholders' equity):\n- 2022: $7,514M / [($24,711M + $22,177M) / 2] = 32.0%\n- 2021: $8,060M / [($22,177M + $22,984M) / 2] = 35.7%\n- Declining by 3.7 percentage points\n\nNet Profit Margin:\n- 2022: $7,514M / $52,862M = 14.2%\n- 2021: $8,060M / $42,380M = 19.0%\n- Declining significantly\n\nEfficiency Ratio (Operating Expenses / Total Revenues):\n- 2022: $41,095M / $52,862M = 77.7%\n- 2021: $33,110M / $42,380M = 78.1%\n- Slightly improving\n\nKey Drivers of Declining Profitability Despite Revenue Growth:\n1. Credit loss provisions: $2,182M provision in 2022 vs. $1,419M release in 2021 (a $3.6B swing)\n2. Card Member rewards expenses: +27% to $14,002M\n3. Interest expense: nearly doubled to $2,763M from $1,283M\n4. Net income declined 6.8% despite 24.8% revenue growth\n\nConclusion: American Express's profitability deteriorated in 2022 despite strong revenue growth, with ROE declining from 35.7% to 32.0%.",
+  "reasoning": "The user is asking me to provide only valid JSON without any prose. I need to format my answer as a proper JSON object with escaped newlines.",
+  "verification": "supported",
+  "steps": 3,
+  "selected_pages": "96,97,98,99,100",
+  "cited_pages": [
+    96,
+    98,
+    100
+  ],
+  "gold_pages": [
+    95
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": true,
+  "label": "AL"
+}

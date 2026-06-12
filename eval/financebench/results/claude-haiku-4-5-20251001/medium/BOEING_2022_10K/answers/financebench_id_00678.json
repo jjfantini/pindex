@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_00678",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "Does Boeing have an improving gross margin profile as of FY2022? If gross margin is not a useful metric for a company like this, then state that and explain why.",
+  "gold_answer": "Yes. Boeing has an improving gross margin profile as of FY2022. Gross profit improved from $3,017 million in FY2021 to $3,502 million in FY2022. Gross margin % improved from 4.8% in FY2021 to 5.3% in FY2022.",
+  "predicted": "Yes, Boeing's gross margin profile is improving as of FY2022. Gross margin improved from 4.8% in 2021 to 5.3% in 2022 (cost of sales decreased from 95.2% to 94.7% of revenues). However, gross margin is not the most useful metric for evaluating Boeing's financial performance. The company operates with complex long-term contracts, program accounting for commercial aircraft, and fixed-price development programs with significant risks. Operating margin is a more meaningful metric, which was -5.3% in 2022 (compared to -4.7% in 2021), reflecting the company's ongoing operational challenges including charges on fixed-price development programs, supply chain disruptions, and abnormal production costs. The company's profitability challenges are better understood through segment operating performance and program-level analysis rather than gross margin alone.",
+  "reasoning": "To answer whether Boeing has an improving gross margin profile as of FY2022, I need to find gross margin data. Let me search the pages for gross margin information.\n\nLooking at page 28, I find a table titled 'Cost of sales' which shows:\n- 2022: Cost of sales as % of Revenues = 94.7%\n- 2021: Cost of sales as % of Revenues = 95.2%\n- 2020: Cost of sales as % of Revenues = 109.8%\n\nGross margin would be the inverse of cost of sales as a percentage of revenues:\n- 2022: 100% - 94.7% = 5.3% gross margin\n- 2021: 100% - 95.2% = 4.8% gross margin\n- 2020: 100% - 109.8% = -9.8% gross margin (negative, meaning losses)\n\nSo from 2021 to 2022, gross margin improved from 4.8% to 5.3% (a 0.5 percentage point improvement).\n\nHowever, I should consider whether gross margin is a useful metric for Boeing. Looking at the business model, Boeing operates in three main segments: Commercial Airplanes (BCA), Defense, Space \u0026 Security (BDS), and Global Services (BGS). The company uses program accounting for commercial aircraft and long-term contract accounting for defense and services. The pages discuss operating margins extensively rather than gross margins, and the company's profitability challenges are discussed in terms of operating losses, reach-forward losses on programs, and segment operating performance.\n\nThe company is currently unprofitable at the operating level (operating loss of $3.5 billion in 2022), so gross margin alone doesn't tell the full story of profitability. The pages emphasize operating margins and segment performance as more meaningful metrics.",
+  "selected_pages": "55-56, 22-54",
+  "cited_pages": [
+    24,
+    28
+  ],
+  "gold_pages": [
+    54
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

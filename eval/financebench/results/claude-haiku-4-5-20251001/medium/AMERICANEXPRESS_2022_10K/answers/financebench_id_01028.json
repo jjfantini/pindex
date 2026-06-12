@@ -1,0 +1,28 @@
+{
+  "financebench_id": "financebench_id_01028",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "What are the geographies that American Express primarily operates in as of 2022?",
+  "gold_answer": "United States, EMEA, APAC, and LACC",
+  "predicted": "As of 2022, American Express primarily operates in the following geographies: (1) United States, (2) EMEA (Europe, the Middle East and Africa), (3) APAC (Asia Pacific, Australia and New Zealand), and (4) LACC (Latin America, Canada and the Caribbean). Specifically, jurisdictions representing significant portions of billed business outside the United States include the United Kingdom, the European Union, Australia, Japan, Canada, and Mexico. The company operates a payments network in approximately 103 countries and territories globally.",
+  "reasoning": "The question asks about the geographies that American Express primarily operates in as of 2022. I need to find information about their geographic footprint and operations.\n\nFrom page 5, I can see a statement about jurisdictions: 'Jurisdictions that represent a significant portion of our billed business outside of the United States include the United Kingdom (UK), the European Union (EU), Australia, Japan, Canada and Mexico.'\n\nFrom page 6, there's information about the card network business: 'We operate a payments network through which we establish and maintain relationships with third-party banks and other institutions in approximately 103 countries and territories...'\n\nFrom page 155, there's a geographic operations table that shows American Express reports results by geographic regions:\n- United States\n- EMEA (Europe, the Middle East and Africa)\n- APAC (Asia Pacific, Australia and New Zealand)\n- LACC (Latin America, Canada and the Caribbean)\n\nFrom page 252-255, the subsidiaries list shows operations in numerous countries including: United States, Mexico, Japan, Australia, New Zealand, United Kingdom, Spain, Italy, Netherlands, Czech Republic, Germany, Poland, Austria, Bahrain, Saudi Arabia, Oman, Qatar, Egypt, France, Taiwan, Argentina, Sweden, Canada, Hong Kong, Brazil, Indonesia, Chile, and China.\n\nThe primary geographic regions where American Express operates are clearly outlined in the geographic operations section and the business description.",
+  "selected_pages": "4-12, 155-156, 252-255",
+  "cited_pages": [
+    5,
+    6,
+    155,
+    252,
+    253,
+    254,
+    255
+  ],
+  "gold_pages": [
+    154
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

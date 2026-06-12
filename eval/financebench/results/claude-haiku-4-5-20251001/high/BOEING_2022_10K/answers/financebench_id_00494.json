@@ -1,0 +1,26 @@
+{
+  "financebench_id": "financebench_id_00494",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "What production rate changes is Boeing forecasting for FY2023?",
+  "gold_answer": "Boeing forecasts an increase in the production rates for the 737, 777X and 787 aircrafts in 2023.",
+  "predicted": "Based on the fetched pages, Boeing provides the following FY2023 production rate guidance:\n\n**737 Program:** Boeing increased the production rate to 31 per month in 2022 and \"expect to implement further gradual production rate increases based on market demand and supply chain capacity\" (page 31).\n\n**787 Program:** \"We are currently producing at low rates and expect to gradually return to 5 per month in 2023\" (page 35). The company noted this is a gradual return from abnormally low production rates that began in Q3 2021.\n\n**777/777X Programs:** \"We are currently producing at a combined production rate of 3 per month for the 777/777X programs\" (page 34). The 777X-9 production was paused during 2022 and 2023, with expected abnormal production costs of approximately $1.5 billion.\n\n**767 Program:** \"We are currently producing at a combined rate of 3 aircraft per month\" for the commercial program and KC-46A Tanker derivative (page 32).\n\nThe document emphasizes that these production rate increases are contingent on \"market demand and supply chain capacity\" and that Boeing continues to work with customers and suppliers regarding timing of future deliveries and production rate changes.",
+  "reasoning": "Now I have the actual pages from the document. Let me search for information about FY2023 production rate forecasts. Looking through pages 22-54, I can find several references to production rates and future expectations. Let me identify the key passages about FY2023 production rate changes.",
+  "steps": 3,
+  "selected_pages": "22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54",
+  "cited_pages": [
+    31,
+    32,
+    34,
+    35
+  ],
+  "gold_pages": [
+    8
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

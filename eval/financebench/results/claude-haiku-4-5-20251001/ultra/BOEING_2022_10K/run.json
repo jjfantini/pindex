@@ -1,0 +1,8 @@
+{
+ "doc_name": "BOEING_2022_10K",
+ "generated_at": "2026-06-12T13:42:45Z",
+ "model": "claude-haiku-4-5-20251001",
+ "judge_model": "gpt-4o-2024-11-20",
+ "effort": "ultra",
+ "questions": 7
+}
