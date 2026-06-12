@@ -233,7 +233,7 @@
  {
   "id": "financebench_id_01328",
   "question": "What is the quantity of restructuring costs directly outlined in Pepsico's income statements for FY2022? If restructuring costs are not explicitly outlined then state 0.",
-  "label": "NAL",
+  "label": "BE",
   "benchmark_answer": "Pepsico's restructuring costs in FY2022 amounted to $411 million .",
   "pindex_answer": "0"
  },

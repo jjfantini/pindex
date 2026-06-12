@@ -32,13 +32,14 @@ Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (12/84 
 
 | Effort | Raw accuracy | Adjusted accuracy | Evidence recall | Hallucination |
 |---|---|---|---|---|
-| low | 86.36% (38/44) | 95.45% | 84.09% | 13.64% |
-| medium | 86.36% (38/44) | 95.45% | 86.36% | 13.64% |
-| **high** | **88.64% (39/44)** | **95.45%** | 88.64% | 11.36% |
-| ultra | 86.36% (38/44) | 95.45% | 88.64% | 13.64% |
+| low | 86.36% (38/44) | 97.73% | 84.09% | 13.64% |
+| medium | 86.36% (38/44) | 97.73% | 86.36% | 13.64% |
+| **high** | **88.64% (39/44)** | **97.73%** | 88.64% | 11.36% |
+| ultra | 86.36% (38/44) | 97.73% | 88.64% | 13.64% |
 
-Adjusted numbers count the human adjudications below; the PepsiCo misses from the 2026-06-12
-re-run are auto-labelled `NAL` and still await review.
+All misses are human-adjudicated. Exactly one confirmed `NAL` remains per effort: the PepsiCo
+EBITDA-less-capex formula error at low/medium (financebench_id_03620), and the Amex 12(b)
+cover-page retrieval miss at high/ultra (financebench_id_00476).
 
 `PEPSICO_2022_10K` (503 pages) initially could not be evaluated at all — every `ask` died with
 `prompt is too long: 205330 tokens > 200000 maximum` because the full tree structure was
@@ -76,13 +77,8 @@ All are outside the diagnostic **train** split (no prompt-tuning contamination).
 | financebench_id_00494 | ultra | SEDC | Boeing FY2023 production rates — same grounded facts the AL-judged high answer cites; ultra's hedged framing reads the filing's own 777X pause-vs-resume tension differently |
 | financebench_id_00216 | high, ultra | SEDC | Verizon quick ratio — computed gold's exact 0.54, then took the question's explicitly invited "not relevant, here's why" path; gold takes the other fork |
 | financebench_id_00476 | high, ultra | NAL (confirmed) | Amex 12(b) debt securities — gold "There are none" is on the cover page; pindex retrieved Note 8 debt and claimed the filing doesn't specify. Genuine retrieval miss: the cover-page node summary omits the 12(b) table, so tree search has no signal (an absence-fact summary-lossiness case to revisit as the pool grows) |
-
-### Pending human review (auto-labelled `NAL`)
-
-| ID | Effort(s) | Question |
-|---|---|---|
-| financebench_id_01328 | all four | PepsiCo restructuring costs "directly outlined in the income statement" — pindex answers 0 citing the income statement page (no restructuring line there; the costs live in the notes), gold gives the notes figure. Possible BE/SEDC candidate |
-| financebench_id_03620 | low, medium | PepsiCo FY2022 unadjusted EBITDA less capex — picked the wrong line item ($15,555M vs gold $9,068M); high/ultra answered it correctly |
+| financebench_id_01328 | all four | BE | PepsiCo restructuring costs — the question's own conditional ("If… not explicitly outlined then state 0") fires: the income statement (PDF p.62) has no restructuring line; gold's $411M is from Note 3 (p.78). pindex's 0 was the instructed answer |
+| financebench_id_03620 | low, medium | NAL (confirmed) | PepsiCo unadjusted EBITDA less capex — gold verified from the PDF (11,512 + 2,763 − 5,207 = 9,068); low/medium mis-built the formula ("unadjusted" misread + sign-flipped Juice gain → 15,555). high/ultra answered 9,068 (AL) |
 
 - **Raw** is judge-only; **adjusted** also counts human-adjudicated `MVA`/`BE`/`SEDC` relabels (the
   process behind Mafin 2.5's published 98.7%). See each answer record's `label_reason` for detail.

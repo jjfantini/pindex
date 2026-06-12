@@ -9,13 +9,14 @@
  "extraction_rate": 1,
  "retrieval_rate": 0.8863636363636364,
  "answer_accuracy_raw": 0.8636363636363636,
- "answer_accuracy_adjusted": 0.9545454545454546,
+ "answer_accuracy_adjusted": 0.9772727272727273,
  "hallucination_rate": 0.13636363636363635,
  "recall_at_page": 0.06818181818181818,
  "label_counts": {
   "AL": 38,
+  "BE": 1,
   "MVA": 2,
-  "NAL": 2,
+  "NAL": 1,
   "SEDC": 2
  }
 }

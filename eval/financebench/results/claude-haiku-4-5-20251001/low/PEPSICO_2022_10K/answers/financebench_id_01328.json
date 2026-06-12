@@ -18,5 +18,6 @@
   "answer_ok": false,
   "hallucinated": true,
   "page_hit": false,
-  "label": "NAL"
+  "label": "BE",
+  "label_reason": "Label: BE - Benchmark Error\n\nDetailed Reason: The question's own conditional (\"If restructuring costs are not explicitly outlined then state 0\") is triggered: the Consolidated Statement of Income (PDF p.62) carries no restructuring line item — verified directly against the PDF, whose income-statement lines are exactly those pindex enumerated. Gold's $411M is real but comes from Note 3 (PDF p.78, \"Total restructuring and impairment charges $411\"), which is not \"directly outlined in the income statement\". The gold answer ignores the question's escape clause; pindex answered the question as written at every effort. Adjudicated by maintainer 2026-06-12."
 }
