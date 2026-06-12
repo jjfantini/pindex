@@ -1,0 +1,65 @@
+{
+  "financebench_id_01328": {
+    "suggested": "BE",
+    "verdict": "Gold contradicts the question's own conditional — pindex's \"0\" is the instructed answer.",
+    "reasoning": "The question asks for restructuring costs \"directly outlined in Pepsico's income statements for FY2022\" and then explicitly instructs: \"If restructuring costs are not explicitly outlined then state 0.\" Read directly from the PDF, the Consolidated Statement of Income (PDF p.62) contains no restructuring line item — its complete line list is: Net Revenue, Cost of sales, Gross profit, Selling general and administrative expenses, Gain associated with the Juice Transaction, Impairment of intangible assets, Operating Profit, Other pension and retiree medical benefits income, Net interest expense and other, Income before income taxes, Provision for income taxes, Net income. The conditional is therefore triggered and the instructed answer is 0 — which pindex returned at all four efforts, with reasoning that enumerated the income-statement lines correctly. The gold answer ($411 million) is a real figure, but it lives in Note 3 — Restructuring and Impairment Charges (PDF p.78, \"Total restructuring and impairment charges $411\"), i.e. NOT directly outlined on the income statement. The gold answer ignores the question's own escape clause, so this is a benchmark error: the model is right and the gold is wrong for the question as written. This also answers \"why did we see 0\": it was not a retrieval or reasoning failure — 0 is the output the question commands in exactly this situation; the judge marked it wrong only because it compared against the (mistaken) gold.",
+    "evidence": [
+      "Question text: \"…directly outlined in Pepsico's income statements for FY2022? If restructuring costs are not explicitly outlined then state 0.\"",
+      "PDF p.62, Consolidated Statement of Income — full line list has no restructuring item (Net Revenue / Cost of sales / Gross profit / SG&A / Gain associated with the Juice Transaction / Impairment of intangible assets / Operating Profit / …).",
+      "PDF p.78, Note 3 — Restructuring and Impairment Charges: \"Total restructuring and impairment charges $411\" (2022), the source of the gold figure — a note, not the income statement."
+    ],
+    "suggested_reason": "The question's own conditional (\"If restructuring costs are not explicitly outlined then state 0\") is triggered: the Consolidated Statement of Income (PDF p.62) carries no restructuring line item — verified directly against the PDF, whose income-statement lines are exactly those pindex enumerated. Gold's $411M is real but comes from Note 3 (PDF p.78, \"Total restructuring and impairment charges $411\"), which is not \"directly outlined in the income statement\". The gold answer ignores the question's escape clause; pindex answered the question as written at every effort."
+  },
+  "financebench_id_03620": {
+    "suggested": "NAL",
+    "verdict": "Gold verified correct from the PDF; low/medium made a genuine sign/line-item error (15,555 vs 9,068).",
+    "reasoning": "Gold ($9,068M) is exactly computable from the two statements the question permits: Operating Profit $11,512M (income statement, PDF p.62) + Depreciation and amortization $2,763M (cash flow, PDF p.64) − Capital spending $5,207M (cash flow, PDF p.64) = $9,068M. high/ultra produced exactly this and were judged AL. low/medium over-interpreted \"unadjusted\": instead of taking Operating Profit as reported, they 'un-adjusted' it by adding back the impairment of intangibles (+$3,166M) and the Juice Transaction gain with its sign flipped (+$3,321M instead of −$3,321M): 11,512 + 3,321 + 3,166 + 2,763 − 5,207 = 15,555. That is both a misreading of \"unadjusted\" (the as-reported figure needs no adjustment) and a sign error on the gain. A genuine miss — NAL stands for low/medium.",
+    "evidence": [
+      "PDF p.62: Operating Profit 11,512 (2022).",
+      "PDF p.64: Depreciation and amortization 2,763; Capital spending (5,207).",
+      "11,512 + 2,763 − 5,207 = 9,068 = gold; high/ultra answered $9,068 million (AL).",
+      "low/medium reasoning adjusted Operating Profit for the Juice gain and impairment: 11,512 + 3,321 + 3,166 + 2,763 − 5,207 = 15,555."
+    ],
+    "suggested_reason": ""
+  },
+  "financebench_id_00476": {
+    "suggested": "NAL",
+    "verdict": "Confirmed genuine miss — the answer is on the cover page pindex never visited.",
+    "reasoning": "The Amex 2022 10-K cover page's Section 12(b) table lists only \"Common Shares (par value $0.20 per Share), AXP, New York Stock Exchange\" and 12(g) is \"None\" — so gold (\"There are none\") is correct and answerable from page 1. pindex retrieved Note 8 (long-term debt, pp.124–127), listed outstanding notes, and claimed the filing \"does not explicitly specify\" exchange registration — false; the cover page does. Root cause: the tree's Preface node summary (pages 1–4) compresses the registration table to \"Stock traded on NYSE under ticker AXP\", so the absence-of-registered-debt fact never reaches retrieval, and the question's keywords pull the agent to the debt note instead. An absence-fact summary-lossiness case to revisit as the pool grows.",
+    "evidence": [
+      "PDF p.1: \"Securities registered pursuant to Section 12(b) of the Act: Common Shares (par value $0.20 per Share) | AXP | New York Stock Exchange\"; \"Securities registered pursuant to section 12(g) of the Act: None\".",
+      "pindex (high/ultra) cited pp.124–127 (Note 8 parent-company debt) and answered that the filing doesn't specify registration status."
+    ],
+    "suggested_reason": ""
+  },
+  "financebench_id_00494": {
+    "suggested": "SEDC",
+    "verdict": "Adjudicated SEDC (ultra) — same grounded facts as the AL-judged high answer; hedged framing.",
+    "reasoning": "Gold's evidence (PDF p.9) forecasts increases for 737, 777X (\"expected to resume in 2023\") and 787. pindex's ultra answer grounded the 737 increase and 787 return-to-5/month with accurate quotes from pp.33–35 but quoted p.34's 777X-9 pause \"during 2022 and 2023\" and framed guidance as limited. The high run cited the same facts framed affirmatively and was judged AL — the filing itself states both the pause and the 2023 resume, so this is an interpretive fork over the same evidence.",
+    "evidence": [
+      "PDF p.9: \"The 787 program is currently producing at low rates and we expect to gradually increase to 5 per month in 2023. Production of the 777X is currently paused and is expected to resume in 2023.\"",
+      "PDF p.34: \"we decided to pause production of the 777X-9 during 2022 and 2023\"."
+    ],
+    "suggested_reason": ""
+  },
+  "financebench_id_00216": {
+    "suggested": "SEDC",
+    "verdict": "Adjudicated SEDC (high/ultra) — computed gold's exact 0.54, then took the question's invited fork.",
+    "reasoning": "pindex computed the identical quick ratio (0.54 = ($2,605M cash + $24,506M receivables) / $50,171M current liabilities) from the correct balance sheet, then took the path the question explicitly invites (\"If the quick ratio is not relevant to measure liquidity, please state that and explain why\"), arguing operating cash flow is Verizon's primary liquidity source. Gold takes the other fork (0.54 → not healthy). low/medium reported the same 0.54 with gold's conclusion and were judged AL.",
+    "evidence": [
+      "Same arithmetic in both gold and pindex: quick ratio ≈ 0.54.",
+      "Question text explicitly permits the not-relevant path."
+    ],
+    "suggested_reason": ""
+  },
+  "financebench_id_00585": {
+    "suggested": "MVA",
+    "verdict": "Adjudicated MVA (all efforts) — pindex reports the 10-K's own reconciliation rates; gold flips signs.",
+    "reasoning": "Boeing's tax reconciliation (PDF p.77) ends \"Income tax expense/(benefit) $31 / (0.6)% … ($743) / 14.7%\" — the company itself reports FY2022 (0.6)% and FY2021 14.7%, exactly what pindex answered. Gold (0.62% vs −14.76%) computes the same ratios with a normalized positive-loss denominator, flipping both signs. Magnitudes agree to rounding; high/ultra additionally gave the dollar figures and the valuation-allowance driver.",
+    "evidence": [
+      "PDF p.77 reconciliation row: $31 / (0.6)% (2022); ($743) / 14.7% (2021).",
+      "Gold: \"Effective tax rate in FY2022 was 0.62%, compared to -14.76% in FY2021.\""
+    ],
+    "suggested_reason": ""
+  }
+}

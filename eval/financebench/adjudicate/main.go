@@ -34,6 +34,28 @@ import (
 //go:embed index.html
 var ui embed.FS
 
+//go:embed findings.json
+var findingsJSON []byte
+
+// finding is a pre-researched judge assessment for one question — Claude's
+// PDF-grounded verdict, reasoning, and evidence quotes, shown in the UI next
+// to the human editor. Suggestions only: the human still sets the label.
+type finding struct {
+	Suggested       string   `json:"suggested"`
+	Verdict         string   `json:"verdict"`
+	Reasoning       string   `json:"reasoning"`
+	Evidence        []string `json:"evidence,omitempty"`
+	SuggestedReason string   `json:"suggested_reason,omitempty"`
+}
+
+func loadFindings() (map[string]finding, error) {
+	out := map[string]finding{}
+	if err := json.Unmarshal(findingsJSON, &out); err != nil {
+		return nil, fmt.Errorf("findings.json: %w", err)
+	}
+	return out, nil
+}
+
 var efforts = []string{"low", "medium", "high", "ultra"}
 
 // labelNames are the human adjudication labels; AL is deliberately absent —
@@ -79,6 +101,7 @@ type apiQuestion struct {
 	GoldText  []apiPage   `json:"gold_text"`  // text at PDF page = gold_page + 1
 	CitedText []apiPage   `json:"cited_text"` // union of cited pages across efforts
 	Records   []apiRecord `json:"records"`
+	Finding   *finding    `json:"finding,omitempty"`
 }
 
 type apiData struct {
@@ -92,6 +115,7 @@ type server struct {
 	model       string
 	byID        map[string][]*recordRef // question id -> its non-AL records
 	pages       *pageSource
+	findings    map[string]finding
 }
 
 // runAggregate rebuilds the derived artifacts and returns the printed
@@ -275,6 +299,9 @@ func (s *server) data() apiData {
 		}
 		sort.Ints(cs)
 		q.CitedText = s.pages.text(first.DocName, cs)
+		if f, ok := s.findings[id]; ok {
+			q.Finding = &f
+		}
 		d.Questions = append(d.Questions, q)
 	}
 	return d
@@ -347,6 +374,10 @@ func main() {
 	flag.Parse()
 
 	s := &server{resultsRoot: *results, pages: newPageSource(*ws)}
+	var err error
+	if s.findings, err = loadFindings(); err != nil {
+		log.Fatal(err)
+	}
 	if err := s.load(); err != nil {
 		log.Fatal(err)
 	}
