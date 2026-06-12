@@ -1,0 +1,30 @@
+{
+  "financebench_id": "financebench_id_00702",
+  "company": "Pfizer",
+  "doc_name": "PFIZER_2021_10K.pdf",
+  "question": "Were there any potential events that are not in Pfizer's standard business operations that substantially increased net income in 2019?",
+  "gold_answer": "Yes, the gain on completion of Consumer Healthcare JV Transaction",
+  "predicted": "Yes, there was a significant non-standard event in 2019 that substantially increased net income. On July 31, 2019, Pfizer completed a transaction in which it combined its Consumer Healthcare business with GSK's consumer healthcare business into a new joint venture. In exchange, Pfizer received a 32% equity stake in the new company. Upon closing, Pfizer deconsolidated its Consumer Healthcare business and recognized a pre-tax gain of $8.1 billion ($5.4 billion net of tax) in the third quarter of 2019. This gain was recorded in a line item called (Gain) on completion of Consumer Healthcare JV transaction. This was a major one-time event that was not part of Pfizer's standard business operations.",
+  "reasoning": "I need to format the answer as valid JSON without newline characters in the string literals. I'll escape the newlines properly or rewrite without them.",
+  "steps": 5,
+  "selected_pages": "32,33,34,35,36,39,40,41,42,43,44,71,72,73,78,79,80,81,82",
+  "cited_pages": [
+    73,
+    79,
+    80
+  ],
+  "cited_pages_printed": [
+    67,
+    73,
+    74
+  ],
+  "gold_pages": [
+    56
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

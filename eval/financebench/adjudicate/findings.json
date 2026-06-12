@@ -73,5 +73,48 @@
       "Gold's own caveat: \"a significant portion of this asset base is goodwill, and CVS's fixed assets/total assets ratio is on the lower side of 5.6%\"."
     ],
     "suggested_reason": "Interpretive question with no computational answer; both conclusions are grounded in accurate, PDF-verified figures. Gold argues capital intensity from the $228.3B asset base / 1.82% ROA; pindex argues the opposite from capex of $2,727M (~0.85% of revenue) and PP&E at just 5.6% of total assets — and gold's own caveats (goodwill-dominated asset base, low fixed-asset ratio) concede exactly those points. Same evidence, defensibly different conclusion at all four efforts."
+  },
+  "financebench_id_00222": {
+    "suggested": "MVA",
+    "verdict": "Two standard quick-ratio formulas, both PDF-verified, same conclusion — adjudicated MVA stands.",
+    "reasoning": "Both computations check out exactly against AMD's Consolidated Balance Sheet (PDF p.56). Gold's formula — (cash and equivalents $4,835M + short-term investments $1,020M + accounts receivable, net $4,126M + receivables from related parties $2M) / total current liabilities $6,369M — gives 9,983/6,369 = 1.57. pindex's equally standard variant — (total current assets $15,019M − inventories $3,771M) / $6,369M — gives 11,248/6,369 = 1.77. The 0.20 gap is entirely the formula's treatment of prepaid/other current assets, not an extraction or arithmetic error, and both land on the same verdict the question actually asks for: yes, AMD's liquidity is healthy (ratio comfortably above 1). Textbook multiple-valid-approaches.",
+    "evidence": [
+      "PDF p.56: Cash and cash equivalents $4,835M; Short-term investments $1,020M; Accounts receivable, net $4,126M; Receivables from related parties $2M; Total current assets $15,019M; Inventories $3,771M (implied); Total current liabilities $6,369M.",
+      "Gold: (4,835+1,020+4,126+2)/6,369 = 1.57; pindex: (15,019−3,771)/6,369 = 1.77 — both arithmetically exact.",
+      "Both answers conclude AMD's liquidity profile is healthy."
+    ],
+    "suggested_reason": ""
+  },
+  "financebench_id_00460": {
+    "suggested": "BE",
+    "verdict": "Both counts sit in the same PDF table; the question asks about \"Best Buy stores\" and pindex used exactly that row — adjudicated BE stands.",
+    "reasoning": "The Domestic-segment store table (PDF p.17) carries both numbers side by side. The \"Best Buy\" row reads 931→930 for Q2 FY2023 and 908→907 for Q2 FY2024 — pindex's 930→907 (−23 stores) is that row, read correctly. Gold's 982→969 is the \"Total\" row, which adds Outlet Centers (and pilot formats) to the Best Buy-branded count. The question asks for the change in \"the number of Best Buy stores\"; the row literally named \"Best Buy\" is the most faithful reading, and the same page's prose even distinguishes the concepts (\"close a total of 20 to 30 Best Buy stores and open approximately 5 Outlet Centers\"). Both answers agree on the direction (a decline). Gold answering from the broader Total row makes this a benchmark-error excusal rather than a model miss.",
+    "evidence": [
+      "PDF p.17 Domestic store table — Best Buy row: 931→930 (Q2 FY2023), 908→907 (Q2 FY2024); Total row: 982 (Q2 FY2023 end) → 969 (Q2 FY2024 end).",
+      "Same page prose: \"close a total of 20 to 30 Best Buy stores and open approximately 5 Outlet Centers in fiscal 2024\" — the filing itself treats Best Buy stores and Outlet Centers as distinct.",
+      "Both answers conclude the store count declined."
+    ],
+    "suggested_reason": ""
+  },
+  "financebench_id_01902": {
+    "suggested": "BE",
+    "verdict": "\"Best by top line\" — pindex answered with the largest revenue category; gold answered with the fastest-growing one — adjudicated BE stands (SEDC also defensible).",
+    "reasoning": "Both readings are PDF-verified. The revenue-by-category table (PDF p.13) shows Computing and Mobile Phones as the largest domestic category by revenue in Q2 FY2024 ($3,674M for the quarter) — pindex's answer. The MD&A category notes (PDF p.18) state \"Entertainment: The 9.0% comparable sales growth was driven primarily by gaming\" — gold's answer. \"Top line\" means revenue; \"performed the best by top line\" is ambiguous between the biggest top-line contributor (pindex) and the best top-line growth (gold). Gold's own phrasing (\"experienced the highest growth\") answers a growth question, not the revenue-magnitude question as worded — hence the historical BE call; SEDC would also be defensible since both conclusions come from the same filing with accurate figures.",
+    "evidence": [
+      "PDF p.13 revenue-by-category table: Computing and Mobile Phones is the largest domestic category (quarter revenue $3,674M; six-month $8,249M).",
+      "PDF p.18: \"Entertainment: The 9.0% comparable sales growth was driven primarily by gaming, partially offset by comparable sales declines in virtual reality and drones.\"",
+      "Question wording: \"Which… product category performed the best (by top line)…\" — gold answers growth, pindex answers revenue magnitude."
+    ],
+    "suggested_reason": ""
+  },
+  "financebench_id_00839": {
+    "suggested": "SEDC",
+    "verdict": "Identical facts from the same 8-K; the split is purely whether Ulta Beauty counts as \"similar\" to Foot Locker — adjudicated SEDC stands.",
+    "reasoning": "The 8-K (PDF p.2) states Mary N. Dillon was \"former Executive Chair and Chief Executive Officer of Ulta Beauty, Inc.\" (CEO July 2013–June 2021) and before that \"President and Chief Executive Officer… of United States Cellular Corporation\" (2010–2013). Both gold and pindex cite exactly these facts. Gold reasons Ulta is similar because it is a large brick-and-mortar-plus-online specialty retailer like Foot Locker; pindex reasons it is not similar because beauty retail differs from athletic footwear, while acknowledging her retail-CEO background. Neither answer misreads the document — the entire disagreement is the subjective threshold for \"similar company\". Same evidence, different defensible conclusion.",
+    "evidence": [
+      "PDF p.2: \"Mary N. Dillon, 61, former Executive Chair and Chief Executive Officer of Ulta Beauty, Inc., has been appointed President and Chief Executive Officer\"; \"She previously served as Chief Executive Officer… of Ulta from July 2013 through June 2021\"; \"President and Chief Executive Officer… of United States Cellular Corporation from 2010 through 2013\".",
+      "Gold: Ulta = large retail, brick-and-mortar + online → similar. pindex: beauty vs specialty athletic retail → not similar; same underlying facts."
+    ],
+    "suggested_reason": ""
   }
 }

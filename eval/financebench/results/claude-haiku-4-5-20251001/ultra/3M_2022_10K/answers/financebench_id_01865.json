@@ -1,0 +1,33 @@
+{
+  "financebench_id": "financebench_id_01865",
+  "company": "3M",
+  "doc_name": "3M_2022_10K.pdf",
+  "question": "If we exclude the impact of M\u0026A, which segment has dragged down 3M's overall growth in 2022?",
+  "gold_answer": "The consumer segment shrunk by 0.9% organically.",
+  "predicted": "The Consumer Business segment dragged down 3M's overall growth in 2022 when excluding M\u0026A impacts. It was the only segment with negative organic sales growth.\n\nHere are the 2022 organic sales growth rates for all four segments:\n- Safety and Industrial: 1.0% (page 30)\n- Transportation and Electronics: 1.2% (page 31)\n- Health Care: 3.2% (page 32)\n- Consumer: (0.9)% (page 33)\n\nThe Consumer Business was the sole segment with declining organic sales. According to the document, this decline was driven by \"softening trends in the Consumer retail business as consumers pulled back on discretionary spending and retailers took actions to reduce their inventories,\" though this was partially offset by demand for specific products like Scotch Blue painter's tape, Scotch-Brite, and Post-it solutions.",
+  "reasoning": "The user is asking me to provide only valid JSON output. I need to format my answer as a proper JSON object with the required fields: thinking, action, answer, and pages_used.",
+  "verification": "supported",
+  "steps": 3,
+  "selected_pages": "28,29,30,31,32,33",
+  "cited_pages": [
+    30,
+    31,
+    32,
+    33
+  ],
+  "cited_pages_printed": [
+    30,
+    31,
+    32,
+    33
+  ],
+  "gold_pages": [
+    24
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

@@ -1,0 +1,8 @@
+{
+ "doc_name": "PFIZER_2021_10K",
+ "generated_at": "2026-06-12T22:45:08Z",
+ "model": "claude-haiku-4-5-20251001",
+ "judge_model": "gpt-4o-2024-11-20",
+ "effort": "low",
+ "questions": 3
+}

@@ -1,0 +1,30 @@
+{
+  "financebench_id": "financebench_id_01226",
+  "company": "3M",
+  "doc_name": "3M_2022_10K.pdf",
+  "question": "What drove operating margin change as of FY2022 for 3M? If operating margin is not a useful metric for a company like this, then please state that and explain why.",
+  "gold_answer": "Operating Margin for 3M in FY2022 has decreased by 1.7% primarily due to: \n-Decrease in gross Margin\n-mostly one-off charges including Combat Arms Earplugs litigation, impairment related to exiting PFAS manufacturing, costs related to exiting Russia and divestiture-related restructuring\ncharges",
+  "predicted": "Operating margin is a useful metric for 3M, and the company's operating income margin declined significantly in FY2022. Here are the specific drivers:\n\n**Operating Margin Decline: 1.7 percentage points (from 20.8% in 2021 to 19.1% in 2022)**\n\nThe decline was driven by:\n\n1. **Cost of Sales increased 3.0 percentage points** (from 53.2% to 56.2% of sales):\n   - Special item costs for PFAS-related litigation commitments at the Zwijndrecht, Belgium site\n   - Higher raw materials and logistics costs\n   - Manufacturing productivity headwinds, magnified by shutdown of certain Belgium operations and restart of previously-idled operations\n   - Investments in growth, productivity and sustainability\n   - Partially offset by increases in selling prices\n\n2. **SG\u0026A expenses increased 6.1 percentage points** (from 20.4% to 26.5% of sales):\n   - Increased special item costs for Combat Arms Earplugs litigation ($1.2 billion pre-tax charge in Q2 2022)\n   - Impairment costs related to exiting PFAS manufacturing\n   - Costs related to exiting Russia\n   - Divestiture-related restructuring charges\n   - Continued investment in key growth initiatives\n   - Partially offset by restructuring benefits and cost management\n\n3. **R\u0026D expenses decreased 0.2 percentage points** (from 5.6% to 5.4% of sales) - a minor positive offset\n\n4. **Goodwill impairment expense of 0.8 percentage points** - related to the Advanced Materials reporting unit due to PFAS exit commitment\n\n5. **Gain on business divestitures of 8.0 percentage points** - the Food Safety/Neogen split-off ($2.7 billion gain) provided a partial offset\n\n**Why Operating Margin Remains Useful:**\nOperating margin is a useful metric for 3M because it reflects core operational performance before financing and tax effects, allowing assessment of how well management controls costs and generates profits from its diversified business operations.",
+  "reasoning": "Now I have the actual pages. Let me analyze the operating margin drivers for FY2022. From page 27, I can see the operating expenses as a percent of sales and the operating income margin calculation. The operating income margin declined from 20.8% in 2021 to 19.1% in 2022, a decline of 1.7 percentage points. The page breaks down the specific drivers of this change.",
+  "steps": 3,
+  "selected_pages": "27,28,48,49",
+  "cited_pages": [
+    27,
+    28,
+    48
+  ],
+  "cited_pages_printed": [
+    27,
+    28,
+    48
+  ],
+  "gold_pages": [
+    26
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

@@ -1,0 +1,26 @@
+{
+  "financebench_id": "financebench_id_01865",
+  "company": "3M",
+  "doc_name": "3M_2022_10K.pdf",
+  "question": "If we exclude the impact of M\u0026A, which segment has dragged down 3M's overall growth in 2022?",
+  "gold_answer": "The consumer segment shrunk by 0.9% organically.",
+  "predicted": "The Consumer Business segment dragged down 3M's overall growth in 2022 when excluding M\u0026A impacts. It was the only segment with negative organic sales growth at (0.9)% in 2022. According to the document, this decline was driven by \"softening trends in the Consumer retail business as consumers pulled back on discretionary spending and retailers took actions to reduce their inventories,\" though this was partially offset by demand for specific products like Scotch Blue painter's tape, Scotch-Brite, and Post-it solutions.",
+  "reasoning": "Looking at the segment performance data for 2022, I need to identify which segment had the weakest organic growth (excluding M\u0026A impacts). Let me examine the organic sales growth rates for each segment in 2022:\n\n1. Safety and Industrial: 1.0% organic sales growth\n2. Transportation and Electronics: 1.2% organic sales growth\n3. Health Care: 3.2% organic sales growth\n4. Consumer: (0.9)% organic sales growth - this is NEGATIVE\n\nThe Consumer Business segment had negative organic sales growth of -0.9% in 2022, which is the only segment with declining organic sales. This would be the segment that dragged down 3M's overall growth when excluding M\u0026A impacts.\n\nThe document on page 33 explains that Consumer sales decreased on an organic basis due to \"softening trends in the Consumer retail business as consumers pulled back on discretionary spending and retailers took actions to reduce their inventories.\"\n\nSo the Consumer Business is the segment that dragged down overall growth in 2022 when excluding M\u0026A impacts.",
+  "steps": 2,
+  "selected_pages": "28,29,30,31,32,33",
+  "cited_pages": [
+    33
+  ],
+  "cited_pages_printed": [
+    33
+  ],
+  "gold_pages": [
+    24
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

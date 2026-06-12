@@ -1,0 +1,31 @@
+{
+  "financebench_id": "financebench_id_01865",
+  "company": "3M",
+  "doc_name": "3M_2022_10K.pdf",
+  "question": "If we exclude the impact of M\u0026A, which segment has dragged down 3M's overall growth in 2022?",
+  "gold_answer": "The consumer segment shrunk by 0.9% organically.",
+  "predicted": "The Consumer segment dragged down 3M's overall growth in 2022 when excluding M\u0026A impacts, with negative organic sales growth of (0.9)%. This was driven by softening trends in the Consumer retail business as consumers pulled back on discretionary spending and retailers reduced inventories, despite some growth in stationery, office, and home care products.",
+  "reasoning": "The question asks which segment has dragged down 3M's overall growth in 2022 when excluding M\u0026A impacts. To answer this, I need to look at organic sales growth (which excludes M\u0026A) for each segment in 2022.\n\nFrom the pages provided:\n\n1. Safety and Industrial (page 30): Organic sales growth = 1.0%\n2. Transportation and Electronics (page 31): Organic sales growth = 1.2%\n3. Health Care (page 32): Organic sales growth = 3.2%\n4. Consumer (page 33): Organic sales growth = (0.9)% - this is NEGATIVE\n\nThe Consumer segment is the only segment with negative organic sales growth in 2022 at -0.9%. This is the segment that dragged down overall growth when excluding M\u0026A impacts.\n\nThe page 33 narrative confirms this: 'Sales in Consumer were down 3.9 percent in U.S. dollars. On an organic sales basis: Sales increased in stationery and office and home care, was flat in consumer health and safety, and decreased in home improvement. Growth was impacted by softening trends in the Consumer retail business as consumers pulled back on discretionary spending and retailers took actions to reduce their inventories.'",
+  "selected_pages": "27-33",
+  "cited_pages": [
+    30,
+    31,
+    32,
+    33
+  ],
+  "cited_pages_printed": [
+    30,
+    31,
+    32,
+    33
+  ],
+  "gold_pages": [
+    24
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

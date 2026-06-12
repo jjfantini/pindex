@@ -1,0 +1,27 @@
+{
+  "financebench_id": "financebench_id_00702",
+  "company": "Pfizer",
+  "doc_name": "PFIZER_2021_10K.pdf",
+  "question": "Were there any potential events that are not in Pfizer's standard business operations that substantially increased net income in 2019?",
+  "gold_answer": "Yes, the gain on completion of Consumer Healthcare JV Transaction",
+  "predicted": "Yes. The primary non-standard event that substantially increased net income in 2019 was a gain of $8,107 million on completion of the Consumer Healthcare JV transaction. This was a one-time event related to the separation of Pfizer's Consumer Healthcare business into a joint venture, not part of standard pharmaceutical operations. This gain significantly contributed to the 2019 net income of $16,026 million.",
+  "reasoning": "The question asks about potential events NOT in standard business operations that substantially increased net income in 2019. I need to look at the Consolidated Statements of Income and the Other (Income)/Deductions note for 2019.\n\nFrom page 57, the Consolidated Statements of Income shows:\n- Net income attributable to Pfizer Inc. common shareholders in 2019: $16,026 million\n- Income from continuing operations in 2019: $10,738 million\n- Discontinued operations in 2019: $5,318 million\n- There's also a line item: (Gain) on completion of Consumer Healthcare JV transaction: $(8,107) million\n\nThe $(8,107) million gain on completion of Consumer Healthcare JV transaction is a significant non-operating item. This is a one-time event related to the separation/JV transaction of the Consumer Healthcare business, not part of standard pharmaceutical operations.\n\nFrom page 78, Note 4 provides details on Other (income)/deductions for 2019:\n- Certain asset impairments: $2,792 million (these are charges, not income increases)\n- Business and legal entity alignment costs: $300 million (these are costs, not income increases)\n- The note mentions that in 2019, other non-service cost components related to the Consumer Healthcare JV transaction were recorded in the (Gain) on completion of Consumer Healthcare JV transaction line item\n\nThe primary non-standard event that substantially increased net income in 2019 was the $8,107 million gain on completion of the Consumer Healthcare JV transaction. This was a one-time, non-recurring event related to the separation of the Consumer Healthcare business into a joint venture, not part of standard ongoing pharmaceutical operations.",
+  "selected_pages": "44,57,78",
+  "cited_pages": [
+    57,
+    78
+  ],
+  "cited_pages_printed": [
+    51,
+    72
+  ],
+  "gold_pages": [
+    56
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

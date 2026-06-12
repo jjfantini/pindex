@@ -28,14 +28,14 @@ hand-edit the derived files.
 
 ## Scoreboard — claude-haiku-4-5-20251001 (generation + indexing), gpt-4o-2024-11-20 judge
 
-Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (13/84 docs, 47/150 questions):
+Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (15/84 docs, 53/150 questions):
 
 | Effort | Raw accuracy | Adjusted accuracy | Evidence recall | Hallucination |
 |---|---|---|---|---|
-| low | 85.11% (40/47) | 95.74% | 85.11% | 14.89% |
-| medium | 85.11% (40/47) | 95.74% | 87.23% | 14.89% |
-| **high** | **87.23% (41/47)** | **95.74%** | 89.36% | 12.77% |
-| ultra | 85.11% (40/47) | 95.74% | 89.36% | 14.89% |
+| low | 86.79% (46/53) | 96.23% | 86.79% | 13.21% |
+| medium | 86.79% (46/53) | 96.23% | 88.68% | 13.21% |
+| **high** | **88.68% (47/53)** | **96.23%** | 90.57% | 11.32% |
+| ultra | 86.79% (46/53) | 96.23% | 90.57% | 13.21% |
 
 One new miss awaits review: CVS capital-intensity (financebench_id_00790, all four efforts —
 an interpretive question; PDF-verified figures on both sides, SEDC suggested in the
@@ -52,6 +52,7 @@ truncated → titles-only) and the doc benchmarks normally.
 
 | Document | Questions |
 |---|---|
+| 3M_2022_10K | 3 |
 | AMCOR_2023_10K | 4 |
 | AMD_2022_10K | 7 |
 | AMERICANEXPRESS_2022_10K | 7 |
@@ -64,6 +65,7 @@ truncated → titles-only) and the doc benchmarks normally.
 | JOHNSON_JOHNSON_2023_8K_dated-2023-08-30 | 3 |
 | PEPSICO_2022_10K | 5 |
 | PEPSICO_2023_8K_dated-2023-05-30 | 2 |
+| PFIZER_2021_10K | 3 |
 | VERIZON_2022_10K | 3 |
 
 All are outside the diagnostic **train** split (no prompt-tuning contamination).

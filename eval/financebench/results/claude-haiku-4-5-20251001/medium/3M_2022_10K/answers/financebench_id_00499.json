@@ -1,0 +1,33 @@
+{
+  "financebench_id": "financebench_id_00499",
+  "company": "3M",
+  "doc_name": "3M_2022_10K.pdf",
+  "question": "Is 3M a capital-intensive business based on FY2022 data?",
+  "gold_answer": "No, the company is managing its CAPEX and Fixed Assets pretty efficiently, which is evident from below key metrics:\nCAPEX/Revenue Ratio: 5.1%\nFixed assets/Total Assets: 20%\nReturn on Assets= 12.4%",
+  "predicted": "Based on FY2022 data, 3M is moderately capital-intensive but not exceptionally so. Capital expenditures were $1,749 million, representing approximately 5.1% of total sales ($34,229 million) and 3.8% of total assets ($46,455 million). Net property, plant and equipment comprised 19.8% of total assets ($9,178 million of $46,455 million). While 3M maintains significant manufacturing infrastructure and invests in growth and productivity improvements, the capital spending intensity is moderate relative to its revenue base, suggesting it is not a highly capital-intensive business compared to industries like utilities or heavy manufacturing.",
+  "reasoning": "To determine if 3M is capital-intensive, I need to examine the relationship between capital expenditures and total assets, or capital expenditures relative to sales. Capital-intensive businesses typically have high capital spending relative to their revenue or assets.\n\nFrom page 39, FY2022 data:\n- Purchases of property, plant and equipment (PP\u0026E): $1,749 million\n- Net cash provided by operating activities: $5,591 million\n\nFrom page 50 (Balance Sheet as of December 31, 2022):\n- Total assets: $46,455 million\n- Property, plant and equipment - net: $9,178 million\n- Total sales from page 123: $34,229 million\n\nLet me calculate key ratios:\n1. Capital expenditures as % of sales: $1,749 / $34,229 = 5.1%\n2. Capital expenditures as % of total assets: $1,749 / $46,455 = 3.8%\n3. Net PP\u0026E as % of total assets: $9,178 / $46,455 = 19.8%\n\nFrom page 34, the company states: \"Investments in property, plant and equipment enable growth across many diverse markets, helping to meet product demand and increasing manufacturing efficiency. 3M is increasing its investment in manufacturing and sourcing capability...\"\n\nFrom page 39, the company notes: \"The Company expects 2023 capital spending to be approximately $1.5 billion to $1.8 billion as 3M continues to invest in growth, productivity and sustainability.\"\n\nThese capital expenditure levels (around 5% of sales) are moderate, not exceptionally high. While 3M does have significant PP\u0026E assets (about 20% of total assets), the capital spending relative to sales is not particularly high compared to truly capital-intensive industries like utilities, telecommunications, or heavy manufacturing.",
+  "selected_pages": "33-34, 37-41, 50-53, 123-125",
+  "cited_pages": [
+    34,
+    39,
+    50,
+    123
+  ],
+  "cited_pages_printed": [
+    34,
+    39,
+    50,
+    123
+  ],
+  "gold_pages": [
+    47,
+    49,
+    51
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}
