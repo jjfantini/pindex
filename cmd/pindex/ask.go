@@ -12,6 +12,7 @@ import (
 	"github.com/jjfantini/pindex/internal/envfile"
 	"github.com/jjfantini/pindex/internal/exportout"
 	"github.com/jjfantini/pindex/internal/store"
+	"github.com/jjfantini/pindex/internal/tree"
 )
 
 func newAskCmd() *cobra.Command {
@@ -76,7 +77,7 @@ func newAskCmd() *cobra.Command {
 
 			_, _ = fmt.Fprintln(c.OutOrStdout(), ans.Text)
 			if len(ans.CitedPages) > 0 {
-				u.Infof("cited pages: %s  (doc: %s)", u.Styles().Accent.Render(fmt.Sprint(ans.CitedPages)), doc.DocName)
+				u.Infof("%s  (doc: %s)", u.Styles().Accent.Render(tree.FormatCitations(ans.CitedPages, doc.PageMap)), doc.DocName)
 			}
 			switch ans.Verification {
 			case "supported":
@@ -91,14 +92,15 @@ func newAskCmd() *cobra.Command {
 					return werr
 				}
 				path, werr := exportout.WriteAnswer(outDir, exportout.AnswerRecord{
-					DocName:       doc.DocName,
-					Question:      args[0],
-					Predicted:     ans.Text,
-					Reasoning:     ans.Reasoning,
-					Verification:  ans.Verification,
-					Steps:         ans.Steps,
-					SelectedPages: ans.SelectedPages,
-					CitedPages:    ans.CitedPages,
+					DocName:           doc.DocName,
+					Question:          args[0],
+					Predicted:         ans.Text,
+					Reasoning:         ans.Reasoning,
+					Verification:      ans.Verification,
+					Steps:             ans.Steps,
+					SelectedPages:     ans.SelectedPages,
+					CitedPages:        ans.CitedPages,
+					CitedPagesPrinted: tree.PrintedPages(ans.CitedPages, doc.PageMap),
 				})
 				if werr != nil {
 					return werr

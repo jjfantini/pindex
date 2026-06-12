@@ -65,6 +65,7 @@ func assembleDoc(path string, pages []extract.Page, res index.Result) tree.Docum
 		Structure:      res.Structure,
 		Pages:          pcs,
 		PageOffset:     res.PageOffset,
+		PageMap:        tree.BuildPageMap(pcs),
 	}
 }
 

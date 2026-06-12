@@ -45,6 +45,9 @@ type Document struct {
 	// (physical = printed + PageOffset), recovered from a page-numbered table of
 	// contents. Zero when unknown / no TOC was used.
 	PageOffset int `json:"page_offset,omitempty"`
+	// PageMap is a piecewise physical-to-printed page map recovered from printed
+	// footer anchors. It is omitted when no reliable runs were found.
+	PageMap PageMap `json:"page_map,omitempty"`
 }
 
 // CatalogEntry is the lightweight per-document record kept in the workspace

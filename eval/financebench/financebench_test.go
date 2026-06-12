@@ -62,6 +62,60 @@ func TestRecallAtPageOffset(t *testing.T) {
 	}
 }
 
+func TestRecallAtPageMapHandlesPiecewiseDrift(t *testing.T) {
+	m := tree.PageMap{
+		{PhysStart: 50, PhysEnd: 56, Offset: 2},
+		{PhysStart: 61, PhysEnd: 64, Offset: 4},
+	}
+
+	if !RecallAtPageMap([]int{57}, []int{61}, m, 0) {
+		t.Error("page map should align printed page 57 to physical page 61")
+	}
+	if RecallAtPageMap([]int{57}, []int{59}, m, 0) {
+		t.Error("page map should not hit the wrong physical page")
+	}
+	if !RecallAtPageMap([]int{5}, []int{7}, nil, 2) {
+		t.Error("nil page map should fall back to legacy page offset")
+	}
+}
+
+func TestRunCarriesPrintedCitations(t *testing.T) {
+	doc := tree.Document{
+		Type:    tree.DocPDF,
+		DocName: "ACME_2023_10K.pdf",
+		PageMap: tree.PageMap{{PhysStart: 7, PhysEnd: 7, Offset: 2}},
+		Structure: []tree.TreeNode{{
+			Title:      "Financials",
+			StartIndex: 7,
+			EndIndex:   7,
+		}},
+		Pages: []tree.PageContent{{Page: 7, Content: "Revenue was 1234 million."}},
+	}
+	askProvider := llm.NewMock("ask",
+		llm.MockResponse{Content: `{"pages":"7"}`},
+		llm.MockResponse{Content: `{"thinking":"Page 7 shows revenue.","answer":"Revenue was $1,234.","pages_used":"7"}`},
+	)
+	judge := llm.NewMock("judge", llm.MockResponse{Content: `{"correct":true}`})
+	qs := []Question{{
+		ID:       "q1",
+		DocName:  "ACME_2023_10K",
+		Question: "What was revenue?",
+		Answer:   "$1,234",
+		Evidence: []Evidence{{Text: "revenue was 1234 million", Page: 5}},
+	}}
+
+	results, _ := Run(context.Background(), ask.New(askProvider, "m"), judge, "j", qs, func(string) (tree.Document, bool) {
+		return doc, true
+	}, nil)
+
+	if got := results[0].CitedPrinted; len(got) != 1 || got[0] != 5 {
+		t.Fatalf("CitedPrinted = %v, want [5]", got)
+	}
+	if !results[0].PageHit {
+		t.Fatal("piecewise page map should make printed gold page 5 hit physical citation 7")
+	}
+}
+
 func TestRunScoresAccuracyAndRecall(t *testing.T) {
 	doc := tree.Document{
 		Type: tree.DocPDF, DocName: "ACME_2023_10K.pdf", PageCount: 50,
