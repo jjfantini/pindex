@@ -108,6 +108,25 @@ func RecallAtPageOffset(gold, retrieved []int, offset int) bool {
 	return RecallAtPage(shifted, retrieved)
 }
 
+// RecallAtPageMap reports recall@page after aligning FinanceBench's printed
+// page labels to pindex's physical page indices via a piecewise page map. If no
+// map is available, it falls back to the legacy single page offset.
+func RecallAtPageMap(gold, retrieved []int, pageMap tree.PageMap, offset int) bool {
+	if len(pageMap) == 0 {
+		return RecallAtPageOffset(gold, retrieved, offset)
+	}
+	shifted := make([]int, 0, len(gold))
+	for _, g := range gold {
+		if physical, ok := pageMap.PhysicalOf(g); ok {
+			shifted = append(shifted, physical)
+		}
+	}
+	if len(shifted) == 0 {
+		return RecallAtPageOffset(gold, retrieved, offset)
+	}
+	return RecallAtPage(shifted, retrieved)
+}
+
 // RecallAtPage reports whether any gold page was among the retrieved pages.
 // (Caveat: pindex's physical page index may differ from FinanceBench's printed
 // page label; prefer RecallAtPageOffset, which aligns via the document's TOC
@@ -235,12 +254,13 @@ type RunResult struct {
 	Verification  string // ultra-effort fact-check verdict: "", "supported", or "unsupported"
 	Steps         int    // agentic-loop turns used (0 for the fixed low/medium pipeline)
 	Cited         []int
+	CitedPrinted  []int
 	GoldPages     []int
 	EvidenceInDoc bool // stage 1: evidence present in the extracted text at all (extraction gate)
 	EvidenceHit   bool // stage 2: a cited page contains the gold evidence (retrieval gate)
 	Correct       bool // stage 3: judged correct (answer gate)
 	Hallucinated  bool // wrong AND not an honest refusal (confident-wrong)
-	PageHit       bool // gold printed page == cited physical page (alignment-sensitive)
+	PageHit       bool // gold printed page == cited physical page after page-map alignment
 	Err           error
 }
 
@@ -321,7 +341,8 @@ func Run(ctx context.Context, asker *ask.Asker, judge llm.Provider, judgeModel s
 		r.Verification = ans.Verification
 		r.Steps = ans.Steps
 		r.Cited = ans.CitedPages
-		r.PageHit = RecallAtPageOffset(r.GoldPages, ans.CitedPages, doc.PageOffset)
+		r.CitedPrinted = tree.PrintedPages(ans.CitedPages, doc.PageMap)
+		r.PageHit = RecallAtPageMap(r.GoldPages, ans.CitedPages, doc.PageMap, doc.PageOffset)
 		r.EvidenceHit = EvidenceHit(doc, ans.CitedPages, q)
 		r.EvidenceInDoc = EvidenceInDoc(doc, q)
 		correct, jerr := Judge(ctx, judge, judgeModel, q, ans.Text)

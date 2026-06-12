@@ -70,6 +70,7 @@ type TreeExport struct {
 	PageCount   int                `json:"page_count,omitempty"`
 	LineCount   int                `json:"line_count,omitempty"`
 	PageOffset  int                `json:"page_offset,omitempty"`
+	PageMap     tree.PageMap       `json:"page_map,omitempty"`
 	Structure   []tree.TreeNode    `json:"structure"`
 	Pages       []tree.PageContent `json:"pages,omitempty"`
 }
@@ -77,26 +78,27 @@ type TreeExport struct {
 // AnswerRecord is the rich per-question diagnostic record (<doc>/answers/<id>.json):
 // the full reasoning, the pages selected and cited, and the per-stage outcome.
 type AnswerRecord struct {
-	FinancebenchID string `json:"financebench_id,omitempty"`
-	Company        string `json:"company,omitempty"`
-	DocName        string `json:"doc_name"`
-	Question       string `json:"question"`
-	GoldAnswer     string `json:"gold_answer,omitempty"`
-	Predicted      string `json:"predicted"`
-	Reasoning      string `json:"reasoning,omitempty"`
-	Verification   string `json:"verification,omitempty"`
-	Steps          int    `json:"steps,omitempty"`
-	SelectedPages  string `json:"selected_pages,omitempty"`
-	CitedPages     []int  `json:"cited_pages,omitempty"`
-	GoldPages      []int  `json:"gold_pages,omitempty"`
-	ExtractionOK   bool   `json:"extraction_ok"`
-	RetrievalOK    bool   `json:"retrieval_ok"`
-	AnswerOK       bool   `json:"answer_ok"`
-	Hallucinated   bool   `json:"hallucinated"`
-	PageHit        bool   `json:"page_hit"`
-	Label          string `json:"label,omitempty"`
-	LabelReason    string `json:"label_reason,omitempty"`
-	Error          string `json:"error,omitempty"`
+	FinancebenchID    string `json:"financebench_id,omitempty"`
+	Company           string `json:"company,omitempty"`
+	DocName           string `json:"doc_name"`
+	Question          string `json:"question"`
+	GoldAnswer        string `json:"gold_answer,omitempty"`
+	Predicted         string `json:"predicted"`
+	Reasoning         string `json:"reasoning,omitempty"`
+	Verification      string `json:"verification,omitempty"`
+	Steps             int    `json:"steps,omitempty"`
+	SelectedPages     string `json:"selected_pages,omitempty"`
+	CitedPages        []int  `json:"cited_pages,omitempty"`
+	CitedPagesPrinted []int  `json:"cited_pages_printed,omitempty"`
+	GoldPages         []int  `json:"gold_pages,omitempty"`
+	ExtractionOK      bool   `json:"extraction_ok"`
+	RetrievalOK       bool   `json:"retrieval_ok"`
+	AnswerOK          bool   `json:"answer_ok"`
+	Hallucinated      bool   `json:"hallucinated"`
+	PageHit           bool   `json:"page_hit"`
+	Label             string `json:"label,omitempty"`
+	LabelReason       string `json:"label_reason,omitempty"`
+	Error             string `json:"error,omitempty"`
 }
 
 // AggregateRecords sums per-question AnswerRecords (the single source of truth in
@@ -268,6 +270,7 @@ func treeExport(doc tree.Document, includePages bool) TreeExport {
 		PageCount:   doc.PageCount,
 		LineCount:   doc.LineCount,
 		PageOffset:  doc.PageOffset,
+		PageMap:     doc.PageMap,
 	}
 	if includePages {
 		te.Structure = doc.Structure
@@ -385,24 +388,25 @@ func WriteHumanEvalCSV(outDir, model string, recs []MafinRecord) (string, error)
 // recordFromResult maps a scored RunResult to a rich AnswerRecord (pure).
 func recordFromResult(r financebench.RunResult) AnswerRecord {
 	rec := AnswerRecord{
-		FinancebenchID: r.Question.ID,
-		Company:        r.Question.Company,
-		DocName:        r.Question.DocName,
-		Question:       r.Question.Question,
-		GoldAnswer:     r.Question.Answer,
-		Predicted:      r.Predicted,
-		Reasoning:      r.Reasoning,
-		Verification:   r.Verification,
-		Steps:          r.Steps,
-		SelectedPages:  r.SelectedPages,
-		CitedPages:     r.Cited,
-		GoldPages:      r.GoldPages,
-		ExtractionOK:   r.EvidenceInDoc,
-		RetrievalOK:    r.EvidenceHit,
-		AnswerOK:       r.Correct,
-		Hallucinated:   r.Hallucinated,
-		PageHit:        r.PageHit,
-		Label:          labelFor(r),
+		FinancebenchID:    r.Question.ID,
+		Company:           r.Question.Company,
+		DocName:           r.Question.DocName,
+		Question:          r.Question.Question,
+		GoldAnswer:        r.Question.Answer,
+		Predicted:         r.Predicted,
+		Reasoning:         r.Reasoning,
+		Verification:      r.Verification,
+		Steps:             r.Steps,
+		SelectedPages:     r.SelectedPages,
+		CitedPages:        r.Cited,
+		CitedPagesPrinted: r.CitedPrinted,
+		GoldPages:         r.GoldPages,
+		ExtractionOK:      r.EvidenceInDoc,
+		RetrievalOK:       r.EvidenceHit,
+		AnswerOK:          r.Correct,
+		Hallucinated:      r.Hallucinated,
+		PageHit:           r.PageHit,
+		Label:             labelFor(r),
 	}
 	if r.Err != nil {
 		rec.Error = r.Err.Error()

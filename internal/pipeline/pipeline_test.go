@@ -13,6 +13,7 @@ import (
 	"github.com/jjfantini/pindex/internal/index"
 	"github.com/jjfantini/pindex/internal/llm"
 	"github.com/jjfantini/pindex/internal/store"
+	"github.com/jjfantini/pindex/internal/tree"
 )
 
 // routingProvider answers by request content, so it is correct under any
@@ -115,5 +116,19 @@ func TestFindPDFs(t *testing.T) {
 	}
 	if len(got) != 2 {
 		t.Errorf("FindPDFs found %d, want 2 (case-insensitive .pdf, ignore .txt)", len(got))
+	}
+}
+
+func TestAssembleDocCarriesPageMap(t *testing.T) {
+	doc := assembleDoc("sample.pdf", []extract.Page{
+		{Index: 3, Text: "first body page\n\n1"},
+		{Index: 4, Text: "second body page\n\n2"},
+	}, index.Result{
+		Structure: []tree.TreeNode{{Title: "Body", StartIndex: 3, EndIndex: 4}},
+	})
+
+	want := tree.PageMap{{PhysStart: 3, PhysEnd: 4, Offset: 2}}
+	if len(doc.PageMap) != len(want) || doc.PageMap[0] != want[0] {
+		t.Fatalf("PageMap = %#v, want %#v", doc.PageMap, want)
 	}
 }

@@ -176,6 +176,7 @@ func sampleDoc() tree.Document {
 		Type:       tree.DocPDF,
 		PageCount:  3,
 		PageOffset: 1,
+		PageMap:    tree.PageMap{{PhysStart: 2, PhysEnd: 3, Offset: 1}},
 		Structure: []tree.TreeNode{{
 			Title: "S1", StartIndex: 1, EndIndex: 2, Summary: "sum", Text: "NODE_TEXT",
 			Nodes: []tree.TreeNode{{Title: "S1.1", StartIndex: 1, EndIndex: 1, Text: "CHILD_TEXT"}},
@@ -209,6 +210,9 @@ func TestWriteTreeStripsTextByDefault(t *testing.T) {
 	}
 	if te.DocName != "ACME 2023 10-K.pdf" || te.PageOffset != 1 {
 		t.Errorf("metadata not preserved: %+v", te)
+	}
+	if len(te.PageMap) != 1 || te.PageMap[0].Offset != 1 {
+		t.Errorf("page map not preserved: %+v", te.PageMap)
 	}
 	if len(te.Structure) != 1 || te.Pages != nil {
 		t.Errorf("expected structure kept, pages omitted: %+v", te)
@@ -268,6 +272,34 @@ func TestAnswerRecordCarriesVerification(t *testing.T) {
 	}
 	if strings.Contains(string(data2), "verification") {
 		t.Error("empty verification should be omitted from the record")
+	}
+}
+
+func TestAnswerRecordCarriesPrintedCitations(t *testing.T) {
+	rec := AnswerRecord{
+		FinancebenchID:    "fb_1",
+		DocName:           "doc.pdf",
+		Question:          "Q?",
+		Predicted:         "42",
+		CitedPages:        []int{57},
+		CitedPagesPrinted: []int{54},
+		ExtractionOK:      true,
+		RetrievalOK:       true,
+		AnswerOK:          true,
+		PageHit:           true,
+	}
+
+	path, err := WriteAnswer(t.TempDir(), rec)
+	if err != nil {
+		t.Fatal(err)
+	}
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := string(data)
+	if !strings.Contains(s, `"cited_pages": [`) || !strings.Contains(s, `"cited_pages_printed": [`) {
+		t.Fatalf("answer JSON should carry physical and printed citations, got:\n%s", s)
 	}
 }
 
