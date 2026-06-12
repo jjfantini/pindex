@@ -28,6 +28,13 @@
   "pindex_answer": "Yes, there was a drop in Cash \u0026 Cash equivalents between FY 2023 and Q2 of FY 2024. According to the Condensed Consolidated Balance Sheet, Cash and cash equivalents decreased from $1,874 million as of January 28, 2023 (end of FY 2023) to $1,093 million as of July 29, 2023 (Q2 FY 2024), representing a decline of $781 million."
  },
  {
+  "id": "financebench_id_00302",
+  "question": "Did Pfizer grow its PPNE between FY20 and FY21?",
+  "label": "AL",
+  "benchmark_answer": "Yes, change in PPNE was positive year over year",
+  "pindex_answer": "Yes, Pfizer grew its Property, Plant and Equipment (PP\u0026E) between FY20 and FY21. PP\u0026E increased from $13,745 million in 2020 to $14,882 million in 2021, representing an increase of $1,137 million or approximately 8.3%. This growth was driven by increases in machinery and equipment (from $11,000 million to $12,252 million) and construction in progress (from $3,481 million to $3,822 million), partially offset by decreases in land and furniture/fixtures."
+ },
+ {
   "id": "financebench_id_00460",
   "question": "Was there any change in the number of Best Buy stores between Q2 of FY2024 and FY2023?",
   "label": "AL",
@@ -54,6 +61,13 @@
   "label": "AL",
   "benchmark_answer": "Boeing forecasts an increase in the production rates for the 737, 777X and 787 aircrafts in 2023.",
   "pindex_answer": "Based on the fetched pages, Boeing provides the following FY2023 production rate guidance:\n\n**737 Program:** Boeing increased the production rate to 31 per month in 2022 and \"expect to implement further gradual production rate increases based on market demand and supply chain capacity\" (page 31).\n\n**787 Program:** \"We are currently producing at low rates and expect to gradually return to 5 per month in 2023\" (page 35). The company noted this is a gradual return from abnormally low production rates that began in Q3 2021.\n\n**777/777X Programs:** \"We are currently producing at a combined production rate of 3 per month for the 777/777X programs\" (page 34). The 777X-9 production was paused during 2022 and 2023, with expected abnormal production costs of approximately $1.5 billion.\n\n**767 Program:** \"We are currently producing at a combined rate of 3 aircraft per month\" for the commercial program and KC-46A Tanker derivative (page 32).\n\nThe document emphasizes that these production rate increases are contingent on \"market demand and supply chain capacity\" and that Boeing continues to work with customers and suppliers regarding timing of future deliveries and production rate changes."
+ },
+ {
+  "id": "financebench_id_00499",
+  "question": "Is 3M a capital-intensive business based on FY2022 data?",
+  "label": "AL",
+  "benchmark_answer": "No, the company is managing its CAPEX and Fixed Assets pretty efficiently, which is evident from below key metrics:\nCAPEX/Revenue Ratio: 5.1%\nFixed assets/Total Assets: 20%\nReturn on Assets= 12.4%",
+  "pindex_answer": "Based on FY2022 data, 3M is a moderately capital-intensive business. Key metrics include: (1) Capital Expenditures: 3M spent $1,749 million on purchases of property, plant and equipment in 2022, representing approximately 5.1% of net sales of $34,229 million. (2) Property, Plant and Equipment: The company had net PP\u0026E of $9,178 million at December 31, 2022 (gross PP\u0026E of $25,998 million less accumulated depreciation of $16,820 million), representing approximately 19.8% of total assets of $46,455 million. (3) Depreciation and Amortization: The company recorded $1,831 million in depreciation and amortization expense in 2022, indicating ongoing capital asset utilization. These figures indicate that while 3M requires substantial capital investment to maintain and expand its global manufacturing infrastructure across its four business segments, the capital intensity ratio of approximately 5% of sales is moderate—not as capital-intensive as heavy industries like semiconductors or chemicals, but more capital-intensive than pure service businesses."
  },
  {
   "id": "financebench_id_00517",
@@ -96,6 +110,13 @@
   "label": "AL",
   "benchmark_answer": "No. For AMCOR there has been a slight decline in gross margins by 0.8%.",
   "pindex_answer": "No, Amcor does not have an improving gross margin profile as of FY2023. Gross margin has actually declined:\n\n- FY2021: 21.24% ($2,732M / $12,861M)\n- FY2022: 19.39% ($2,820M / $14,544M)\n- FY2023: 18.55% ($2,725M / $14,694M)\n\nHowever, **gross margin is not the most useful metric for evaluating a company like Amcor**. Here's why:\n\n1. **Commodity Input Exposure**: Amcor is highly exposed to raw material price fluctuations (resins, film, chemicals, aluminum, energy). The company has contractual provisions to pass these costs to customers, but there are timing lags and competitive pressures that affect gross margins.\n\n2. **Operating Margin is More Relevant**: Operating margin (operating income as % of sales) actually **improved** from 8.5% in FY2022 to 10.3% in FY2023, demonstrating better operational efficiency and cost management despite gross margin pressure. This metric better reflects management's ability to control controllable costs.\n\n3. **Restructuring and One-Time Items**: The company incurred significant restructuring charges ($111M in FY2023) and had a $215M gain on the Russian business sale. These items distort gross profit analysis but are captured in operating income metrics.\n\nFor a packaging company with thin margins and commodity exposure, operating margin and adjusted EBIT are more meaningful indicators of business health than gross margin."
+ },
+ {
+  "id": "financebench_id_00702",
+  "question": "Were there any potential events that are not in Pfizer's standard business operations that substantially increased net income in 2019?",
+  "label": "AL",
+  "benchmark_answer": "Yes, the gain on completion of Consumer Healthcare JV Transaction",
+  "pindex_answer": "Yes, there was a significant non-standard event in 2019 that substantially increased net income. On July 31, 2019, Pfizer completed a transaction in which it combined its Consumer Healthcare business with GSK's consumer healthcare business into a new joint venture. In exchange, Pfizer received a 32% equity stake in the new company. Upon closing, Pfizer deconsolidated its Consumer Healthcare business and recognized a pre-tax gain of $8.1 billion ($5.4 billion net of tax) in the third quarter of 2019. This gain was recorded in a line item called (Gain) on completion of Consumer Healthcare JV transaction. This was a major one-time event that was not part of Pfizer's standard business operations."
  },
  {
   "id": "financebench_id_00705",
@@ -231,6 +252,13 @@
   "pindex_answer": "AMD's FY2022 revenue increased 44% to $23.6 billion from $16.4 billion in FY2021, driven by the following segment-specific factors:\n\n1. **Data Center (+64% growth)**: Primarily driven by higher sales of EPYC server processors.\n\n2. **Client (-10% decline)**: Decreased due to a 24% decline in unit shipments caused by challenging PC market conditions and significant inventory correction across the PC supply chain in the second half of 2022, partially offset by a 19% increase in average selling price from a richer mix of Ryzen mobile processor sales.\n\n3. **Gaming (+21% growth)**: Driven by higher semi-custom product sales due to increased demand for gaming console SoCs, partially offset by lower gaming graphics sales due to soft consumer demand from weakened macroeconomic conditions.\n\n4. **Embedded (significant increase)**: Primarily driven by the inclusion of Xilinx embedded product revenue following AMD's acquisition of Xilinx in February 2022, which increased revenue from $246 million to $4.6 billion.\n\nOverall, the major revenue growth was driven by strong Data Center performance and the Xilinx acquisition contribution to the Embedded segment, which more than offset the Client segment decline."
  },
  {
+  "id": "financebench_id_01226",
+  "question": "What drove operating margin change as of FY2022 for 3M? If operating margin is not a useful metric for a company like this, then please state that and explain why.",
+  "label": "AL",
+  "benchmark_answer": "Operating Margin for 3M in FY2022 has decreased by 1.7% primarily due to: \n-Decrease in gross Margin\n-mostly one-off charges including Combat Arms Earplugs litigation, impairment related to exiting PFAS manufacturing, costs related to exiting Russia and divestiture-related restructuring\ncharges",
+  "pindex_answer": "Operating margin is a useful metric for 3M, and the company's operating income margin declined significantly in FY2022. Here are the specific drivers:\n\n**Operating Margin Decline: 1.7 percentage points (from 20.8% in 2021 to 19.1% in 2022)**\n\nThe decline was driven by:\n\n1. **Cost of Sales increased 3.0 percentage points** (from 53.2% to 56.2% of sales):\n   - Special item costs for PFAS-related litigation commitments at the Zwijndrecht, Belgium site\n   - Higher raw materials and logistics costs\n   - Manufacturing productivity headwinds, magnified by shutdown of certain Belgium operations and restart of previously-idled operations\n   - Investments in growth, productivity and sustainability\n   - Partially offset by increases in selling prices\n\n2. **SG\u0026A expenses increased 6.1 percentage points** (from 20.4% to 26.5% of sales):\n   - Increased special item costs for Combat Arms Earplugs litigation ($1.2 billion pre-tax charge in Q2 2022)\n   - Impairment costs related to exiting PFAS manufacturing\n   - Costs related to exiting Russia\n   - Divestiture-related restructuring charges\n   - Continued investment in key growth initiatives\n   - Partially offset by restructuring benefits and cost management\n\n3. **R\u0026D expenses decreased 0.2 percentage points** (from 5.6% to 5.4% of sales) - a minor positive offset\n\n4. **Goodwill impairment expense of 0.8 percentage points** - related to the Advanced Materials reporting unit due to PFAS exit commitment\n\n5. **Gain on business divestitures of 8.0 percentage points** - the Food Safety/Neogen split-off ($2.7 billion gain) provided a partial offset\n\n**Why Operating Margin Remains Useful:**\nOperating margin is a useful metric for 3M because it reflects core operational performance before financing and tax effects, allowing assessment of how well management controls costs and generates profits from its diversified business operations."
+ },
+ {
   "id": "financebench_id_01244",
   "question": "Has CVS Health paid dividends to common shareholders in Q2 of FY2022?",
   "label": "AL",
@@ -294,6 +322,13 @@
   "pindex_answer": "Johnson \u0026 Johnson realized $13.2 billion in cash proceeds from the separation of Kenvue (formerly the Consumer Health business segment) as of August 30, 2023. This amount came from the Kenvue debt offering and initial public offering. Additionally, J\u0026J maintained a 9.5% equity stake in Kenvue."
  },
  {
+  "id": "financebench_id_01865",
+  "question": "If we exclude the impact of M\u0026A, which segment has dragged down 3M's overall growth in 2022?",
+  "label": "AL",
+  "benchmark_answer": "The consumer segment shrunk by 0.9% organically.",
+  "pindex_answer": "The Consumer Business segment dragged down 3M's overall growth in 2022 when excluding M\u0026A impacts. It was the only segment with negative organic sales growth at (0.9)% in 2022. According to the document, this decline was driven by \"softening trends in the Consumer retail business as consumers pulled back on discretionary spending and retailers took actions to reduce their inventories,\" though this was partially offset by demand for specific products like Scotch Blue painter's tape, Scotch-Brite, and Post-it solutions."
+ },
+ {
   "id": "financebench_id_01902",
   "question": "Which Best Buy product category performed the best (by top line) in the domestic (USA) Market during Q2 of FY2024?",
   "label": "AL",
@@ -313,6 +348,13 @@
   "label": "AL",
   "benchmark_answer": "Yes",
   "pindex_answer": "Yes, American Express was able to retain card members during 2022. According to the document, Net card fees increased 17 percent year over-year, as new card acquisitions reached record levels in 2022 and Card Member retention remained high, demonstrating the impact of investments we have made in our premium value propositions. This indicates that the company successfully maintained high retention rates while also achieving record new card acquisitions during 2022."
+ },
+ {
+  "id": "financebench_id_02416",
+  "question": "What are three main companies acquired by Pfizer mentioned in this 10K report?",
+  "label": "AL",
+  "benchmark_answer": "Trillium, Array, and Therachon",
+  "pindex_answer": "Three main companies acquired by Pfizer mentioned in this 10K report are:\n\n1. **Trillium** (November 17, 2021) - A clinical stage immuno-oncology company developing therapies targeting cancer immune evasion pathways. Pfizer acquired all outstanding common stock not already owned for $18.50 per share in cash, for total consideration of $2.0 billion (net of cash acquired).\n\n2. **Array** (July 30, 2019) - A commercial stage biopharmaceutical company focused on discovery, development and commercialization of targeted small molecule medicines to treat cancer and other diseases. Pfizer acquired it for $48 per share in cash, with total fair value of consideration of $11.2 billion ($10.9 billion net of cash acquired).\n\n3. **Therachon** (July 1, 2019) - A privately-held clinical-stage biotechnology company focused on rare diseases, with assets in development for the treatment of achondroplasia. Pfizer acquired all remaining shares for $340 million upfront, plus potential milestone payments of up to $470 million."
  },
  {
   "id": "financebench_id_03620",

@@ -1,0 +1,28 @@
+{
+  "financebench_id": "financebench_id_00302",
+  "company": "Pfizer",
+  "doc_name": "PFIZER_2021_10K.pdf",
+  "question": "Did Pfizer grow its PPNE between FY20 and FY21?",
+  "gold_answer": "Yes, change in PPNE was positive year over year",
+  "predicted": "Yes, Pfizer grew its Property, Plant and Equipment (PP\u0026E) between FY20 and FY21. PP\u0026E increased from $13,745 million in 2020 to $14,882 million in 2021, representing an increase of $1,137 million or approximately 8.3%. This growth was driven by increases in machinery and equipment (from $11,000 million to $12,252 million) and construction in progress (from $3,481 million to $3,822 million), partially offset by decreases in land and furniture/fixtures.",
+  "reasoning": "I have the balance sheet data showing PP\u0026E for both years. From the Consolidated Balance Sheets on page 59, Property, plant and equipment was $14,882 million in 2021 and $13,745 million in 2020. This shows an increase of $1,137 million, or about 8.3%. The detailed breakdown in Note 9 on page 88 confirms these same figures.",
+  "steps": 2,
+  "selected_pages": "59,88",
+  "cited_pages": [
+    59,
+    88
+  ],
+  "cited_pages_printed": [
+    53,
+    82
+  ],
+  "gold_pages": [
+    58
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

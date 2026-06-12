@@ -1,0 +1,33 @@
+{
+  "financebench_id": "financebench_id_00499",
+  "company": "3M",
+  "doc_name": "3M_2022_10K.pdf",
+  "question": "Is 3M a capital-intensive business based on FY2022 data?",
+  "gold_answer": "No, the company is managing its CAPEX and Fixed Assets pretty efficiently, which is evident from below key metrics:\nCAPEX/Revenue Ratio: 5.1%\nFixed assets/Total Assets: 20%\nReturn on Assets= 12.4%",
+  "predicted": "Based on FY2022 data, 3M is a moderately capital-intensive business. Key metrics include: (1) Capital Expenditures: 3M spent $1,749 million on purchases of property, plant and equipment in 2022, representing approximately 5.1% of net sales of $34,229 million. (2) Property, Plant and Equipment: The company had net PP\u0026E of $9,178 million at December 31, 2022 (gross PP\u0026E of $25,998 million less accumulated depreciation of $16,820 million), representing approximately 19.8% of total assets of $46,455 million. (3) Depreciation and Amortization: The company recorded $1,831 million in depreciation and amortization expense in 2022, indicating ongoing capital asset utilization. These figures indicate that while 3M requires substantial capital investment to maintain and expand its global manufacturing infrastructure across its four business segments, the capital intensity ratio of approximately 5% of sales is moderate—not as capital-intensive as heavy industries like semiconductors or chemicals, but more capital-intensive than pure service businesses.",
+  "reasoning": "I need to escape the newline characters in the JSON string for the answer field.",
+  "verification": "supported",
+  "steps": 4,
+  "selected_pages": "48,49,50,51,52,53",
+  "cited_pages": [
+    48,
+    50,
+    52
+  ],
+  "cited_pages_printed": [
+    48,
+    50,
+    52
+  ],
+  "gold_pages": [
+    47,
+    49,
+    51
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

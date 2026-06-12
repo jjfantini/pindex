@@ -1,0 +1,28 @@
+{
+  "financebench_id": "financebench_id_02416",
+  "company": "Pfizer",
+  "doc_name": "PFIZER_2021_10K.pdf",
+  "question": "What are three main companies acquired by Pfizer mentioned in this 10K report?",
+  "gold_answer": "Trillium, Array, and Therachon",
+  "predicted": "Three main companies acquired by Pfizer mentioned in this 10K report are: (1) Trillium (November 2021, $2.0 billion), an immuno-oncology company; (2) Array (July 2019, $11.2 billion), a biopharmaceutical company focused on targeted cancer medicines; and (3) Therachon (July 2019, $340 million upfront), a clinical-stage biotechnology company focused on rare diseases.",
+  "reasoning": "I need to find three main companies acquired by Pfizer mentioned in this 10K report. Looking at Note 2.A. Acquisitions on pages 70-71, I can identify the following acquisitions:\n\n1. Trillium - Acquired on November 17, 2021, for $2.0 billion net of cash acquired. Described as 'a clinical stage immuno-oncology company developing therapies targeting cancer immune evasion pathways.'\n\n2. Array - Acquired on July 30, 2019, for $11.2 billion ($10.9 billion net of cash acquired). Described as 'a commercial stage biopharmaceutical company focused on the discovery, development and commercialization of targeted small molecule medicines to treat cancer and other diseases of high unmet need.'\n\n3. Therachon - Acquired on July 1, 2019, for $340 million upfront plus potential milestone payments up to $470 million. Described as 'a privately-held clinical-stage biotechnology company focused on rare diseases.'\n\nThese are the three main acquisitions explicitly detailed in the Acquisitions section of Note 2.",
+  "selected_pages": "70-71",
+  "cited_pages": [
+    70,
+    71
+  ],
+  "cited_pages_printed": [
+    64,
+    65
+  ],
+  "gold_pages": [
+    69,
+    70
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

@@ -1,0 +1,27 @@
+{
+  "financebench_id": "financebench_id_00302",
+  "company": "Pfizer",
+  "doc_name": "PFIZER_2021_10K.pdf",
+  "question": "Did Pfizer grow its PPNE between FY20 and FY21?",
+  "gold_answer": "Yes, change in PPNE was positive year over year",
+  "predicted": "Yes, Pfizer grew its PPNE (Property, Plant and Equipment, Net) between FY20 and FY21. Net PP\u0026E increased from $13,745 million in 2020 to $14,882 million in 2021, representing an increase of $1,137 million or approximately 8.3%.",
+  "reasoning": "The question asks about PPNE (Property, Plant and Equipment, Net) growth between FY20 and FY21. I need to find the net PP\u0026E values for both years.\n\nFrom page 88, Note 9 shows Property, Plant and Equipment details:\n\nAs of December 31, 2021:\n- Gross PP\u0026E: $29,955 million\n- Less: Accumulated depreciation: $15,074 million\n- Net PP\u0026E: $14,882 million\n\nAs of December 31, 2020:\n- Gross PP\u0026E: $28,406 million\n- Less: Accumulated depreciation: $14,661 million\n- Net PP\u0026E: $13,745 million\n\nThese net values are also confirmed on page 59 in the Consolidated Balance Sheets under \"Property, plant and equipment\":\n- 2021: $14,882 million\n- 2020: $13,745 million\n\nCalculating the change:\n$14,882 million (FY21) - $13,745 million (FY20) = $1,137 million increase\n\nPercentage growth: ($1,137 / $13,745) × 100 = 8.3% growth\n\nSo yes, Pfizer grew its PPNE between FY20 and FY21, increasing from $13,745 million to $14,882 million, an increase of $1,137 million or approximately 8.3%.",
+  "selected_pages": "59,88",
+  "cited_pages": [
+    59,
+    88
+  ],
+  "cited_pages_printed": [
+    53,
+    82
+  ],
+  "gold_pages": [
+    58
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}
