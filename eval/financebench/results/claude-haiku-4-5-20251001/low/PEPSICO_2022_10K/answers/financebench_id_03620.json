@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_03620",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2022_10K.pdf",
+  "question": "What is the FY2022 unadjusted EBITDA less capex for PepsiCo? Define unadjusted EBITDA as unadjusted operating income + depreciation and amortization [from cash flow statement]. Answer in USD millions. Respond to the question by assuming the perspective of an investment analyst who can only use the details shown within the statement of cash flows and the income statement.",
+  "gold_answer": "$9068.00",
+  "predicted": "15,555 USD millions",
+  "reasoning": "To calculate FY2022 unadjusted EBITDA less capex, I need to:\n\n1. Find unadjusted operating income from the income statement\n2. Find depreciation and amortization from the cash flow statement\n3. Calculate unadjusted EBITDA = unadjusted operating income + depreciation and amortization\n4. Find capital spending (capex) from the cash flow statement\n5. Calculate unadjusted EBITDA less capex\n\nFrom the Consolidated Statement of Income (page 62), FY2022:\n- Operating Profit = $11,512 million\n- This is the operating income figure\n\nHowever, I need to check if this is \"unadjusted.\" Looking at the income statement, I see:\n- Gain associated with the Juice Transaction: $(3,321) million (reduces operating profit)\n- Impairment of intangible assets: $3,166 million (increases operating profit)\n\nThe question asks for \"unadjusted operating income.\" The operating profit of $11,512 million shown is after these adjustments. To get unadjusted operating income, I should add back the gain and the impairment:\nUnadjusted Operating Income = $11,512 + $3,321 - $3,166 = $11,667 million\n\nWait, let me reconsider. The gain reduces operating profit (it's shown as negative), so adding it back means: $11,512 + $3,321 = $14,833. The impairment increases operating profit (shown as positive), so subtracting it means: $14,833 - $3,166 = $11,667 million.\n\nActually, looking more carefully: the Juice Transaction gain is shown as $(3,321), meaning it reduced operating profit by $3,321. The impairment is shown as $3,166, meaning it reduced operating profit by $3,166. So unadjusted would be: $11,512 + $3,321 + $3,166 = $17,999 million.\n\nFrom the Consolidated Statement of Cash Flows (page 64), FY2022:\n- Depreciation and amortization = $2,763 million\n\nUnadjusted EBITDA = $17,999 + $2,763 = $20,762 million\n\nFrom the Consolidated Statement of Cash Flows (page 64), FY2022:\n- Capital spending = $(5,207) million\n\nUnadjusted EBITDA less capex = $20,762 - $5,207 = $15,555 million\n\nWait, let me reconsider the \"unadjusted\" calculation. The question says to define unadjusted EBITDA as \"unadjusted operating income + depreciation and amortization.\" The operating profit shown is $11,512. If we're looking at what's \"unadjusted,\" we need to add back non-recurring or non-operating items that were deducted.\n\nLooking at the income statement again:\n- Operating Profit of $11,512 includes the impact of:\n  - Gain associated with the Juice Transaction: $(3,321) - this reduced operating profit\n  - Impairment of intangible assets: $3,166 - this reduced operating profit\n\nSo unadjusted operating income = $11,512 + $3,321 + $3,166 = $17,999 million\n\nUnadjusted EBITDA = $17,999 + $2,763 = $20,762 million\n\nUnadjusted EBITDA less capex = $20,762 - $5,207 = $15,555 million",
+  "selected_pages": "62-66",
+  "cited_pages": [
+    62,
+    64
+  ],
+  "gold_pages": [
+    61,
+    63
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": false,
+  "hallucinated": true,
+  "page_hit": false,
+  "label": "NAL"
+}

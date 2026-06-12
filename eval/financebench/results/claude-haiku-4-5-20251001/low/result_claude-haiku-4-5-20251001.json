@@ -119,6 +119,13 @@
   "pindex_answer": "No, AMEX does not have an improving operating margin profile as of 2022. Pretax margin (a proxy for operating margin) declined from 25.2% in 2021 to 18.1% in 2022. However, operating margin is not a particularly useful metric for evaluating a company like AMEX because: (1) as a financial services/payments company, AMEX's core operations include significant interest income and expense components that are integral to the business model, not peripheral; (2) credit loss provisions are a major expense item that fluctuates based on credit cycles and macroeconomic conditions; and (3) Return on Average Equity (ROE) is a more appropriate profitability metric for financial services companies. AMEX's ROE was 32.3% in 2022 versus 33.7% in 2021, remaining very strong despite the slight decline. The 2022 margin decline was primarily driven by credit reserve builds and losses on Amex Ventures investments, not operational deterioration."
  },
  {
+  "id": "financebench_id_00735",
+  "question": "Has Pepsico reported any materially important ongoing legal battles from FY2022 and FY2021?",
+  "label": "AL",
+  "benchmark_answer": "No, Pepsico is not involved in material legal battles.",
+  "pindex_answer": "No. According to Item 3. Legal Proceedings in the filing, while PepsiCo and its subsidiaries are party to various litigation, claims, legal or regulatory proceedings, inquiries and investigations, management believes that the final outcome of these matters will not have a material adverse effect on the company's financial condition, results of operations or cash flows."
+ },
+ {
   "id": "financebench_id_00757",
   "question": "Did AMD report customer concentration in FY22?",
   "label": "AL",
@@ -168,6 +175,13 @@
   "pindex_answer": "As of FY22, AMD's major products and services include: (1) Data Center: server microprocessors (CPUs), graphics processing units (GPUs), data processing units (DPUs), Field Programmable Gate Arrays (FPGAs), and Adaptive System-on-Chip (SoC) products; (2) Client: CPUs, accelerated processing units (APUs) that integrate CPUs and GPUs, and chipsets for desktop and notebook personal computers; (3) Gaming: discrete GPUs, semi-custom SoC products, and development services; (4) Embedded: embedded CPUs, GPUs, APUs, FPGAs, and Adaptive SoC products. Additionally, AMD occasionally sells or licenses portions of its intellectual property (IP) portfolio."
  },
  {
+  "id": "financebench_id_01009",
+  "question": "What are the geographies that Pepsico primarily operates in as of FY2022?",
+  "label": "AL",
+  "benchmark_answer": "As of FY2022, Pepsico primarily operates in the following geographies: North America, Latin America, Europe, Africa, Middle East, South Asia, Asia Pacific, Australia, New Zealand and China.",
+  "pindex_answer": "As of FY2022, PepsiCo primarily operates in the following geographies, organized into seven reportable segments: (1) North America (United States and Canada) through FLNA, QFNA, and PBNA divisions; (2) Latin America through the LatAm division; (3) Europe through the Europe division; (4) Africa, Middle East and South Asia (AMESA) through the AMESA division; and (5) Asia Pacific, Australia, New Zealand and China region (APAC) through the APAC division. Overall, PepsiCo serves customers and consumers in more than 200 countries and territories, with largest operations in the United States, Mexico, Russia, Canada, China, the United Kingdom, and South Africa. International operations generated 43% of consolidated net revenue in 2022."
+ },
+ {
   "id": "financebench_id_01028",
   "question": "What are the geographies that American Express primarily operates in as of 2022?",
   "label": "AL",
@@ -215,6 +229,13 @@
   "label": "AL",
   "benchmark_answer": "Boeing's primary customers as of FY2022 are a limited number of commercial airlines and the US government. The US government accounted for 40% of Boeing's total revenues in FY2022.",
   "pindex_answer": "Boeing's primary customers as of FY2022 are: (1) Commercial airlines worldwide - the Commercial Airplanes segment generated $25.9 billion in revenues (39% of total), with approximately 70% of the backlog from non-U.S. airlines; (2) U.S. government - representing 40% of consolidated revenues ($26.5 billion), primarily through Defense, Space \u0026 Security and Global Services segments; and (3) Non-U.S. government and defense customers - representing approximately 41% of revenues through foreign military sales and international defense contracts. The company is one of the two major manufacturers of 100+ seat commercial aircraft and one of the largest U.S. defense contractors."
+ },
+ {
+  "id": "financebench_id_01328",
+  "question": "What is the quantity of restructuring costs directly outlined in Pepsico's income statements for FY2022? If restructuring costs are not explicitly outlined then state 0.",
+  "label": "NAL",
+  "benchmark_answer": "Pepsico's restructuring costs in FY2022 amounted to $411 million .",
+  "pindex_answer": "0"
  },
  {
   "id": "financebench_id_01351",
@@ -271,5 +292,19 @@
   "label": "AL",
   "benchmark_answer": "Yes",
   "pindex_answer": "Yes, American Express was able to retain card members during 2022. The company explicitly stated that 'Card Member retention remained high' in 2022. This was supported by record new card acquisitions and growth across all card categories - total cards-in-force increased 10% to 133.3 million, proprietary cards-in-force increased 7% to 76.7 million, and basic cards-in-force increased 11% to 111.5 million. Net card fees also increased 17% year-over-year, reflecting both new acquisitions and strong retention of existing premium card members."
+ },
+ {
+  "id": "financebench_id_03620",
+  "question": "What is the FY2022 unadjusted EBITDA less capex for PepsiCo? Define unadjusted EBITDA as unadjusted operating income + depreciation and amortization [from cash flow statement]. Answer in USD millions. Respond to the question by assuming the perspective of an investment analyst who can only use the details shown within the statement of cash flows and the income statement.",
+  "label": "NAL",
+  "benchmark_answer": "$9068.00",
+  "pindex_answer": "15,555 USD millions"
+ },
+ {
+  "id": "financebench_id_04481",
+  "question": "What is the FY2022 unadjusted EBITDA % margin for PepsiCo? Calculate unadjusted EBITDA using unadjusted operating income and D\u0026A (from cash flow statement). Give a response to the question by relying on the details shown in the statement of cash flows and the P\u0026L statement.",
+  "label": "AL",
+  "benchmark_answer": "16.5%",
+  "pindex_answer": "FY2022 Unadjusted EBITDA % Margin for PepsiCo is 16.70%. Calculation: Unadjusted Operating Income = $11,512M (Operating Profit) + $3,321M (Juice Transaction gain adjustment) - $3,166M (Impairment adjustment) = $11,667M. Unadjusted EBITDA = $11,667M + $2,763M (D\u0026A from cash flow statement) = $14,430M. Margin = $14,430M / $86,392M (Net Revenue) = 16.70%."
  }
 ]

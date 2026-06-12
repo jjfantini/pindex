@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_01328",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2022_10K.pdf",
+  "question": "What is the quantity of restructuring costs directly outlined in Pepsico's income statements for FY2022? If restructuring costs are not explicitly outlined then state 0.",
+  "gold_answer": "Pepsico's restructuring costs in FY2022 amounted to $411 million .",
+  "predicted": "0",
+  "reasoning": "Looking at the Consolidated Statement of Income for FY2022 (page 62), I can see the line items listed. There is no explicit line item for 'Restructuring Costs' or 'Restructuring Charges' shown on the income statement itself. The statement shows: Net Revenue, Cost of sales, Gross profit, Selling general and administrative expenses, Gain associated with the Juice Transaction, Impairment of intangible assets, Operating Profit, Other pension and retiree medical benefits income, Net interest expense and other, Income before income taxes, Provision for income taxes, and Net income. Restructuring costs are not explicitly outlined as a separate line item on the income statement.",
+  "verification": "supported",
+  "steps": 2,
+  "selected_pages": "62,63",
+  "cited_pages": [
+    62
+  ],
+  "gold_pages": [
+    77
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": false,
+  "answer_ok": false,
+  "hallucinated": true,
+  "page_hit": false,
+  "label": "NAL"
+}

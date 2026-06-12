@@ -119,6 +119,13 @@
   "pindex_answer": "Operating margin is NOT a particularly useful metric for American Express, and here's why: American Express is a financial services company (bank holding company), not a traditional operating business. For financial services firms, traditional operating margin concepts don't apply the same way because: (1) Interest income/expense is core to the business model - Unlike manufacturing or retail, financial services companies generate significant revenue from lending and deposit activities, making net interest margin more relevant than operating margin. (2) Credit losses are fundamental to the business - Provisions for credit losses are a core operating expense that fluctuates with economic conditions and portfolio quality, not a peripheral cost. (3) Different profitability metrics are more meaningful for financial services: Net Profit Margin: 14.2% (2022) vs. 19.0% (2021) - declining. Efficiency Ratio: 77.7% (2022) vs. 78.1% (2021) - slightly improving. Return on Equity: approximately 30% (2022) vs. 36% (2021) - declining. What actually happened in 2022: While revenues grew 24.8% to $52.9B from $42.4B, profitability declined due to: Credit loss provisions surged from a $1.4B release in 2021 to a $2.2B provision in 2022 (a $3.6B swing). Card Member rewards expenses jumped 27% to $14.0B. Interest expense nearly doubled to $2.8B from $1.3B due to rising deposit costs and debt rates. Net income fell 6.8% to $7.5B despite strong revenue growth. Conclusion: American Express's profitability profile deteriorated in 2022 despite strong revenue growth, driven by normalization of credit losses and rising operating costs."
  },
  {
+  "id": "financebench_id_00735",
+  "question": "Has Pepsico reported any materially important ongoing legal battles from FY2022 and FY2021?",
+  "label": "AL",
+  "benchmark_answer": "No, Pepsico is not involved in material legal battles.",
+  "pindex_answer": "No, PepsiCo has not reported any materially important ongoing legal battles from FY2022 and FY2021. According to Item 3 (Legal Proceedings) in the 10-K filing, PepsiCo states: \"We and our subsidiaries are party to a variety of litigation, claims, legal or regulatory proceedings, inquiries and investigations. While the results of such litigation, claims, legal or regulatory proceedings, inquiries and investigations cannot be predicted with certainty, management believes that the final outcome of the foregoing will not have a material adverse effect on our financial condition, results of operations or cash flows.\" The company acknowledges being involved in various legal matters but explicitly states that management does not believe any of them will have a material adverse impact on the company's financial condition, results of operations, or cash flows."
+ },
+ {
   "id": "financebench_id_00757",
   "question": "Did AMD report customer concentration in FY22?",
   "label": "AL",
@@ -168,6 +175,13 @@
   "pindex_answer": "As of fiscal year 2022, AMD's major products and services are organized into four reportable segments:\n\n**Data Center Segment:**\n- Server microprocessors (CPUs) - AMD EPYC Series processors (9004, 7003, and 7002 Series)\n- Graphics processing units (GPUs) - AMD Instinct family for AI training and supercomputing\n- Data processing units (DPUs) - AMD Pensando DPUs for infrastructure services\n- FPGAs and Adaptive SoCs - Virtex, Kintex, Zynq, and Versal products\n- Visual cloud GPUs - Radeon PRO V families for remote visualization\n\n**Client Segment:**\n- Desktop CPUs - AMD Ryzen and AMD Athlon series processors\n- Notebook/Mobile CPUs - AMD Ryzen and AMD Athlon mobile processors\n- Commercial CPUs - AMD PRO and AMD Threadripper PRO processors\n- Chipsets - X670, B650, X570, B550, A520, B450, A320, and WRX80 chipsets\n\n**Gaming Segment:**\n- Semi-custom SoCs - Custom solutions for gaming consoles (PlayStation 5, Xbox Series S/X, Steam Deck)\n- Discrete GPUs - AMD Radeon RX series (7900 and 6000 series)\n- Professional GPUs - AMD Radeon PRO workstation graphics\n\n**Embedded Segment:**\n- Embedded CPUs, APUs, and GPUs - AMD Embedded EPYC, Ryzen V-Series, and Ryzen R-Series\n- FPGAs - UltraScale+, UltraScale, 7 Series, and legacy families\n- Adaptive SoCs - Zynq, Zynq MPSoC, Zynq RFSoCs, and Versal products\n- Development boards and kits\n\nAdditionally, AMD sells or licenses portions of its intellectual property portfolio."
  },
  {
+  "id": "financebench_id_01009",
+  "question": "What are the geographies that Pepsico primarily operates in as of FY2022?",
+  "label": "AL",
+  "benchmark_answer": "As of FY2022, Pepsico primarily operates in the following geographies: North America, Latin America, Europe, Africa, Middle East, South Asia, Asia Pacific, Australia, New Zealand and China.",
+  "pindex_answer": "As of FY2022, PepsiCo primarily operates in the following geographies through seven reportable segments:\n\n1. **Frito-Lay North America (FLNA)** - United States and Canada\n2. **Quaker Foods North America (QFNA)** - United States and Canada\n3. **PepsiCo Beverages North America (PBNA)** - United States and Canada\n4. **Latin America (LatAm)** - All beverage and convenient food businesses in Latin America\n5. **Europe** - All beverage and convenient food businesses in Europe\n6. **Africa, Middle East and South Asia (AMESA)** - All beverage and convenient food businesses in Africa, the Middle East, and South Asia\n7. **Asia Pacific, Australia, New Zealand and China (APAC)** - All beverage and convenient food businesses in Asia Pacific, Australia, New Zealand, and China region\n\nOverall, PepsiCo serves customers and consumers in more than 200 countries and territories, with its largest operations specifically in the United States, Mexico, Russia, Canada, China, the United Kingdom, and South Africa."
+ },
+ {
   "id": "financebench_id_01028",
   "question": "What are the geographies that American Express primarily operates in as of 2022?",
   "label": "AL",
@@ -215,6 +229,13 @@
   "label": "AL",
   "benchmark_answer": "Boeing's primary customers as of FY2022 are a limited number of commercial airlines and the US government. The US government accounted for 40% of Boeing's total revenues in FY2022.",
   "pindex_answer": "Based on Boeing's FY2022 10-K filing, the primary customers are:\n\n1. Commercial Airlines (BCA Segment - $25.9 billion in revenues)\n- Boeing's largest customer base for commercial aircraft\n- Customers located globally: U.S. ($12.2B), Asia ($4.5B), Europe ($4.0B), Middle East ($2.0B), and other regions ($3.0B)\n- Airlines purchase narrow-body (737) and wide-body (767, 777, 787) aircraft\n\n2. U.S. Government (40% of total consolidated revenues)\n- Primarily serves BDS ($23.2B segment) and BGS ($17.6B segment)\n- BDS: 89% of revenues from U.S. government contracts\n- BGS: 33% of revenues from U.S. government\n- Includes all branches of the U.S. military, NASA, FAA, and Department of Homeland Security\n\n3. International Governments and Defense Customers (BDS)\n- Non-U.S. government customers: $6.0 billion in BDS revenues\n- Includes allied nations' defense and security needs\n\n4. Commercial Airline Operators for Services (BGS Commercial - $9.6 billion)\n- Provides maintenance, spare parts, training, and logistics support\n- Supports both commercial and defense aircraft operators\n\n5. Boeing Capital Customers ($199 million)\n- Aircraft financing and leasing customers\n\nIn summary, Boeing's primary customers are commercial airlines worldwide and the U.S. government (representing 40% of total revenues), with supplementary revenue from international governments, commercial airline service customers, and financing arrangements."
+ },
+ {
+  "id": "financebench_id_01328",
+  "question": "What is the quantity of restructuring costs directly outlined in Pepsico's income statements for FY2022? If restructuring costs are not explicitly outlined then state 0.",
+  "label": "NAL",
+  "benchmark_answer": "Pepsico's restructuring costs in FY2022 amounted to $411 million .",
+  "pindex_answer": "0"
  },
  {
   "id": "financebench_id_01351",
@@ -271,5 +292,19 @@
   "label": "AL",
   "benchmark_answer": "Yes",
   "pindex_answer": "Yes, American Express was able to retain card members during 2022. According to the document, Net card fees increased 17 percent year over-year, as new card acquisitions reached record levels in 2022 and Card Member retention remained high, demonstrating the impact of investments we have made in our premium value propositions. This indicates that the company successfully maintained high retention rates while also achieving record new card acquisitions during 2022."
+ },
+ {
+  "id": "financebench_id_03620",
+  "question": "What is the FY2022 unadjusted EBITDA less capex for PepsiCo? Define unadjusted EBITDA as unadjusted operating income + depreciation and amortization [from cash flow statement]. Answer in USD millions. Respond to the question by assuming the perspective of an investment analyst who can only use the details shown within the statement of cash flows and the income statement.",
+  "label": "AL",
+  "benchmark_answer": "$9068.00",
+  "pindex_answer": "$9,068 million"
+ },
+ {
+  "id": "financebench_id_04481",
+  "question": "What is the FY2022 unadjusted EBITDA % margin for PepsiCo? Calculate unadjusted EBITDA using unadjusted operating income and D\u0026A (from cash flow statement). Give a response to the question by relying on the details shown in the statement of cash flows and the P\u0026L statement.",
+  "label": "AL",
+  "benchmark_answer": "16.5%",
+  "pindex_answer": "Based on PepsiCo's FY2022 financial statements:\n\n**Calculation of Unadjusted EBITDA:**\n- Operating Profit (from P\u0026L): $11,512 million\n- Depreciation \u0026 Amortization (from Cash Flow Statement): $2,763 million\n- **Unadjusted EBITDA = $11,512 + $2,763 = $14,275 million**\n\n**Unadjusted EBITDA % Margin:**\n- Net Revenue FY2022: $86,392 million\n- Unadjusted EBITDA % Margin = ($14,275 / $86,392) × 100 = **16.53%**\n\nPepsiCo's FY2022 unadjusted EBITDA margin was **16.53%**."
  }
 ]
