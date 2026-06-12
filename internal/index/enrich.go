@@ -131,9 +131,12 @@ func (b *Builder) addSummaries(ctx context.Context, nodes []tree.TreeNode, pages
 }
 
 // docDescription asks for a one-sentence document description from the
-// text-stripped structure.
+// text-stripped structure. The render is budgeted the same way the ask loop's
+// structure prompts are: a giant tree degrades its summaries instead of
+// overflowing the model context (a description needs the section map, not
+// every summary in full).
 func (b *Builder) docDescription(ctx context.Context, nodes []tree.TreeNode) (string, error) {
-	structure, err := b.renderer.Render(tree.StripText(nodes))
+	structure, _, err := tree.RenderStructureWithin(b.renderer, nodes, llm.StructureBudget(b.cfg.Model))
 	if err != nil {
 		return "", err
 	}
