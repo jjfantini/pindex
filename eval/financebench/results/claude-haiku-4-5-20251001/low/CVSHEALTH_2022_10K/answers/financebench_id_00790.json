@@ -1,0 +1,30 @@
+{
+  "financebench_id": "financebench_id_00790",
+  "company": "CVS Health",
+  "doc_name": "CVSHEALTH_2022_10K.pdf",
+  "question": "Is CVS Health a capital-intensive business based on FY2022 data?",
+  "gold_answer": "Yes, CVS Health requires an extensive asset base to operate, which is evident from its ROA of only 1.82% in 2022 and 3.39% in 2021, though it should be noted that a significant portion of this asset base is goodwill, and CVS's fixed assets/total assets ratio is on the lower side of 5.6%.",
+  "predicted": "No, CVS Health is not a capital-intensive business based on FY2022 data. Capital expenditures were approximately $2.7 billion, representing only 0.87% of customer cash receipts ($313.7 billion) and 1.19% of total assets ($228.3 billion). Property and equipment represented just 5.64% of total assets. These metrics are well below typical capital-intensive industry benchmarks. Additionally, 73% of capital expenditures were directed toward technology and digital initiatives rather than physical infrastructure, further indicating a relatively low capital intensity business model.",
+  "reasoning": "To determine if CVS Health is capital-intensive based on FY2022 data, I need to examine capital expenditure levels relative to revenue or assets. Let me look for relevant metrics:\n\n1. From page 89, capital expenditures in 2022: 'Gross capital expenditures remained relatively consistent at approximately $2.7 billion and $2.5 billion in 2022 and 2021, respectively.'\n\n2. From page 110 (Consolidated Balance Sheet), I can see total assets at December 31, 2022: $228,275 million\n\n3. From page 110, Property and equipment, net: $12,873 million\n\n4. From page 111 (Cash Flow Statement), I need to find revenue. Looking at the cash flows from operating activities, 'Cash receipts from customers' for 2022: $313,662 million\n\nNow let me calculate capital intensity metrics:\n- Capital expenditures as % of revenue: $2,727 million / $313,662 million = 0.87%\n- Capital expenditures as % of total assets: $2,727 million / $228,275 million = 1.19%\n- Property and equipment as % of total assets: $12,873 million / $228,275 million = 5.64%\n\nThese ratios are relatively low. For context, capital-intensive industries typically have capex-to-revenue ratios of 5-10% or higher, and property/equipment representing 20%+ of assets. CVS's ratios are well below these thresholds.\n\nAdditionally, page 89 notes that 'approximately 73% of the Company's total capital expenditures were for technology, digital and other strategic initiatives and 27% were for store, fulfillment and support facilities expansion and improvements.' This shows capital is being deployed more toward technology and less toward physical infrastructure, which is characteristic of a less capital-intensive business model.",
+  "selected_pages": "89-94,110-113",
+  "cited_pages": [
+    89,
+    110,
+    111
+  ],
+  "cited_pages_printed": [
+    87,
+    108,
+    109
+  ],
+  "gold_pages": [
+    107,
+    109
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": false,
+  "hallucinated": true,
+  "page_hit": true,
+  "label": "NAL"
+}

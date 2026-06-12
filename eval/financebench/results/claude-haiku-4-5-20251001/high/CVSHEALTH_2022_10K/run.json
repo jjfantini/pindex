@@ -1,0 +1,8 @@
+{
+ "doc_name": "CVSHEALTH_2022_10K",
+ "generated_at": "2026-06-12T21:40:06Z",
+ "model": "claude-haiku-4-5-20251001",
+ "judge_model": "gpt-4o-2024-11-20",
+ "effort": "high",
+ "questions": 3
+}
