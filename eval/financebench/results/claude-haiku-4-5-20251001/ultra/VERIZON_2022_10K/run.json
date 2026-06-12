@@ -1,0 +1,8 @@
+{
+ "doc_name": "VERIZON_2022_10K",
+ "generated_at": "2026-06-12T16:51:18Z",
+ "model": "claude-haiku-4-5-20251001",
+ "judge_model": "gpt-4o-2024-11-20",
+ "effort": "ultra",
+ "questions": 3
+}

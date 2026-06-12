@@ -1,0 +1,26 @@
+{
+  "financebench_id": "financebench_id_01148",
+  "company": "Amcor",
+  "doc_name": "AMCOR_2023_10K.pdf",
+  "question": "What industry does AMCOR primarily operate in?",
+  "gold_answer": "Amcor is a global leader in packaging production for various use cases.",
+  "predicted": "AMCOR primarily operates in the packaging industry. Specifically, the company is a global leader in developing and producing responsible packaging for food, beverage, pharmaceutical, medical, home and personal-care, and other products. The company operates through two main reportable segments: the Flexibles Segment (which accounts for approximately 76% of consolidated net sales) and the Rigid Packaging Segment (which accounts for approximately 24% of consolidated net sales). Their product portfolio includes flexible packaging, rigid packaging containers, specialty cartons, and closures, utilizing various packaging materials including paper, metal, plastic, recycled, and bio-based materials.",
+  "reasoning": "The fetched pages clearly describe Amcor's primary industry. Page 5 explicitly states that Amcor is 'a global leader in developing and producing responsible packaging for food, beverage, pharmaceutical, medical, home and personal-care, and other products.' The document also describes their two main business segments: Flexibles and Rigid Packaging. This directly answers the user's question about what industry Amcor operates in.",
+  "steps": 2,
+  "selected_pages": "5,6,7,8",
+  "cited_pages": [
+    5,
+    6,
+    7,
+    8
+  ],
+  "gold_pages": [
+    4
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}
