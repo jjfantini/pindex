@@ -115,3 +115,24 @@ func TestWrapReasonPassThrough(t *testing.T) {
 		t.Errorf("pre-formatted reason should pass through, got %q", got)
 	}
 }
+
+func TestFindingsParseAndSuggestValidLabels(t *testing.T) {
+	fs, err := loadFindings()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(fs) == 0 {
+		t.Fatal("findings.json is empty")
+	}
+	for id, f := range fs {
+		if !strings.HasPrefix(id, "financebench_id_") {
+			t.Errorf("finding key %q is not a financebench id", id)
+		}
+		if _, ok := labelNames[f.Suggested]; !ok {
+			t.Errorf("%s: suggested label %q invalid", id, f.Suggested)
+		}
+		if f.Verdict == "" || f.Reasoning == "" {
+			t.Errorf("%s: verdict and reasoning are required", id)
+		}
+	}
+}

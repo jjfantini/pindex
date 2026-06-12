@@ -51,6 +51,15 @@
   #status pre { margin:6px 0 0; font-size:12px; color:var(--dim); white-space:pre-wrap; }
   .ok { color:var(--pred); } .err { color:var(--warn); }
   a.btn { color:var(--accent); font-size:12px; cursor:pointer; user-select:none; }
+  .chips { display:flex; gap:8px; align-items:center; }
+  .chip { font-size:12px; font-weight:600; border:1px solid var(--line); border-radius:14px;
+          padding:3px 12px; cursor:pointer; user-select:none; color:var(--dim); background:transparent; }
+  .chip.on { color:var(--text); border-color:var(--accent); background:#1d2c3a; }
+  .finding { margin-top:14px; border:1px solid #2e4a6e; border-radius:8px; background:#101c2c; padding:12px 14px; }
+  .finding h3 { margin:0 0 6px; font-size:13px; color:var(--accent); display:flex; gap:8px; align-items:center; }
+  .finding ul { margin:8px 0 0; padding-left:18px; color:#b9c0cc; font-size:12.5px; }
+  .finding .use { margin-left:auto; background:#1d2c3a; color:var(--accent); border:1px solid #2e4a6e;
+                  border-radius:6px; padding:3px 10px; font-size:12px; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -58,6 +67,7 @@
   <h1>FinanceBench adjudication</h1>
   <span class="dim" id="model"></span>
   <span class="dim" id="count"></span>
+  <span class="chips" id="filters"></span>
   <span class="spacer"></span>
   <span class="dim" id="pending"></span>
   <button id="apply" disabled>Apply Now</button>
@@ -107,6 +117,24 @@ function recordBlock(r) {
     $('summary', {}, ...flags, ` answer at ${r.effort}`), body);
 }
 
+function findingBlock(q, sel, ta, mark) {
+  const f = q.finding;
+  if (!f) return '';
+  const use = $('button', { class: 'use', onclick: (e) => {
+    e.preventDefault();
+    sel.value = f.suggested;
+    if (f.suggested_reason) ta.value = f.suggested_reason;
+    mark();
+  } }, `stage suggestion (${f.suggested})`);
+  return $('div', { class: 'finding' },
+    $('h3', {}, 'Claude judge assessment', badge('b-' + f.suggested, 'suggest ' + f.suggested), use),
+    $('div', { class: 'txt', style: 'font-weight:600' }, f.verdict),
+    $('details', { class: 'sub', open: '' },
+      $('summary', {}, 'reasoning'),
+      $('div', { class: 'body txt', style: 'font-size:13px' }, f.reasoning)),
+    f.evidence?.length ? $('ul', {}, ...f.evidence.map(e => $('li', {}, e))) : '');
+}
+
 function questionBlock(q) {
   const labels = [...new Set(q.records.map(r => r.label))];
   const sum = $('summary', {},
@@ -128,6 +156,12 @@ function questionBlock(q) {
   };
   sel.addEventListener('change', mark);
   ta.addEventListener('input', mark);
+  const staged = changed.get(q.id); // survive filter-toggle re-renders
+  if (staged) {
+    sel.value = staged.label;
+    ta.value = staged.reason;
+    sum.append(badge('b-changed', '→ ' + staged.label));
+  }
 
   const body = $('div', { class: 'body' },
     $('div', { class: 'lbl' }, 'question'),
@@ -141,6 +175,7 @@ function questionBlock(q) {
     q.cited_text?.length ? $('details', { class: 'sub' },
       $('summary', {}, `cited page text (union: ${q.cited_text.map(p => p.page).join(', ')})`),
       pageBlocks(q.cited_text, 'cited')) : '',
+    findingBlock(q, sel, ta, mark),
     $('div', { class: 'editor' },
       $('div', { class: 'row' },
         $('span', { class: 'lbl', style: 'margin:0' }, 'adjudicate as'), sel,
@@ -155,15 +190,35 @@ function refreshHeader() {
   document.getElementById('apply').disabled = changed.size === 0;
 }
 
-async function render() {
-  changed.clear(); refreshHeader();
-  const d = await (await fetch('api/data')).json();
-  document.getElementById('model').textContent = d.model || '';
+const filterOff = new Set(); // labels currently hidden
+let lastData = null;
+
+function renderFilters(qs) {
+  const counts = new Map();
+  for (const q of qs) for (const l of new Set(q.records.map(r => r.label)))
+    counts.set(l, (counts.get(l) || 0) + 1);
+  const bar = document.getElementById('filters');
+  bar.replaceChildren();
+  for (const l of ['NAL', 'MVA', 'BE', 'SEDC']) {
+    if (!counts.has(l)) continue;
+    const chip = $('button', {
+      class: 'chip' + (filterOff.has(l) ? '' : ' on'),
+      onclick: () => { filterOff.has(l) ? filterOff.delete(l) : filterOff.add(l); renderBody(); },
+    }, `${l} ${counts.get(l)}`);
+    bar.append(chip);
+  }
+}
+
+function renderBody() {
+  const d = lastData;
   const main = document.getElementById('main');
   main.replaceChildren();
   if (d.ws_note) main.append($('p', { class: 'meta err' }, d.ws_note));
-  const qs = d.questions || [];
-  document.getElementById('count').textContent = `${qs.length} non-AL question(s)`;
+  const qs = (d.questions || []).filter(q =>
+    q.records.some(r => !filterOff.has(r.label)));
+  document.getElementById('count').textContent =
+    `${qs.length}/${(d.questions || []).length} non-AL question(s)`;
+  renderFilters(d.questions || []);
   const byDoc = new Map();
   for (const q of qs) {
     if (!byDoc.has(q.doc)) byDoc.set(q.doc, []);
@@ -174,7 +229,14 @@ async function render() {
       $('summary', {}, doc, $('span', { class: 'meta' }, `${list.length} question(s)`)),
       $('div', { class: 'body' }, ...list.map(questionBlock))));
   }
-  if (!qs.length) main.append($('p', { class: 'meta' }, 'No non-AL records — nothing to adjudicate.'));
+  if (!qs.length) main.append($('p', { class: 'meta' }, 'Nothing matches the current label filter.'));
+}
+
+async function render() {
+  changed.clear(); refreshHeader();
+  lastData = await (await fetch('api/data')).json();
+  document.getElementById('model').textContent = lastData.model || '';
+  renderBody();
 }
 
 document.getElementById('apply').addEventListener('click', async () => {
