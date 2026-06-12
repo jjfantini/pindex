@@ -34,11 +34,11 @@ Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (11/84 
 |---|---|---|---|---|
 | low | 89.74% (35/39) | 100.00% | 84.62% | 10.26% |
 | medium | 89.74% (35/39) | 100.00% | 87.18% | 10.26% |
-| **high** | **89.74% (35/39)** | **94.87%** | 89.74% | 10.26% |
-| ultra | 87.18% (34/39) | 92.31% | 89.74% | 12.82% |
+| **high** | **89.74% (35/39)** | **97.44%** | 89.74% | 10.26% |
+| **ultra** | **87.18% (34/39)** | **97.44%** | 89.74% | 12.82% |
 
-Adjusted numbers for high/ultra are provisional: three misses (see below) are auto-labelled
-`NAL` and still await human adjudication.
+The single remaining `NAL` (Amex 12(b), below) was human-reviewed and confirmed as a genuine
+miss — it stays wrong under both metrics.
 
 > **Known limitation:** `PEPSICO_2022_10K` (503 pages) is excluded — every `ask` fails with
 > `prompt is too long: 205330 tokens > 200000 maximum` at the select-pages step because the
@@ -72,14 +72,9 @@ All are outside the diagnostic **train** split (no prompt-tuning contamination).
 | financebench_id_00839 | low, medium | SEDC | Same CEO/Ulta evidence; interpretive split on "similar company" |
 | financebench_id_00222 | high, ultra | MVA | AMD quick ratio — alternate valid formula, same conclusion |
 | financebench_id_00585 | all four | MVA | Boeing effective tax rate — pindex reports the 10-K's own reconciliation rates ((0.6)% / 14.7%, p.77); gold flips signs by normalizing the loss denominator |
-
-### Pending human review (2026-06-12 installments, auto-labelled `NAL`)
-
-| ID | Effort(s) | Question |
-|---|---|---|
-| financebench_id_00476 | high, ultra | Amex debt securities registered on a national exchange — gold "There are none" (cover-page 12(b) table lists only common shares); pindex retrieved Note 8 parent-company debt and claimed the filing doesn't specify |
-| financebench_id_00494 | ultra | Boeing FY2023 production rate forecasts — pindex grounded 737/787 increases but missed p.9's "777X expected to resume in 2023" and framed guidance as limited |
-| financebench_id_00216 | high, ultra | Verizon quick ratio — pindex computed gold's exact 0.54 but took the question's invited "not relevant, here's why" path; gold concludes "unhealthy" (low/medium said the same 0.54 = less healthy and were judged AL) |
+| financebench_id_00494 | ultra | SEDC | Boeing FY2023 production rates — same grounded facts the AL-judged high answer cites; ultra's hedged framing reads the filing's own 777X pause-vs-resume tension differently |
+| financebench_id_00216 | high, ultra | SEDC | Verizon quick ratio — computed gold's exact 0.54, then took the question's explicitly invited "not relevant, here's why" path; gold takes the other fork |
+| financebench_id_00476 | high, ultra | NAL (confirmed) | Amex 12(b) debt securities — gold "There are none" is on the cover page; pindex retrieved Note 8 debt and claimed the filing doesn't specify. Genuine retrieval miss: the cover-page node summary omits the 12(b) table, so tree search has no signal (an absence-fact summary-lossiness case to revisit as the pool grows) |
 
 - **Raw** is judge-only; **adjusted** also counts human-adjudicated `MVA`/`BE`/`SEDC` relabels (the
   process behind Mafin 2.5's published 98.7%). See each answer record's `label_reason` for detail.
