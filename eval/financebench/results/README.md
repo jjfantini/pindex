@@ -104,6 +104,22 @@ and each document appears at most once — so the summed numbers are a clean mic
 
 ## Human adjudication workflow
 
+The fast path is the web UI — from the repo root:
+
+```sh
+go run ./eval/financebench/adjudicate    # then open http://localhost:8787/
+```
+
+It shows every non-AL question across all docs and efforts — question, gold answer, gold-page
+text, pindex's full answer/reasoning, and cited-page text — with a label + reason editor per
+question. **Apply Now** writes the labels into the answer records (wrapping the reason in the
+standard `Label: … Detailed Reason: …` form) and re-runs the aggregator. `AL` is deliberately
+not offered — only the judge assigns it. Page text comes from the gitignored
+`testdata/ws` workspace, so docs indexed in an older workspace show text as unavailable until
+re-indexed (`./bench.sh <DOC>` restores them).
+
+Manually, the same loop is:
+
 1. Open `<model>/<effort>/human_evaluations.csv` — every question the judge scored wrong (or
    that was already relabelled) is there.
 2. To relabel: edit `label` (and add a `label_reason`) in the per-question record
