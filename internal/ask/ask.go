@@ -54,6 +54,13 @@ const (
 	agentCorrectiveIterations = 3
 )
 
+// structureBudgetChars caps the rendered structure embedded in a single prompt
+// (~75k tokens at ~4 chars/token) — ample for any normal filing while leaving
+// room for instructions and the reply inside a 128k-token context. Without it,
+// a 500-page tree's summaries overflow the window outright (PEPSICO_2022_10K's
+// asks all died with "prompt is too long: 205330 tokens > 200000 maximum").
+const structureBudgetChars = 300_000
+
 var effortRank = map[Effort]int{EffortLow: 0, EffortMedium: 1, EffortHigh: 2, EffortUltra: 3}
 
 func (e Effort) atLeast(o Effort) bool { return effortRank[e] >= effortRank[o] }
@@ -118,7 +125,7 @@ func (a *Asker) Ask(ctx context.Context, doc tree.Document, question string) (An
 		return a.askAgentic(ctx, doc, question)
 	}
 
-	structure, err := retrieve.GetStructure(doc)
+	structure, _, err := retrieve.GetStructureWithin(doc, structureBudgetChars)
 	if err != nil {
 		return Answer{}, err
 	}
@@ -163,7 +170,7 @@ func (a *Asker) Ask(ctx context.Context, doc tree.Document, question string) (An
 // comes back with Verification="unsupported" (surfaced, never silent). A
 // transport error in either verification call fails the whole call.
 func (a *Asker) askAgentic(ctx context.Context, doc tree.Document, question string) (Answer, error) {
-	structure, err := retrieve.GetStructure(doc)
+	structure, _, err := retrieve.GetStructureWithin(doc, structureBudgetChars)
 	if err != nil {
 		return Answer{}, err
 	}

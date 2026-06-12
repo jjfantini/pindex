@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00735",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2022_10K.pdf",
+  "question": "Has Pepsico reported any materially important ongoing legal battles from FY2022 and FY2021?",
+  "gold_answer": "No, Pepsico is not involved in material legal battles.",
+  "predicted": "No. According to Item 3. Legal Proceedings in the filing, while PepsiCo and its subsidiaries are party to various litigation, claims, legal or regulatory proceedings, inquiries and investigations, management believes that the final outcome of these matters will not have a material adverse effect on the company's financial condition, results of operations or cash flows.",
+  "reasoning": "The question asks about materially important ongoing legal battles from FY2022 and FY2021. I found Item 3. Legal Proceedings on page 26. The content states: 'We and our subsidiaries are party to a variety of litigation, claims, legal or regulatory proceedings, inquiries and investigations. While the results of such litigation, claims, legal or regulatory proceedings, inquiries and investigations cannot be predicted with certainty, management believes that the final outcome of the foregoing will not have a material adverse effect on our financial condition, results of operations or cash flows.' This indicates that PepsiCo has various legal proceedings but explicitly states that management believes none will have a MATERIAL adverse effect. The page also references Item 1. Business – Regulatory Matters and Item 1A. Risk Factors for additional information. However, the provided pages do not include those sections, so I can only work with what is provided. Based on the Item 3 disclosure, PepsiCo has not reported any materially important ongoing legal battles - they explicitly state management believes the outcome will not have a material adverse effect.",
+  "selected_pages": "26",
+  "cited_pages": [
+    26
+  ],
+  "gold_pages": [
+    25
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

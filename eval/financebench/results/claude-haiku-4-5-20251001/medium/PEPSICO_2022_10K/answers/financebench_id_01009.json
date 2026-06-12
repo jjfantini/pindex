@@ -1,0 +1,25 @@
+{
+  "financebench_id": "financebench_id_01009",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2022_10K.pdf",
+  "question": "What are the geographies that Pepsico primarily operates in as of FY2022?",
+  "gold_answer": "As of FY2022, Pepsico primarily operates in the following geographies: North America, Latin America, Europe, Africa, Middle East, South Asia, Asia Pacific, Australia, New Zealand and China.",
+  "predicted": "As of FY2022, PepsiCo primarily operates in the following geographies, organized into seven reportable segments: (1) North America (United States and Canada) through FLNA, QFNA, and PBNA divisions; (2) Latin America through the LatAm division; (3) Europe through the Europe division; (4) Africa, Middle East and South Asia (AMESA) through the AMESA division; and (5) Asia Pacific, Australia, New Zealand and China region (APAC) through the APAC division. Overall, PepsiCo serves customers and consumers in more than 200 countries and territories, with largest operations in the United States, Mexico, Russia, Canada, China, the United Kingdom, and South Africa. International operations generated 43% of consolidated net revenue in 2022.",
+  "reasoning": "The question asks about the geographies that PepsiCo primarily operates in as of FY2022. I need to find information about PepsiCo's geographic operations.\n\nFrom page 32, the Executive Overview states: 'PepsiCo is a leading global beverage and convenient food company with a complementary portfolio of brands, including Lay's, Doritos, Cheetos, Gatorade, Pepsi-Cola, Mountain Dew, Quaker and SodaStream. Through our operations, authorized bottlers, contract manufacturers and other third parties, we make, market, distribute and sell a wide variety of beverages and convenient foods, serving customers and consumers in more than 200 countries and territories.'\n\nFrom page 69, Note 1 describes the seven reportable segments (divisions):\n1) Frito-Lay North America (FLNA) - United States and Canada\n2) Quaker Foods North America (QFNA) - United States and Canada\n3) PepsiCo Beverages North America (PBNA) - United States and Canada\n4) Latin America (LatAm) - all beverage and convenient food businesses in Latin America\n5) Europe - all beverage and convenient food businesses in Europe\n6) Africa, Middle East and South Asia (AMESA) - all beverage and convenient food businesses in Africa, the Middle East and South Asia\n7) Asia Pacific, Australia, and New Zealand and China region (APAC) - all beverage and convenient food businesses in Asia Pacific, Australia and New Zealand, and China region\n\nPage 69 also states: 'Through our operations, authorized bottlers, contract manufacturers and other third parties, we make, market, distribute and sell a wide variety of beverages and convenient foods, serving customers and consumers in more than 200 countries and territories with our largest operations in the United States, Mexico, Russia, Canada, China, the United Kingdom and South Africa.'\n\nFrom page 38, it states: 'Our operations outside of the United States generated 43% of our consolidated net revenue in 2022, with Mexico, Russia, Canada, China, the United Kingdom and South Africa, collectively, comprising approximately 23% of our consolidated net revenue in 2022.'\n\nSo the primary geographies are organized into seven divisions covering North America, Latin America, Europe, Africa/Middle East/South Asia, and Asia Pacific/China.",
+  "selected_pages": "32-39, 41-46, 68-74",
+  "cited_pages": [
+    32,
+    38,
+    69
+  ],
+  "gold_pages": [
+    3,
+    4
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

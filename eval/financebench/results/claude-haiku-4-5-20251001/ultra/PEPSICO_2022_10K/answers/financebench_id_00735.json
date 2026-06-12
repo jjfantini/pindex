@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00735",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2022_10K.pdf",
+  "question": "Has Pepsico reported any materially important ongoing legal battles from FY2022 and FY2021?",
+  "gold_answer": "No, Pepsico is not involved in material legal battles.",
+  "predicted": "Yes, PepsiCo has reported ongoing legal battles in FY2022 and FY2021. According to Item 3 (Legal Proceedings) in the 10-K filing, \"We and our subsidiaries are party to a variety of litigation, claims, legal or regulatory proceedings, inquiries and investigations.\" However, PepsiCo does not characterize these as materially important. The company states: \"While the results of such litigation, claims, legal or regulatory proceedings, inquiries and investigations cannot be predicted with certainty, management believes that the final outcome of the foregoing will not have a material adverse effect on our financial condition, results of operations or cash flows.\" In other words, while PepsiCo acknowledges being involved in various ongoing legal matters, management's position is that none of these matters are expected to have a material adverse impact on the company's financial performance.",
+  "reasoning": "The user is pointing out that my JSON response contains unescaped newline characters. I need to provide a valid JSON response with properly escaped newlines. Let me format the answer correctly with escaped newlines.",
+  "verification": "supported",
+  "steps": 5,
+  "selected_pages": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26",
+  "cited_pages": [
+    26
+  ],
+  "gold_pages": [
+    25
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

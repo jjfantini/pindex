@@ -22,5 +22,6 @@
   "answer_ok": false,
   "hallucinated": true,
   "page_hit": false,
-  "label": "NAL"
+  "label": "SEDC",
+  "label_reason": "Label: SEDC - Subjective Evaluation, Different Conclusions\n\nDetailed Reason: pindex grounded the same program facts gold relies on: 737 'expect to implement further gradual production rate increases' (p.33) and 787 'expect to gradually return to 5 per month in 2023' (p.35). For the 777X it quoted the p.34 statement that 777X-9 production was paused 'during 2022 and 2023', while gold's evidence (p.9, FinanceBench p.8) says 777X production 'is expected to resume in 2023' — the filing states both, and the answer's framing ('limited specific FY2023 guidance') is a defensible reading of rate increases that are explicitly contingent on demand and supply chain. The high run's answer with the same substance and citations was judged AL; ultra differs only in hedged framing. Adjudicated by maintainer 2026-06-12."
 }

@@ -9,7 +9,7 @@
  {
   "id": "financebench_id_00216",
   "question": "Does Verizon have a reasonably healthy liquidity profile based on its quick ratio for FY 2022? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
-  "label": "NAL",
+  "label": "SEDC",
   "benchmark_answer": "No. The quick ratio was approximately 0.54 for Verizon. It indicated that Verizon does not have a healthy liquidity profile.",
   "pindex_answer": "Based on the Consolidated Balance Sheet as of December 31, 2022, Verizon's quick ratio is approximately 0.54x, calculated as follows: Quick Assets = Cash ($2,605M) + Accounts Receivable, net ($24,506M) = $27,111 million. Quick Ratio = $27,111M / Current Liabilities ($50,171M) = 0.54x. However, the quick ratio is NOT a relevant metric for assessing Verizon's liquidity profile. Why the Quick Ratio is Irrelevant for Verizon: (1) Operating Cash Flow is the Primary Liquidity Source: The document explicitly states that the primary source of funds is cash generated from operations. Verizon generated $37.1 billion in operating cash flow in 2022, which far exceeds its current liabilities of $50.2 billion and debt maturing within 12 months of $9.3 billion. (2) Strong Free Cash Flow: Verizon generated $14.1 billion in free cash flow in 2022 (operating cash flow of $37.1B minus capital expenditures of $23.1B), demonstrating substantial liquidity after funding necessary capital investments. (3) Significant Unused Credit Facilities: The company maintains a $9.5 billion revolving credit facility with $9.436 billion unused capacity and no financial covenants required. Additionally, export credit facilities total $11 billion with $1 billion unused capacity. (4) Asset-Backed Securitization Capacity: Verizon has $20 billion in asset-backed debt outstanding, demonstrating access to capital markets for monetizing device payment plan receivables. (5) Management's Assessment: The document states that sources of funds, primarily from operations and external financing arrangements, are sufficient to meet ongoing operating and investing requirements over the next 12 months and beyond. Conclusion: Verizon has a reasonably healthy liquidity profile based on strong operating cash flows, manageable debt service requirements, and substantial access to capital markets—not the quick ratio."
  },
@@ -51,7 +51,7 @@
  {
   "id": "financebench_id_00494",
   "question": "What production rate changes is Boeing forecasting for FY2023?",
-  "label": "NAL",
+  "label": "SEDC",
   "benchmark_answer": "Boeing forecasts an increase in the production rates for the 737, 777X and 787 aircrafts in 2023.",
   "pindex_answer": "Based on the 2022 10-K filing, Boeing provides limited specific FY2023 production rate guidance: 737 Program: Boeing states 'We increased the production rate to 31 per month in 2022, and expect to implement further gradual production rate increases based on market demand and supply chain capacity' (page 33). However, no specific 2023 production rate target is provided. 787 Program: 'We are currently producing at low rates and expect to gradually return to 5 per month in 2023' (page 35). 777/777X Programs: Boeing is 'currently producing at a combined production rate of 3 per month for the 777/777X programs' (page 34). The company decided to pause 777X-9 production during 2022 and 2023. 767 Program: 'We are currently producing at a combined rate of 3 aircraft per month' (page 34), with no specific 2023 changes mentioned. The document emphasizes that production rate increases are contingent on 'market demand and supply chain capacity' and that Boeing 'continue[s] to work with customers and suppliers regarding timing of future deliveries and production rate changes' (page 35)."
  },
@@ -119,6 +119,13 @@
   "pindex_answer": "You're correct - I should have shown my calculations. Here's the corrected analysis with proper support:\n\nOperating Margin is NOT a useful metric for American Express for the reasons stated above (financial services company, interest income/expense is core, credit losses are fundamental).\n\nMore Relevant Profitability Metrics (with proper calculations):\n\nReturn on Equity (using average shareholders' equity):\n- 2022: $7,514M / [($24,711M + $22,177M) / 2] = 32.0%\n- 2021: $8,060M / [($22,177M + $22,984M) / 2] = 35.7%\n- Declining by 3.7 percentage points\n\nNet Profit Margin:\n- 2022: $7,514M / $52,862M = 14.2%\n- 2021: $8,060M / $42,380M = 19.0%\n- Declining significantly\n\nEfficiency Ratio (Operating Expenses / Total Revenues):\n- 2022: $41,095M / $52,862M = 77.7%\n- 2021: $33,110M / $42,380M = 78.1%\n- Slightly improving\n\nKey Drivers of Declining Profitability Despite Revenue Growth:\n1. Credit loss provisions: $2,182M provision in 2022 vs. $1,419M release in 2021 (a $3.6B swing)\n2. Card Member rewards expenses: +27% to $14,002M\n3. Interest expense: nearly doubled to $2,763M from $1,283M\n4. Net income declined 6.8% despite 24.8% revenue growth\n\nConclusion: American Express's profitability deteriorated in 2022 despite strong revenue growth, with ROE declining from 35.7% to 32.0%."
  },
  {
+  "id": "financebench_id_00735",
+  "question": "Has Pepsico reported any materially important ongoing legal battles from FY2022 and FY2021?",
+  "label": "AL",
+  "benchmark_answer": "No, Pepsico is not involved in material legal battles.",
+  "pindex_answer": "Yes, PepsiCo has reported ongoing legal battles in FY2022 and FY2021. According to Item 3 (Legal Proceedings) in the 10-K filing, \"We and our subsidiaries are party to a variety of litigation, claims, legal or regulatory proceedings, inquiries and investigations.\" However, PepsiCo does not characterize these as materially important. The company states: \"While the results of such litigation, claims, legal or regulatory proceedings, inquiries and investigations cannot be predicted with certainty, management believes that the final outcome of the foregoing will not have a material adverse effect on our financial condition, results of operations or cash flows.\" In other words, while PepsiCo acknowledges being involved in various ongoing legal matters, management's position is that none of these matters are expected to have a material adverse impact on the company's financial performance."
+ },
+ {
   "id": "financebench_id_00757",
   "question": "Did AMD report customer concentration in FY22?",
   "label": "AL",
@@ -168,6 +175,13 @@
   "pindex_answer": "As of fiscal year 2022, AMD's major products and services are organized into four reportable segments:\n\n**Data Center Segment:**\n- Server microprocessors (CPUs) - AMD EPYC Series processors (9004, 7003, and 7002 Series)\n- Graphics processing units (GPUs) - AMD Instinct family for AI training and supercomputing\n- Data processing units (DPUs) - AMD Pensando DPUs for infrastructure services\n- FPGAs and Adaptive SoCs - Virtex, Kintex, Zynq, and Versal products\n- Visual cloud GPUs - Radeon PRO V families for remote visualization\n\n**Client Segment:**\n- Desktop CPUs - AMD Ryzen and AMD Athlon series processors\n- Notebook/Mobile CPUs - AMD Ryzen and AMD Athlon mobile processors\n- Commercial CPUs - AMD PRO and AMD Threadripper PRO processors\n- Chipsets - X670, B650, X570, B550, A520, B450, A320, and WRX80 chipsets\n\n**Gaming Segment:**\n- Semi-custom SoCs - Custom solutions for gaming consoles (PlayStation 5, Xbox Series S/X, Steam Deck)\n- Discrete GPUs - AMD Radeon RX series (7900 and 6000 series)\n- Professional GPUs - AMD Radeon PRO workstation graphics\n\n**Embedded Segment:**\n- Embedded CPUs, APUs, and GPUs - AMD Embedded EPYC, Ryzen V-Series, and Ryzen R-Series\n- FPGAs - UltraScale+, UltraScale, 7 Series, and legacy families\n- Adaptive SoCs - Zynq, Zynq MPSoC, Zynq RFSoCs, and Versal products\n- Development boards and kits\n\nAdditionally, AMD sells or licenses portions of its intellectual property portfolio."
  },
  {
+  "id": "financebench_id_01009",
+  "question": "What are the geographies that Pepsico primarily operates in as of FY2022?",
+  "label": "AL",
+  "benchmark_answer": "As of FY2022, Pepsico primarily operates in the following geographies: North America, Latin America, Europe, Africa, Middle East, South Asia, Asia Pacific, Australia, New Zealand and China.",
+  "pindex_answer": "As of FY2022, PepsiCo primarily operates in the following geographies through seven reportable segments:\n\n1. **Frito-Lay North America (FLNA)** - United States and Canada\n2. **Quaker Foods North America (QFNA)** - United States and Canada\n3. **PepsiCo Beverages North America (PBNA)** - United States and Canada\n4. **Latin America (LatAm)** - All beverage and convenient food businesses in Latin America\n5. **Europe** - All beverage and convenient food businesses in Europe\n6. **Africa, Middle East and South Asia (AMESA)** - All beverage and convenient food businesses in Africa, the Middle East, and South Asia\n7. **Asia Pacific, Australia, New Zealand and China (APAC)** - All beverage and convenient food businesses in Asia Pacific, Australia, New Zealand, and China region\n\nOverall, PepsiCo serves customers and consumers in more than 200 countries and territories, with its largest operations specifically in the United States, Mexico, Russia, Canada, China, the United Kingdom, and South Africa."
+ },
+ {
   "id": "financebench_id_01028",
   "question": "What are the geographies that American Express primarily operates in as of 2022?",
   "label": "AL",
@@ -215,6 +229,13 @@
   "label": "AL",
   "benchmark_answer": "Boeing's primary customers as of FY2022 are a limited number of commercial airlines and the US government. The US government accounted for 40% of Boeing's total revenues in FY2022.",
   "pindex_answer": "Based on Boeing's FY2022 10-K filing, the primary customers are:\n\n1. Commercial Airlines (BCA Segment - $25.9 billion in revenues)\n- Boeing's largest customer base for commercial aircraft\n- Customers located globally: U.S. ($12.2B), Asia ($4.5B), Europe ($4.0B), Middle East ($2.0B), and other regions ($3.0B)\n- Airlines purchase narrow-body (737) and wide-body (767, 777, 787) aircraft\n\n2. U.S. Government (40% of total consolidated revenues)\n- Primarily serves BDS ($23.2B segment) and BGS ($17.6B segment)\n- BDS: 89% of revenues from U.S. government contracts\n- BGS: 33% of revenues from U.S. government\n- Includes all branches of the U.S. military, NASA, FAA, and Department of Homeland Security\n\n3. International Governments and Defense Customers (BDS)\n- Non-U.S. government customers: $6.0 billion in BDS revenues\n- Includes allied nations' defense and security needs\n\n4. Commercial Airline Operators for Services (BGS Commercial - $9.6 billion)\n- Provides maintenance, spare parts, training, and logistics support\n- Supports both commercial and defense aircraft operators\n\n5. Boeing Capital Customers ($199 million)\n- Aircraft financing and leasing customers\n\nIn summary, Boeing's primary customers are commercial airlines worldwide and the U.S. government (representing 40% of total revenues), with supplementary revenue from international governments, commercial airline service customers, and financing arrangements."
+ },
+ {
+  "id": "financebench_id_01328",
+  "question": "What is the quantity of restructuring costs directly outlined in Pepsico's income statements for FY2022? If restructuring costs are not explicitly outlined then state 0.",
+  "label": "NAL",
+  "benchmark_answer": "Pepsico's restructuring costs in FY2022 amounted to $411 million .",
+  "pindex_answer": "0"
  },
  {
   "id": "financebench_id_01351",
@@ -271,5 +292,19 @@
   "label": "AL",
   "benchmark_answer": "Yes",
   "pindex_answer": "Yes, American Express was able to retain card members during 2022. According to the document, Net card fees increased 17 percent year over-year, as new card acquisitions reached record levels in 2022 and Card Member retention remained high, demonstrating the impact of investments we have made in our premium value propositions. This indicates that the company successfully maintained high retention rates while also achieving record new card acquisitions during 2022."
+ },
+ {
+  "id": "financebench_id_03620",
+  "question": "What is the FY2022 unadjusted EBITDA less capex for PepsiCo? Define unadjusted EBITDA as unadjusted operating income + depreciation and amortization [from cash flow statement]. Answer in USD millions. Respond to the question by assuming the perspective of an investment analyst who can only use the details shown within the statement of cash flows and the income statement.",
+  "label": "AL",
+  "benchmark_answer": "$9068.00",
+  "pindex_answer": "$9,068 million"
+ },
+ {
+  "id": "financebench_id_04481",
+  "question": "What is the FY2022 unadjusted EBITDA % margin for PepsiCo? Calculate unadjusted EBITDA using unadjusted operating income and D\u0026A (from cash flow statement). Give a response to the question by relying on the details shown in the statement of cash flows and the P\u0026L statement.",
+  "label": "AL",
+  "benchmark_answer": "16.5%",
+  "pindex_answer": "Based on PepsiCo's FY2022 financial statements:\n\n**Calculation of Unadjusted EBITDA:**\n- Operating Profit (from P\u0026L): $11,512 million\n- Depreciation \u0026 Amortization (from Cash Flow Statement): $2,763 million\n- **Unadjusted EBITDA = $11,512 + $2,763 = $14,275 million**\n\n**Unadjusted EBITDA % Margin:**\n- Net Revenue FY2022: $86,392 million\n- Unadjusted EBITDA % Margin = ($14,275 / $86,392) × 100 = **16.53%**\n\nPepsiCo's FY2022 unadjusted EBITDA margin was **16.53%**."
  }
 ]

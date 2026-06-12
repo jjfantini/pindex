@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_04481",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2022_10K.pdf",
+  "question": "What is the FY2022 unadjusted EBITDA % margin for PepsiCo? Calculate unadjusted EBITDA using unadjusted operating income and D\u0026A (from cash flow statement). Give a response to the question by relying on the details shown in the statement of cash flows and the P\u0026L statement.",
+  "gold_answer": "16.5%",
+  "predicted": "FY2022 Unadjusted EBITDA % Margin for PepsiCo is 16.70%. Calculation: Unadjusted Operating Income = $11,512M (Operating Profit) + $3,321M (Juice Transaction gain adjustment) - $3,166M (Impairment adjustment) = $11,667M. Unadjusted EBITDA = $11,667M + $2,763M (D\u0026A from cash flow statement) = $14,430M. Margin = $14,430M / $86,392M (Net Revenue) = 16.70%.",
+  "reasoning": "To calculate FY2022 unadjusted EBITDA % margin, I need:\n1. Unadjusted Operating Income (from P\u0026L)\n2. Depreciation \u0026 Amortization (from Cash Flow Statement)\n3. Net Revenue (from P\u0026L)\n\nFrom the Consolidated Statement of Income (page 62):\n- FY2022 Operating Profit: $11,512 million\n- FY2022 Net Revenue: $86,392 million\n\nHowever, I need to adjust Operating Profit to get unadjusted operating income. Looking at the P\u0026L, Operating Profit of $11,512 includes:\n- Gain associated with the Juice Transaction: $(3,321) million (a gain, so it reduces operating profit)\n- Impairment of intangible assets: $3,166 million (an expense that increases operating profit)\n\nUnadjusted Operating Income = Operating Profit + Gain on Juice Transaction - Impairment\nUnadjusted Operating Income = $11,512 + $3,321 - $3,166 = $11,667 million\n\nFrom the Consolidated Statement of Cash Flows (page 64):\n- FY2022 Depreciation and amortization: $2,763 million\n\nUnadjusted EBITDA = Unadjusted Operating Income + D\u0026A\nUnadjusted EBITDA = $11,667 + $2,763 = $14,430 million\n\nUnadjusted EBITDA % Margin = (Unadjusted EBITDA / Net Revenue) × 100\nUnadjusted EBITDA % Margin = ($14,430 / $86,392) × 100 = 16.70%",
+  "selected_pages": "62-66",
+  "cited_pages": [
+    62,
+    64
+  ],
+  "gold_pages": [
+    61,
+    63
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

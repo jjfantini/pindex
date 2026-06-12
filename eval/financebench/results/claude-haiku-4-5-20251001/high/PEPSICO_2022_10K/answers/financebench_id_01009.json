@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_01009",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2022_10K.pdf",
+  "question": "What are the geographies that Pepsico primarily operates in as of FY2022?",
+  "gold_answer": "As of FY2022, Pepsico primarily operates in the following geographies: North America, Latin America, Europe, Africa, Middle East, South Asia, Asia Pacific, Australia, New Zealand and China.",
+  "predicted": "As of FY2022, PepsiCo primarily operates in the following geographies through seven reportable segments:\n\n1. **Frito-Lay North America (FLNA)** - United States and Canada\n2. **Quaker Foods North America (QFNA)** - United States and Canada\n3. **PepsiCo Beverages North America (PBNA)** - United States and Canada\n4. **Latin America (LatAm)** - All beverage and convenient food businesses in Latin America\n5. **Europe** - All beverage and convenient food businesses in Europe\n6. **Africa, Middle East and South Asia (AMESA)** - All beverage and convenient food businesses in Africa, the Middle East, and South Asia\n7. **Asia Pacific, Australia, New Zealand and China (APAC)** - All beverage and convenient food businesses in Asia Pacific, Australia, New Zealand, and China region\n\nOverall, PepsiCo serves customers and consumers in more than 200 countries and territories, with its largest operations specifically in the United States, Mexico, Russia, Canada, China, the United Kingdom, and South Africa.",
+  "reasoning": "Perfect! I found the information about PepsiCo's geographic operations. The document clearly outlines the seven reportable segments organized by geography, and also mentions that they serve customers in more than 200 countries and territories with largest operations in specific countries. Let me provide a comprehensive answer based on this information.",
+  "steps": 2,
+  "selected_pages": "69,70,71",
+  "cited_pages": [
+    69
+  ],
+  "gold_pages": [
+    3,
+    4
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

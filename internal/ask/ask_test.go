@@ -415,3 +415,59 @@ func TestAskLowDoesNotFetchMore(t *testing.T) {
 		t.Errorf("verification = %q want \"\" (low never verifies)", ans.Verification)
 	}
 }
+
+// oversizedDoc renders to well over structureBudgetChars of structure (the
+// PEPSICO_2022_10K failure shape: hundreds of nodes with multi-paragraph
+// summaries that overflow the model context in one prompt).
+func oversizedDoc() tree.Document {
+	nodes := make([]tree.TreeNode, 200)
+	for i := range nodes {
+		nodes[i] = tree.TreeNode{
+			Title: "Section", StartIndex: i + 1, EndIndex: i + 1,
+			Summary: strings.Repeat("s", 2_500),
+		}
+	}
+	return tree.Document{
+		Type: tree.DocPDF, PageCount: 200,
+		Structure: nodes,
+		Pages:     []tree.PageContent{{Page: 2, Content: "Revenue was $1,234 in 2023."}},
+	}
+}
+
+// Regression: a structure bigger than the prompt budget must be degraded, not
+// embedded wholesale (PEPSICO_2022_10K: every ask died with "prompt is too
+// long: 205330 tokens > 200000 maximum" at select-pages).
+func TestAskBudgetsOversizedStructure(t *testing.T) {
+	mock := llm.NewMock("m",
+		llm.MockResponse{Content: `{"thinking":"p2","pages":"2"}`},
+		llm.MockResponse{Content: `{"thinking":"found","answer":"ok","pages_used":"2"}`},
+	)
+	if _, err := New(mock, "m").Ask(context.Background(), oversizedDoc(), "What was revenue?"); err != nil {
+		t.Fatal(err)
+	}
+	sel := mock.Calls()[0]
+	user := sel.Messages[len(sel.Messages)-1].Content
+	if len(user) > structureBudgetChars+2_000 { // small allowance for instructions
+		t.Errorf("select-pages prompt = %d chars, structure was not budgeted", len(user))
+	}
+}
+
+func TestAskAgenticBudgetsOversizedStructure(t *testing.T) {
+	mock := llm.NewMock("m",
+		llm.MockResponse{Content: `{"action":"get_pages","pages":"2"}`},
+		llm.MockResponse{Content: `{"action":"answer","answer":"ok","pages_used":"2"}`},
+	)
+	a := New(mock, "m")
+	a.Effort = EffortHigh
+	if _, err := a.Ask(context.Background(), oversizedDoc(), "What was revenue?"); err != nil {
+		t.Fatal(err)
+	}
+	first := mock.Calls()[0]
+	total := 0
+	for _, m := range first.Messages {
+		total += len(m.Content)
+	}
+	if total > structureBudgetChars+5_000 { // system + user instruction allowance
+		t.Errorf("agent opening prompt = %d chars, structure was not budgeted", total)
+	}
+}

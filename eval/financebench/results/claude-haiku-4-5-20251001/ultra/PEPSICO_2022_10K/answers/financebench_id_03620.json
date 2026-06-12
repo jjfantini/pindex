@@ -1,0 +1,26 @@
+{
+  "financebench_id": "financebench_id_03620",
+  "company": "PepsiCo",
+  "doc_name": "PEPSICO_2022_10K.pdf",
+  "question": "What is the FY2022 unadjusted EBITDA less capex for PepsiCo? Define unadjusted EBITDA as unadjusted operating income + depreciation and amortization [from cash flow statement]. Answer in USD millions. Respond to the question by assuming the perspective of an investment analyst who can only use the details shown within the statement of cash flows and the income statement.",
+  "gold_answer": "$9068.00",
+  "predicted": "$9,068 million",
+  "reasoning": "Now I have the actual financial statements. Let me extract the required figures for FY2022:\n\nFrom the Consolidated Statement of Income (page 62):\n- Operating Profit for 2022: $11,512 million\n\nFrom the Consolidated Statement of Cash Flows (page 64):\n- Depreciation and amortization for 2022: $2,763 million\n- Capital spending for 2022: $(5,207) million\n\nNow I can calculate:\nUnadjusted EBITDA = Operating Profit + Depreciation and Amortization\nUnadjusted EBITDA = $11,512 + $2,763 = $14,275 million\n\nUnadjusted EBITDA less capex = $14,275 - $5,207 = $9,068 million",
+  "verification": "supported",
+  "steps": 3,
+  "selected_pages": "62,63,64,65,66",
+  "cited_pages": [
+    62,
+    64
+  ],
+  "gold_pages": [
+    61,
+    63
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

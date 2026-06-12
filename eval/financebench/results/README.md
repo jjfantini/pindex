@@ -28,22 +28,22 @@ hand-edit the derived files.
 
 ## Scoreboard — claude-haiku-4-5-20251001 (generation + indexing), gpt-4o-2024-11-20 judge
 
-Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (11/84 docs, 39/150 questions):
+Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (12/84 docs, 44/150 questions):
 
 | Effort | Raw accuracy | Adjusted accuracy | Evidence recall | Hallucination |
 |---|---|---|---|---|
-| low | 89.74% (35/39) | 100.00% | 84.62% | 10.26% |
-| medium | 89.74% (35/39) | 100.00% | 87.18% | 10.26% |
-| **high** | **89.74% (35/39)** | **94.87%** | 89.74% | 10.26% |
-| ultra | 87.18% (34/39) | 92.31% | 89.74% | 12.82% |
+| low | 86.36% (38/44) | 95.45% | 84.09% | 13.64% |
+| medium | 86.36% (38/44) | 95.45% | 86.36% | 13.64% |
+| **high** | **88.64% (39/44)** | **95.45%** | 88.64% | 11.36% |
+| ultra | 86.36% (38/44) | 95.45% | 88.64% | 13.64% |
 
-Adjusted numbers for high/ultra are provisional: three misses (see below) are auto-labelled
-`NAL` and still await human adjudication.
+Adjusted numbers count the human adjudications below; the PepsiCo misses from the 2026-06-12
+re-run are auto-labelled `NAL` and still await review.
 
-> **Known limitation:** `PEPSICO_2022_10K` (503 pages) is excluded — every `ask` fails with
-> `prompt is too long: 205330 tokens > 200000 maximum` at the select-pages step because the
-> full tree structure exceeds the model context window. Re-benchmark once the pipeline guards
-> large trees.
+`PEPSICO_2022_10K` (503 pages) initially could not be evaluated at all — every `ask` died with
+`prompt is too long: 205330 tokens > 200000 maximum` because the full tree structure was
+embedded in one prompt. The ask pipeline now budgets the rendered structure (full summaries →
+truncated → titles-only) and the doc benchmarks normally.
 
 ### Documents in the pool so far
 
@@ -58,6 +58,7 @@ Adjusted numbers for high/ultra are provisional: three misses (see below) are au
 | FOOTLOCKER_2022_8K_dated_2022-08-19 | 1 |
 | JOHNSON_JOHNSON_2023Q2_EARNINGS | 1 |
 | JOHNSON_JOHNSON_2023_8K_dated-2023-08-30 | 3 |
+| PEPSICO_2022_10K | 5 |
 | PEPSICO_2023_8K_dated-2023-05-30 | 2 |
 | VERIZON_2022_10K | 3 |
 
@@ -72,14 +73,16 @@ All are outside the diagnostic **train** split (no prompt-tuning contamination).
 | financebench_id_00839 | low, medium | SEDC | Same CEO/Ulta evidence; interpretive split on "similar company" |
 | financebench_id_00222 | high, ultra | MVA | AMD quick ratio — alternate valid formula, same conclusion |
 | financebench_id_00585 | all four | MVA | Boeing effective tax rate — pindex reports the 10-K's own reconciliation rates ((0.6)% / 14.7%, p.77); gold flips signs by normalizing the loss denominator |
+| financebench_id_00494 | ultra | SEDC | Boeing FY2023 production rates — same grounded facts the AL-judged high answer cites; ultra's hedged framing reads the filing's own 777X pause-vs-resume tension differently |
+| financebench_id_00216 | high, ultra | SEDC | Verizon quick ratio — computed gold's exact 0.54, then took the question's explicitly invited "not relevant, here's why" path; gold takes the other fork |
+| financebench_id_00476 | high, ultra | NAL (confirmed) | Amex 12(b) debt securities — gold "There are none" is on the cover page; pindex retrieved Note 8 debt and claimed the filing doesn't specify. Genuine retrieval miss: the cover-page node summary omits the 12(b) table, so tree search has no signal (an absence-fact summary-lossiness case to revisit as the pool grows) |
 
-### Pending human review (2026-06-12 installments, auto-labelled `NAL`)
+### Pending human review (auto-labelled `NAL`)
 
 | ID | Effort(s) | Question |
 |---|---|---|
-| financebench_id_00476 | high, ultra | Amex debt securities registered on a national exchange — gold "There are none" (cover-page 12(b) table lists only common shares); pindex retrieved Note 8 parent-company debt and claimed the filing doesn't specify |
-| financebench_id_00494 | ultra | Boeing FY2023 production rate forecasts — pindex grounded 737/787 increases but missed p.9's "777X expected to resume in 2023" and framed guidance as limited |
-| financebench_id_00216 | high, ultra | Verizon quick ratio — pindex computed gold's exact 0.54 but took the question's invited "not relevant, here's why" path; gold concludes "unhealthy" (low/medium said the same 0.54 = less healthy and were judged AL) |
+| financebench_id_01328 | all four | PepsiCo restructuring costs "directly outlined in the income statement" — pindex answers 0 citing the income statement page (no restructuring line there; the costs live in the notes), gold gives the notes figure. Possible BE/SEDC candidate |
+| financebench_id_03620 | low, medium | PepsiCo FY2022 unadjusted EBITDA less capex — picked the wrong line item ($15,555M vs gold $9,068M); high/ultra answered it correctly |
 
 - **Raw** is judge-only; **adjusted** also counts human-adjudicated `MVA`/`BE`/`SEDC` relabels (the
   process behind Mafin 2.5's published 98.7%). See each answer record's `label_reason` for detail.
