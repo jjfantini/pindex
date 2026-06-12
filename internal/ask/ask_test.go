@@ -416,7 +416,7 @@ func TestAskLowDoesNotFetchMore(t *testing.T) {
 	}
 }
 
-// oversizedDoc renders to well over structureBudgetChars of structure (the
+// oversizedDoc renders to well over the unknown-model structure budget (the
 // PEPSICO_2022_10K failure shape: hundreds of nodes with multi-paragraph
 // summaries that overflow the model context in one prompt).
 func oversizedDoc() tree.Document {
@@ -447,7 +447,7 @@ func TestAskBudgetsOversizedStructure(t *testing.T) {
 	}
 	sel := mock.Calls()[0]
 	user := sel.Messages[len(sel.Messages)-1].Content
-	if len(user) > structureBudgetChars+2_000 { // small allowance for instructions
+	if len(user) > llm.StructureBudget("m")+2_000 { // small allowance for instructions
 		t.Errorf("select-pages prompt = %d chars, structure was not budgeted", len(user))
 	}
 }
@@ -467,7 +467,26 @@ func TestAskAgenticBudgetsOversizedStructure(t *testing.T) {
 	for _, m := range first.Messages {
 		total += len(m.Content)
 	}
-	if total > structureBudgetChars+5_000 { // system + user instruction allowance
+	if total > llm.StructureBudget("m")+5_000 { // system + user instruction allowance
 		t.Errorf("agent opening prompt = %d chars, structure was not budgeted", total)
+	}
+}
+
+// A 1M-context model gets the same oversized structure untouched — the budget
+// is model-aware, and degradation is only a safety floor there.
+func TestAskBigContextModelGetsFullStructure(t *testing.T) {
+	mock := llm.NewMock("m",
+		llm.MockResponse{Content: `{"thinking":"p2","pages":"2"}`},
+		llm.MockResponse{Content: `{"thinking":"found","answer":"ok","pages_used":"2"}`},
+	)
+	if _, err := New(mock, "claude-sonnet-4-6").Ask(context.Background(), oversizedDoc(), "What was revenue?"); err != nil {
+		t.Fatal(err)
+	}
+	user := mock.Calls()[0].Messages[len(mock.Calls()[0].Messages)-1].Content
+	if strings.Contains(user, "…") {
+		t.Error("structure was truncated despite fitting the 1M-context budget")
+	}
+	if len(user) < 500_000 {
+		t.Errorf("select prompt = %d chars; full oversized structure should be embedded", len(user))
 	}
 }
