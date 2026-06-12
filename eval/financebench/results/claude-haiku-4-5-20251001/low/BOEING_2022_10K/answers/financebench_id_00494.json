@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00494",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "What production rate changes is Boeing forecasting for FY2023?",
+  "gold_answer": "Boeing forecasts an increase in the production rates for the 737, 777X and 787 aircrafts in 2023.",
+  "predicted": "Boeing is forecasting the following production rate changes for FY2023: (1) 787 Program: expects to gradually return to 5 per month in 2023 (currently producing at low rates); (2) 737 Program: expects to implement further gradual production rate increases based on market demand and supply chain capacity (increased to 31 per month in 2022, but specific 2023 rate not stated); (3) 777/777X and 767 Programs: currently producing at 3 per month combined with no specific 2023 changes mentioned.",
+  "reasoning": "The question asks about production rate changes Boeing is forecasting for FY2023. I need to search through the pages for specific production rate forecasts for 2023.\n\nLooking at page 31 (737 Program section): 'We increased the production rate to 31 per month in 2022, and expect to implement further gradual production rate increases based on market demand and supply chain capacity.'\n\nLooking at page 34 (787 Program section): 'We are currently producing at low rates and expect to gradually return to 5 per month in 2023.'\n\nLooking at page 34 (777 and 777X Programs section): 'We are currently producing at a combined production rate of 3 per month for the 777/777X programs.'\n\nLooking at page 32 (767 Program section): 'We are currently producing at a combined rate of 3 aircraft per month.'\n\nSo the specific FY2023 production rate forecasts mentioned are:\n- 737: Further gradual increases from 31 per month (specific 2023 rate not stated, just 'gradual increases')\n- 787: Gradually return to 5 per month in 2023\n- 777/777X: Currently at 3 per month (no specific 2023 change mentioned)\n- 767: Currently at 3 per month (no specific 2023 change mentioned)\n\nThe most concrete forecast for FY2023 is the 787 program returning to 5 per month.",
+  "selected_pages": "22-54",
+  "cited_pages": [
+    31,
+    32,
+    34
+  ],
+  "gold_pages": [
+    8
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": false,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

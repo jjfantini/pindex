@@ -21,6 +21,34 @@
   "pindex_answer": "Yes, there was a change in the number of Best Buy stores between Q2 FY2024 and Q2 FY2023.\n\n**Domestic Segment:**\n- Q2 FY2024 (end of quarter): 969 total stores\n- Q2 FY2023 (end of quarter): 982 total stores\n- Change: Decrease of 13 stores\n\nBreakdown of Domestic stores:\n- Best Buy: 907 stores (FY2024) vs. 930 stores (FY2023) - decrease of 23 stores\n- Outlet Centers: 20 stores (FY2024) vs. 18 stores (FY2023) - increase of 2 stores\n- Pacific Sales: 20 stores (FY2024) vs. 21 stores (FY2023) - decrease of 1 store\n- Yardbird: 22 stores (FY2024) vs. 13 stores (FY2023) - increase of 9 stores\n\n**International Segment (Canada):**\n- Q2 FY2024 (end of quarter): 160 total stores\n- Q2 FY2023 (end of quarter): 160 total stores\n- Change: No change\n\n**Overall:** Best Buy's total store count decreased from 1,142 stores at the end of Q2 FY2023 to 1,129 stores at the end of Q2 FY2024, a net decrease of 13 stores."
  },
  {
+  "id": "financebench_id_00464",
+  "question": "Is Boeing's business subject to cyclicality?",
+  "label": "AL",
+  "benchmark_answer": "Yes, Boeing's business is subject to cyclicality due to its exposure to the airline industry which is a cyclical industry.",
+  "pindex_answer": "Yes, Boeing's business is subject to cyclicality. According to the 10-K, \"Historically, the airline industry has been cyclical and very competitive and has experienced significant profit swings and constant challenges to be more cost competitive.\" The document explains that the commercial aircraft market is predominantly driven by long-term trends in airline passenger and cargo traffic, which are influenced by sustained economic growth, political stability, airline profitability, aircraft financing availability, fuel prices, and other macroeconomic factors. Significant deterioration in the global economic environment or airline industry could result in fewer new orders, postponed or cancelled orders, and reduced revenues and cash flows."
+ },
+ {
+  "id": "financebench_id_00476",
+  "question": "Which debt securities are registered to trade on a national securities exchange under American Express' name as of 2022?",
+  "label": "NAL",
+  "benchmark_answer": "There are none",
+  "pindex_answer": "Based on the debt disclosure in Note 8 of the 2022 10-K, American Express Company (Parent Company) had the following debt securities outstanding as of December 31, 2022:\n\n1. **Fixed Rate Senior Notes** ($23,813 million) - maturing 2023-2042\n2. **Floating Rate Senior Notes** ($3,000 million) - maturing 2023-2026\n3. **Fixed-to-Floating Rate Senior Notes** ($1,250 million) - maturing 2033\n4. **Fixed Rate Subordinated Notes** ($574 million) - maturing 2024\n5. **Fixed-to-Floating Rate Subordinated Notes** ($750 million) - maturing 2033\n\nHowever, the 10-K document does not explicitly specify which of these debt securities are registered to trade on national securities exchanges. The disclosure provides details on the outstanding balances, maturity dates, and interest rates, but does not include information about their exchange registration status. To determine which specific securities are registered on exchanges, you would need to consult American Express' SEC filings specifically addressing debt registration (such as Form S-3 or prospectus supplements) or contact the company's investor relations department directly."
+ },
+ {
+  "id": "financebench_id_00494",
+  "question": "What production rate changes is Boeing forecasting for FY2023?",
+  "label": "AL",
+  "benchmark_answer": "Boeing forecasts an increase in the production rates for the 737, 777X and 787 aircrafts in 2023.",
+  "pindex_answer": "Based on the fetched pages, Boeing provides the following FY2023 production rate guidance:\n\n**737 Program:** Boeing increased the production rate to 31 per month in 2022 and \"expect to implement further gradual production rate increases based on market demand and supply chain capacity\" (page 31).\n\n**787 Program:** \"We are currently producing at low rates and expect to gradually return to 5 per month in 2023\" (page 35). The company noted this is a gradual return from abnormally low production rates that began in Q3 2021.\n\n**777/777X Programs:** \"We are currently producing at a combined production rate of 3 per month for the 777/777X programs\" (page 34). The 777X-9 production was paused during 2022 and 2023, with expected abnormal production costs of approximately $1.5 billion.\n\n**767 Program:** \"We are currently producing at a combined rate of 3 aircraft per month\" for the commercial program and KC-46A Tanker derivative (page 32).\n\nThe document emphasizes that these production rate increases are contingent on \"market demand and supply chain capacity\" and that Boeing continues to work with customers and suppliers regarding timing of future deliveries and production rate changes."
+ },
+ {
+  "id": "financebench_id_00517",
+  "question": "Are there any product categories / service categories that represent more than 20% of Boeing's revenue for FY2022?",
+  "label": "AL",
+  "benchmark_answer": "Yes. Boeing has product and service categories that represent more than 20% of Boeing's revenue for FY2022. These categories are Commercial Airplanes which comprises 39% of total revenue, Defence which comprises 35% of total revenue and Services which comprises 26% of total revenue.",
+  "pindex_answer": "Yes, three product/service categories represent more than 20% of Boeing's FY2022 revenue: (1) Commercial Airplanes at $25,867 million (38.8% of total $66,608 million revenue), (2) Defense, Space \u0026 Security at $23,162 million (34.7%), and (3) Global Services at $17,611 million (26.4%)."
+ },
+ {
   "id": "financebench_id_00563",
   "question": "From FY21 to FY22, excluding Embedded, in which AMD reporting segment did sales proportionally increase the most?",
   "label": "AL",
@@ -28,11 +56,39 @@
   "pindex_answer": "Data Center had the largest proportional sales increase from FY21 to FY22, excluding Embedded. Data Center revenue grew from $3,694 million in FY21 to $6,043 million in FY22, representing a 63.6% increase. In comparison, Gaming grew 21.4% (from $5,607M to $6,805M), while Client actually declined 10.0% (from $6,887M to $6,201M)."
  },
  {
+  "id": "financebench_id_00585",
+  "question": "How does Boeing's effective tax rate in FY2022 compare to FY2021?",
+  "label": "NAL",
+  "benchmark_answer": "Effective tax rate in FY2022 was 0.62%, compared to  -14.76% in FY2021.",
+  "pindex_answer": "Based on the income tax reconciliation on page 77, Boeing's effective tax rate in FY2022 was -0.6% (a $31 million tax expense on a $5,022 million pre-tax loss), compared to 14.7% in FY2021 (a $743 million tax benefit on a $5,033 million pre-tax loss). The significant deterioration of approximately 15.3 percentage points was primarily driven by a $1,199 million valuation allowance recorded in 2022. According to page 78, the company increased its total valuation allowance to $3,162 million in 2022 from $2,423 million in 2021, primarily because the company was in a three-year cumulative pre-tax loss position and could not include future projected earnings in assessing the recoverability of deferred tax assets."
+ },
+ {
+  "id": "financebench_id_00678",
+  "question": "Does Boeing have an improving gross margin profile as of FY2022? If gross margin is not a useful metric for a company like this, then state that and explain why.",
+  "label": "AL",
+  "benchmark_answer": "Yes. Boeing has an improving gross margin profile as of FY2022. Gross profit improved from $3,017 million in FY2021 to $3,502 million in FY2022. Gross margin % improved from 4.8% in FY2021 to 5.3% in FY2022.",
+  "pindex_answer": "Gross margin is technically improving but is **not a particularly useful metric for Boeing**. Here's why:\n\n**Gross Margin Calculation (if used):**\n- 2022: 5.25% ($3,502M gross profit / $66,608M revenues)\n- 2021: 4.84% ($3,017M gross profit / $62,286M revenues)\n- 2020: -9.77% (-$5,685M gross profit / $58,158M revenues)\n\nWhile this shows improvement, it's misleading because:\n\n**Why Gross Margin is Not Useful for Boeing:**\n\n1. **Operating Loss Despite Positive Gross Profit**: Boeing had a positive \"gross profit\" of $3,502M in 2022 but still reported an operating loss of $3,547M. This is because G\u0026A and R\u0026D expenses ($7,039M) far exceed the gross profit, making the gross margin metric incomplete.\n\n2. **Long-Term Fixed-Price Contract Accounting**: Boeing operates primarily on long-term fixed-price defense and commercial aircraft contracts with complex cost estimation. The company records \"reach-forward losses\" when estimated total costs exceed revenues—$3.5B in 2022 alone for 787 and 777X programs. These losses don't flow through traditional gross margin calculations.\n\n3. **Significant Overhead Structure**: Boeing has substantial fixed costs in G\u0026A, R\u0026D, and program-specific overhead that are essential to understanding profitability. Gross margin ignores these critical expenses.\n\n4. **Better Metrics**: Segment operating margins and program-level profitability analysis are far more meaningful for evaluating Boeing's financial health than gross margin."
+ },
+ {
   "id": "financebench_id_00705",
   "question": "By how much did Pepsico increase its unsecured five year revolving credit agreement on May 26, 2023?",
   "label": "AL",
   "benchmark_answer": "$400,000,000 increase.",
   "pindex_answer": "PepsiCo increased its unsecured five-year revolving credit agreement by $400,000,000 on May 26, 2023. The previous five-year credit agreement was $3,800,000,000, and the new five-year credit agreement is $4,200,000,000."
+ },
+ {
+  "id": "financebench_id_00720",
+  "question": "What drove gross margin change as of the FY2022 for American Express? If gross margin is not a useful metric for a company like this, then please state that and explain why.",
+  "label": "AL",
+  "benchmark_answer": "Performance is not measured through gross margin",
+  "pindex_answer": "Gross margin is not a useful metric for American Express, and the company does not report or discuss gross margin in its financial statements or MD\u0026A.\n\nAmerican Express is a financial services company, not a manufacturing or product-based business. The pages show that American Express reports revenues from five sources: (1) Discount revenue ($30.7 billion in 2022), (2) Net card fees ($6.1 billion), (3) Service fees and other revenue ($4.5 billion), (4) Processed revenue ($1.6 billion), and (5) Interest income ($12.7 billion). These are service-based revenues, not product sales with identifiable cost of goods sold.\n\nGross margin is calculated as (Revenue - Cost of Goods Sold) / Revenue and is relevant for companies that manufacture or resell physical products. American Express has no COGS because it does not produce goods. Instead, the company reports:\n\n- Total revenues net of interest expense: $52.9 billion (2022)\n- Provisions for credit losses: $2.2 billion\n- Total expenses: $41.1 billion (including Card Member rewards, business development, Card Member services, marketing, salaries, and other operating expenses)\n- Pretax income: $9.6 billion\n\nMore relevant profitability metrics for American Express include Net Interest Margin (10.6% on Card Member loans), Return on Average Equity (32.3%), and the Cost-to-Income ratio implicit in the expense structure."
+ },
+ {
+  "id": "financebench_id_00723",
+  "question": "Does AMEX have an improving operating margin profile as of 2022? If operating margin is not a useful metric for a company like this, then state that and explain why.",
+  "label": "AL",
+  "benchmark_answer": "Performance is not measured through operating margin",
+  "pindex_answer": "Operating margin is NOT a particularly useful metric for American Express, and here's why: American Express is a financial services company (bank holding company), not a traditional operating business. For financial services firms, traditional operating margin concepts don't apply the same way because: (1) Interest income/expense is core to the business model - Unlike manufacturing or retail, financial services companies generate significant revenue from lending and deposit activities, making net interest margin more relevant than operating margin. (2) Credit losses are fundamental to the business - Provisions for credit losses are a core operating expense that fluctuates with economic conditions and portfolio quality, not a peripheral cost. (3) Different profitability metrics are more meaningful for financial services: Net Profit Margin: 14.2% (2022) vs. 19.0% (2021) - declining. Efficiency Ratio: 77.7% (2022) vs. 78.1% (2021) - slightly improving. Return on Equity: approximately 30% (2022) vs. 36% (2021) - declining. What actually happened in 2022: While revenues grew 24.8% to $52.9B from $42.4B, profitability declined due to: Credit loss provisions surged from a $1.4B release in 2021 to a $2.2B provision in 2022 (a $3.6B swing). Card Member rewards expenses jumped 27% to $14.0B. Interest expense nearly doubled to $2.8B from $1.3B due to rising deposit costs and debt rates. Net income fell 6.8% to $7.5B despite strong revenue growth. Conclusion: American Express's profitability profile deteriorated in 2022 despite strong revenue growth, driven by normalization of credit losses and rising operating costs."
  },
  {
   "id": "financebench_id_00757",
@@ -77,6 +133,20 @@
   "pindex_answer": "As of fiscal year 2022, AMD's major products and services are organized into four reportable segments:\n\n**Data Center Segment:**\n- Server microprocessors (CPUs) - AMD EPYC Series processors (9004, 7003, and 7002 Series)\n- Graphics processing units (GPUs) - AMD Instinct family for AI training and supercomputing\n- Data processing units (DPUs) - AMD Pensando DPUs for infrastructure services\n- FPGAs and Adaptive SoCs - Virtex, Kintex, Zynq, and Versal products\n- Visual cloud GPUs - Radeon PRO V families for remote visualization\n\n**Client Segment:**\n- Desktop CPUs - AMD Ryzen and AMD Athlon series processors\n- Notebook/Mobile CPUs - AMD Ryzen and AMD Athlon mobile processors\n- Commercial CPUs - AMD PRO and AMD Threadripper PRO processors\n- Chipsets - X670, B650, X570, B550, A520, B450, A320, and WRX80 chipsets\n\n**Gaming Segment:**\n- Semi-custom SoCs - Custom solutions for gaming consoles (PlayStation 5, Xbox Series S/X, Steam Deck)\n- Discrete GPUs - AMD Radeon RX series (7900 and 6000 series)\n- Professional GPUs - AMD Radeon PRO workstation graphics\n\n**Embedded Segment:**\n- Embedded CPUs, APUs, and GPUs - AMD Embedded EPYC, Ryzen V-Series, and Ryzen R-Series\n- FPGAs - UltraScale+, UltraScale, 7 Series, and legacy families\n- Adaptive SoCs - Zynq, Zynq MPSoC, Zynq RFSoCs, and Versal products\n- Development boards and kits\n\nAdditionally, AMD sells or licenses portions of its intellectual property portfolio."
  },
  {
+  "id": "financebench_id_01028",
+  "question": "What are the geographies that American Express primarily operates in as of 2022?",
+  "label": "AL",
+  "benchmark_answer": "United States, EMEA, APAC, and LACC",
+  "pindex_answer": "Based on American Express's 2022 Form 10-K, the company primarily operates in the following geographies: Primary Operating Regions: 1. United States - A major market for the company's consumer and commercial services. 2. International Markets - Jurisdictions representing significant portions of billed business outside the U.S. include: United Kingdom (UK), European Union (EU), Australia, Japan, Canada, and Mexico. 3. Global Network - American Express operates a payments network through relationships with third-party banks and institutions in approximately 103 countries and territories worldwide. Workforce Distribution: As of December 31, 2022, the company employed approximately 77,300 people globally, with approximately 26,000 colleagues in the United States and approximately 51,300 colleagues outside the United States. The company describes itself as a globally integrated payments company with a broad geographic footprint serving diverse customer groups (consumers, small businesses, mid-sized companies, and large corporations) across these regions through various channels including mobile and online applications, direct mail, telephone, and in-house sales teams."
+ },
+ {
+  "id": "financebench_id_01091",
+  "question": "Has Boeing reported any materially important ongoing legal battles from FY2022?",
+  "label": "AL",
+  "benchmark_answer": "Yes. Multiple lawsuits have been filed against Boeing resulting from a 2018 Lion Air crash and a 2019 Ethiopian Airlines crash.",
+  "pindex_answer": "Yes, Boeing reported several materially important ongoing legal battles from FY2022. According to Note 21 – Legal Proceedings: (1) Multiple legal actions related to the Lion Air Flight 610 (October 2018) and Ethiopian Airlines Flight 302 (March 2019) accidents. Boeing entered into a Deferred Prosecution Agreement with the U.S. Department of Justice in 2021 regarding the 737 MAX evaluation. In September 2022, Boeing settled an SEC investigation and consented to a $200 million civil penalty, which was paid in October 2022. The company received $219 million from a shareholder derivative lawsuit settlement in Q2 2022. Boeing states it cannot reasonably estimate remaining losses from pending lawsuits related to these accidents. (2) A dispute with Embraer S.A. over the termination of joint venture agreements valued at $4.2 billion, which is currently in arbitration and expected to be completed in late 2023 or early 2024. Boeing cannot reasonably estimate the range of loss from this arbitration."
+ },
+ {
   "id": "financebench_id_01198",
   "question": "What drove revenue change as of the FY22 for AMD?",
   "label": "AL",
@@ -89,6 +159,20 @@
   "label": "AL",
   "benchmark_answer": "In 2022, AMD brought in the most cashflow from Operations",
   "pindex_answer": "Among the three categories of cash flow activities in FY22, **operating activities brought in the most cash** at **$3,565 million**. Investing activities also generated positive cash flow of $1,999 million, while financing activities used $3,264 million in cash."
+ },
+ {
+  "id": "financebench_id_01290",
+  "question": "Who are the primary customers of Boeing as of FY2022?",
+  "label": "AL",
+  "benchmark_answer": "Boeing's primary customers as of FY2022 are a limited number of commercial airlines and the US government. The US government accounted for 40% of Boeing's total revenues in FY2022.",
+  "pindex_answer": "Based on Boeing's FY2022 10-K filing, the primary customers are:\n\n1. Commercial Airlines (BCA Segment - $25.9 billion in revenues)\n- Boeing's largest customer base for commercial aircraft\n- Customers located globally: U.S. ($12.2B), Asia ($4.5B), Europe ($4.0B), Middle East ($2.0B), and other regions ($3.0B)\n- Airlines purchase narrow-body (737) and wide-body (767, 777, 787) aircraft\n\n2. U.S. Government (40% of total consolidated revenues)\n- Primarily serves BDS ($23.2B segment) and BGS ($17.6B segment)\n- BDS: 89% of revenues from U.S. government contracts\n- BGS: 33% of revenues from U.S. government\n- Includes all branches of the U.S. military, NASA, FAA, and Department of Homeland Security\n\n3. International Governments and Defense Customers (BDS)\n- Non-U.S. government customers: $6.0 billion in BDS revenues\n- Includes allied nations' defense and security needs\n\n4. Commercial Airline Operators for Services (BGS Commercial - $9.6 billion)\n- Provides maintenance, spare parts, training, and logistics support\n- Supports both commercial and defense aircraft operators\n\n5. Boeing Capital Customers ($199 million)\n- Aircraft financing and leasing customers\n\nIn summary, Boeing's primary customers are commercial airlines worldwide and the U.S. government (representing 40% of total revenues), with supplementary revenue from international governments, commercial airline service customers, and financing arrangements."
+ },
+ {
+  "id": "financebench_id_01351",
+  "question": "How much has the effective tax rate of American Express changed between FY2021 and FY2022?",
+  "label": "AL",
+  "benchmark_answer": "The effective tax rate for American Express has changed/dropped from 24.6% in FY 2021 to 21.6% in FY 2022.",
+  "pindex_answer": "American Express's effective tax rate decreased by 3.0 percentage points between FY2021 and FY2022. The effective tax rate was 24.6% in 2021 and 21.6% in 2022."
  },
  {
   "id": "financebench_id_01487",
@@ -124,5 +208,19 @@
   "label": "AL",
   "benchmark_answer": "The entertainment segment experienced the highest growth of 9% during Q2 FY2024, primarily from gaming division.",
   "pindex_answer": "Based on the Q2 FY2024 domestic segment data, **Computing and Mobile Phones** performed the best by top line, representing **40%** of Domestic revenue. This was the largest revenue-generating product category for Best Buy's USA market during Q2 of fiscal 2024, despite experiencing a 6.4% comparable sales decline."
+ },
+ {
+  "id": "financebench_id_01964",
+  "question": "What was the largest liability in American Express's Balance Sheet in 2022?",
+  "label": "AL",
+  "benchmark_answer": "Customer deposits",
+  "pindex_answer": "According to American Express's Consolidated Balance Sheet as of December 31, 2022, the largest liability was **Customer deposits at $110,239 million ($110.2 billion)**. This represented deposits held by the company from customers and was significantly larger than the company's other major liabilities, including long-term debt ($42,573 million), other liabilities ($37,350 million), accounts payable ($12,133 million), and short-term borrowings ($1,348 million)."
+ },
+ {
+  "id": "financebench_id_01981",
+  "question": "Was American Express able to retain card members during 2022?",
+  "label": "AL",
+  "benchmark_answer": "Yes",
+  "pindex_answer": "Yes, American Express was able to retain card members during 2022. According to the document, Net card fees increased 17 percent year over-year, as new card acquisitions reached record levels in 2022 and Card Member retention remained high, demonstrating the impact of investments we have made in our premium value propositions. This indicates that the company successfully maintained high retention rates while also achieving record new card acquisitions during 2022."
  }
 ]

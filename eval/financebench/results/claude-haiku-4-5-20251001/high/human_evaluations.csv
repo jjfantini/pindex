@@ -13,3 +13,13 @@ From the Consolidated Balance Sheet:
 Quick Ratio = ($15,019 - $3,771) / $6,369 = $11,248 / $6,369 = 1.77
 
 A quick ratio above 1.0 is generally considered healthy, as it indicates the company has more than $1 in liquid assets for every $1 of current liabilities. AMD's ratio of 1.77 suggests the company has strong liquidity and sufficient liquid resources to meet its short-term obligations without relying on inventory conversion. This indicates a solid liquidity position."
+financebench_id_00476,AMERICANEXPRESS_2022_10K.pdf,Which debt securities are registered to trade on a national securities exchange under American Express' name as of 2022?,NAL,,There are none,"Based on the debt disclosure in Note 8 of the 2022 10-K, American Express Company (Parent Company) had the following debt securities outstanding as of December 31, 2022:
+
+1. **Fixed Rate Senior Notes** ($23,813 million) - maturing 2023-2042
+2. **Floating Rate Senior Notes** ($3,000 million) - maturing 2023-2026
+3. **Fixed-to-Floating Rate Senior Notes** ($1,250 million) - maturing 2033
+4. **Fixed Rate Subordinated Notes** ($574 million) - maturing 2024
+5. **Fixed-to-Floating Rate Subordinated Notes** ($750 million) - maturing 2033
+
+However, the 10-K document does not explicitly specify which of these debt securities are registered to trade on national securities exchanges. The disclosure provides details on the outstanding balances, maturity dates, and interest rates, but does not include information about their exchange registration status. To determine which specific securities are registered on exchanges, you would need to consult American Express' SEC filings specifically addressing debt registration (such as Form S-3 or prospectus supplements) or contact the company's investor relations department directly."
+financebench_id_00585,BOEING_2022_10K.pdf,How does Boeing's effective tax rate in FY2022 compare to FY2021?,NAL,,"Effective tax rate in FY2022 was 0.62%, compared to  -14.76% in FY2021.","Based on the income tax reconciliation on page 77, Boeing's effective tax rate in FY2022 was -0.6% (a $31 million tax expense on a $5,022 million pre-tax loss), compared to 14.7% in FY2021 (a $743 million tax benefit on a $5,033 million pre-tax loss). The significant deterioration of approximately 15.3 percentage points was primarily driven by a $1,199 million valuation allowance recorded in 2022. According to page 78, the company increased its total valuation allowance to $3,162 million in 2022 from $2,423 million in 2021, primarily because the company was in a three-year cumulative pre-tax loss position and could not include future projected earnings in assessing the recoverability of deferred tax assets."

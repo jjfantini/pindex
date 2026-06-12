@@ -28,21 +28,26 @@ hand-edit the derived files.
 
 ## Scoreboard — claude-haiku-4-5-20251001 (generation + indexing), gpt-4o-2024-11-20 judge
 
-Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-11 (7/84 docs, 18/150 questions):
+Regenerate with `go run ./eval/financebench/aggregate`. As of 2026-06-12 (9/84 docs, 32/150 questions):
 
 | Effort | Raw accuracy | Adjusted accuracy | Evidence recall | Hallucination |
 |---|---|---|---|---|
-| low | 83.33% (15/18) | 100.0% | 88.89% | 16.67% |
-| medium | 83.33% (15/18) | 100.0% | 88.89% | 16.67% |
-| **high** | **94.44% (17/18)** | **100.0%** | 94.44% | 5.56% |
-| **ultra** | **94.44% (17/18)** | **100.0%** | 94.44% | 5.56% |
+| low | 87.50% (28/32) | 96.88% | 81.25% | 12.50% |
+| medium | 87.50% (28/32) | 96.88% | 84.38% | 12.50% |
+| **high** | **90.62% (29/32)** | **93.75%** | 87.50% | 9.38% |
+| ultra | 87.50% (28/32) | 90.62% | 87.50% | 12.50% |
+
+Adjusted numbers are provisional: the three misses introduced by the 2026-06-12 installment
+(see below) are auto-labelled `NAL` and still await human adjudication.
 
 ### Documents in the pool so far
 
 | Document | Questions |
 |---|---|
 | AMD_2022_10K | 7 |
+| AMERICANEXPRESS_2022_10K | 7 |
 | BESTBUY_2024Q2_10Q | 3 |
+| BOEING_2022_10K | 7 |
 | FOOTLOCKER_2022_8K_dated-2022-05-20 | 1 |
 | FOOTLOCKER_2022_8K_dated_2022-08-19 | 1 |
 | JOHNSON_JOHNSON_2023Q2_EARNINGS | 1 |
@@ -60,10 +65,19 @@ All are outside the diagnostic **train** split (no prompt-tuning contamination).
 | financebench_id_00839 | low, medium | SEDC | Same CEO/Ulta evidence; interpretive split on "similar company" |
 | financebench_id_00222 | high, ultra | MVA | AMD quick ratio — alternate valid formula, same conclusion |
 
+### Pending human review (2026-06-12 installment, auto-labelled `NAL`)
+
+| ID | Effort(s) | Question |
+|---|---|---|
+| financebench_id_00585 | all four | Boeing FY2022 vs FY2021 effective tax rate — gold says 0.62% vs -14.76%; pindex read (0.6)% vs 14.7% off the page-77 reconciliation (sign convention differs) |
+| financebench_id_00476 | high, ultra | Amex debt securities registered on a national exchange — gold "There are none"; pindex listed Note 8 parent-company debt instead |
+| financebench_id_00494 | ultra | Boeing FY2023 production rate forecasts — pindex cited the 737/787 increases but hedged on specificity |
+
 - **Raw** is judge-only; **adjusted** also counts human-adjudicated `MVA`/`BE`/`SEDC` relabels (the
   process behind Mafin 2.5's published 98.7%). See each answer record's `label_reason` for detail.
-- `medium` has matched `low` on every doc so far: its refusal retry has never fired (all misses
-  were confident-wrong, not refusals).
+- `medium` has matched `low` on accuracy on every doc so far: its refusal retry has never fired (all
+  misses were confident-wrong, not refusals). As of the 2026-06-12 installment their evidence-recall
+  paths diverge slightly (84.38% vs 81.25%) while scoring the same questions right.
 
 ## Adding a document (one command)
 

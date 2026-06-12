@@ -1,0 +1,26 @@
+{
+  "financebench_id": "financebench_id_00494",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "What production rate changes is Boeing forecasting for FY2023?",
+  "gold_answer": "Boeing forecasts an increase in the production rates for the 737, 777X and 787 aircrafts in 2023.",
+  "predicted": "Based on the 2022 10-K filing, Boeing provides limited specific FY2023 production rate guidance: 737 Program: Boeing states 'We increased the production rate to 31 per month in 2022, and expect to implement further gradual production rate increases based on market demand and supply chain capacity' (page 33). However, no specific 2023 production rate target is provided. 787 Program: 'We are currently producing at low rates and expect to gradually return to 5 per month in 2023' (page 35). 777/777X Programs: Boeing is 'currently producing at a combined production rate of 3 per month for the 777/777X programs' (page 34). The company decided to pause 777X-9 production during 2022 and 2023. 767 Program: 'We are currently producing at a combined rate of 3 aircraft per month' (page 34), with no specific 2023 changes mentioned. The document emphasizes that production rate increases are contingent on 'market demand and supply chain capacity' and that Boeing 'continue[s] to work with customers and suppliers regarding timing of future deliveries and production rate changes' (page 35).",
+  "reasoning": "I need to format my answer as valid JSON without newline characters in the string literals. I'll escape the newlines properly or reformat the answer to fit in the JSON schema.",
+  "verification": "supported",
+  "steps": 5,
+  "selected_pages": "22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54",
+  "cited_pages": [
+    33,
+    34,
+    35
+  ],
+  "gold_pages": [
+    8
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": false,
+  "hallucinated": true,
+  "page_hit": false,
+  "label": "NAL"
+}

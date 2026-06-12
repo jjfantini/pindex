@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_01964",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "What was the largest liability in American Express's Balance Sheet in 2022?",
+  "gold_answer": "Customer deposits",
+  "predicted": "According to American Express's Consolidated Balance Sheet as of December 31, 2022, the largest liability was **Customer deposits at $110,239 million ($110.2 billion)**. This represented deposits held by the company from customers and was significantly larger than the company's other major liabilities, including long-term debt ($42,573 million), other liabilities ($37,350 million), accounts payable ($12,133 million), and short-term borrowings ($1,348 million).",
+  "reasoning": "The user is asking about the largest liability on American Express's balance sheet in 2022. Looking at the Consolidated Balance Sheets on page 98, I can see the liabilities section:\n\nLiabilities (as of December 31, 2022):\n- Customer deposits: $110,239 million\n- Accounts payable: $12,133 million\n- Short-term borrowings: $1,348 million\n- Long-term debt: $42,573 million\n- Other liabilities: $37,350 million\n\nTotal liabilities: $203,643 million\n\nThe largest liability is Customer deposits at $110,239 million (or approximately $110.2 billion).",
+  "steps": 2,
+  "selected_pages": "96,97,98,99,100,101",
+  "cited_pages": [
+    98
+  ],
+  "gold_pages": [
+    97
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

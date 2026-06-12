@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00517",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "Are there any product categories / service categories that represent more than 20% of Boeing's revenue for FY2022?",
+  "gold_answer": "Yes. Boeing has product and service categories that represent more than 20% of Boeing's revenue for FY2022. These categories are Commercial Airplanes which comprises 39% of total revenue, Defence which comprises 35% of total revenue and Services which comprises 26% of total revenue.",
+  "predicted": "Yes, three product/service categories represent more than 20% of Boeing's FY2022 revenues: (1) Commercial Airplanes (BCA) at 38.8% ($25,867 million), (2) Defense, Space \u0026 Security (BDS) at 34.8% ($23,162 million), and (3) Global Services (BGS) at 26.4% ($17,611 million). Total FY2022 revenues were $66,608 million.",
+  "reasoning": "I need to find Boeing's FY2022 total revenues and then calculate what percentage each product/service category represents. From page 24, I can see the revenue breakdown for 2022:\n\n- Commercial Airplanes (BCA): $25,867 million\n- Defense, Space \u0026 Security (BDS): $23,162 million\n- Global Services (BGS): $17,611 million\n- Boeing Capital (BCC): $199 million\n- Unallocated items, eliminations and other: ($231) million\n- Total revenues: $66,608 million\n\nNow I'll calculate each as a percentage of total revenues:\n\nBCA: $25,867 / $66,608 = 0.3881 = 38.81%\nBDS: $23,162 / $66,608 = 0.3475 = 34.75%\nBGS: $17,611 / $66,608 = 0.2642 = 26.42%\nBCC: $199 / $66,608 = 0.00298 = 0.30%\n\nComparing to the 20% threshold:\n- BCA: 38.81% \u003e 20% ✓\n- BDS: 34.75% \u003e 20% ✓\n- BGS: 26.42% \u003e 20% ✓\n- BCC: 0.30% \u003c 20% ✗\n\nSo three categories exceed 20% of total revenues.",
+  "selected_pages": "22-54, 62-63",
+  "cited_pages": [
+    24
+  ],
+  "gold_pages": [
+    61
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

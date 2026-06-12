@@ -1,0 +1,22 @@
+{
+  "financebench_id": "financebench_id_00464",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "Is Boeing's business subject to cyclicality?",
+  "gold_answer": "Yes, Boeing's business is subject to cyclicality due to its exposure to the airline industry which is a cyclical industry.",
+  "predicted": "Yes, Boeing's business is subject to cyclicality. The company explicitly states that 'Historically, the airline industry has been cyclical and very competitive and has experienced significant profit swings and constant challenges to be more cost competitive.' Since Boeing derives a significant portion of its revenues from commercial aircraft sales to airlines, and demand for these aircraft is driven by factors such as sustained economic growth, airline profitability, and global economic conditions, Boeing's business is inherently cyclical.",
+  "reasoning": "The question asks whether Boeing's business is subject to cyclicality. I need to search the provided pages for explicit statements about cyclicality in Boeing's business.\n\nOn page 8, in the Risk Factors section under 'Risks Related to Our Business and Operations', there is a clear statement: 'Historically, the airline industry has been cyclical and very competitive and has experienced significant profit swings and constant challenges to be more cost competitive.'\n\nThis directly addresses the question. The document explicitly states that the airline industry, which is a major part of Boeing's commercial aircraft business, has historically been cyclical. The passage also explains that 'Market conditions have a significant impact on demand for our commercial aircraft and related services' and that demand is influenced by various factors including 'sustained economic growth and political stability' and 'airline profitability'.\n\nThe document further notes that 'Significant deterioration in the global economic environment, the airline industry generally or the financial stability of one or more of our major customers could result in fewer new orders for aircraft or services, or could cause customers to seek to postpone or cancel contractual orders' - which demonstrates the cyclical nature of the business.\n\nSo yes, Boeing's business is explicitly stated to be subject to cyclicality, particularly through its dependence on the commercial airline industry.",
+  "selected_pages": "8-19",
+  "cited_pages": [
+    8
+  ],
+  "gold_pages": [
+    7
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

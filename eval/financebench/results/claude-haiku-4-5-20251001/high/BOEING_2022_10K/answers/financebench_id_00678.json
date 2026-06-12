@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_00678",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "Does Boeing have an improving gross margin profile as of FY2022? If gross margin is not a useful metric for a company like this, then state that and explain why.",
+  "gold_answer": "Yes. Boeing has an improving gross margin profile as of FY2022. Gross profit improved from $3,017 million in FY2021 to $3,502 million in FY2022. Gross margin % improved from 4.8% in FY2021 to 5.3% in FY2022.",
+  "predicted": "Gross margin is technically improving but is **not a particularly useful metric for Boeing**. Here's why:\n\n**Gross Margin Calculation (if used):**\n- 2022: 5.25% ($3,502M gross profit / $66,608M revenues)\n- 2021: 4.84% ($3,017M gross profit / $62,286M revenues)\n- 2020: -9.77% (-$5,685M gross profit / $58,158M revenues)\n\nWhile this shows improvement, it's misleading because:\n\n**Why Gross Margin is Not Useful for Boeing:**\n\n1. **Operating Loss Despite Positive Gross Profit**: Boeing had a positive \"gross profit\" of $3,502M in 2022 but still reported an operating loss of $3,547M. This is because G\u0026A and R\u0026D expenses ($7,039M) far exceed the gross profit, making the gross margin metric incomplete.\n\n2. **Long-Term Fixed-Price Contract Accounting**: Boeing operates primarily on long-term fixed-price defense and commercial aircraft contracts with complex cost estimation. The company records \"reach-forward losses\" when estimated total costs exceed revenues—$3.5B in 2022 alone for 787 and 777X programs. These losses don't flow through traditional gross margin calculations.\n\n3. **Significant Overhead Structure**: Boeing has substantial fixed costs in G\u0026A, R\u0026D, and program-specific overhead that are essential to understanding profitability. Gross margin ignores these critical expenses.\n\n4. **Better Metrics**: Segment operating margins and program-level profitability analysis are far more meaningful for evaluating Boeing's financial health than gross margin.",
+  "reasoning": "I need to provide the answer in proper JSON format with only one JSON object, no additional prose.",
+  "steps": 2,
+  "selected_pages": "55,56",
+  "cited_pages": [
+    55
+  ],
+  "gold_pages": [
+    54
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

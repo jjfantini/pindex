@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_00464",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "Is Boeing's business subject to cyclicality?",
+  "gold_answer": "Yes, Boeing's business is subject to cyclicality due to its exposure to the airline industry which is a cyclical industry.",
+  "predicted": "Yes, Boeing's business is subject to cyclicality. According to the 10-K, \"Historically, the airline industry has been cyclical and very competitive and has experienced significant profit swings and constant challenges to be more cost competitive.\" The document explains that the commercial aircraft market is predominantly driven by long-term trends in airline passenger and cargo traffic, which are influenced by sustained economic growth, political stability, airline profitability, aircraft financing availability, fuel prices, and other macroeconomic factors. Significant deterioration in the global economic environment or airline industry could result in fewer new orders, postponed or cancelled orders, and reduced revenues and cash flows.",
+  "reasoning": "The user asked if Boeing's business is subject to cyclicality. I found the answer in the fetched pages. On page 8, in the Risk Factors section under \"We depend heavily on commercial airlines, subjecting us to unique risks,\" there is a clear statement about cyclicality: 'Historically, the airline industry has been cyclical and very competitive and has experienced significant profit swings and constant challenges to be more cost competitive.'",
+  "steps": 2,
+  "selected_pages": "8,9,10,11,12",
+  "cited_pages": [
+    8
+  ],
+  "gold_pages": [
+    7
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

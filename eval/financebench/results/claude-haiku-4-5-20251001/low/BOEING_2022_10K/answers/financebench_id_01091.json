@@ -1,0 +1,23 @@
+{
+  "financebench_id": "financebench_id_01091",
+  "company": "Boeing",
+  "doc_name": "BOEING_2022_10K.pdf",
+  "question": "Has Boeing reported any materially important ongoing legal battles from FY2022?",
+  "gold_answer": "Yes. Multiple lawsuits have been filed against Boeing resulting from a 2018 Lion Air crash and a 2019 Ethiopian Airlines crash.",
+  "predicted": "Yes, Boeing reported two materially important ongoing legal battles from FY2022: (1) Multiple pending lawsuits related to the 737 MAX accidents (Lion Air Flight 610 in October 2018 and Ethiopian Airlines Flight 302 in March 2019), for which Boeing cannot reasonably estimate remaining losses not covered by insurance; and (2) An arbitration dispute with Embraer over Boeing's termination of joint venture agreements, expected to be completed in late 2023 or early 2024, for which Boeing cannot reasonably estimate potential losses.",
+  "reasoning": "The question asks about materially important ongoing legal battles from FY2022. I need to look at the Legal Proceedings section. Page 20 mentions Item 3. Legal Proceedings and refers to Note 21 in the Consolidated Financial Statements. Pages 112-113 contain Note 21 – Legal Proceedings.\n\nLooking at Note 21 on pages 112-113, I can identify the following ongoing legal matters:\n\n1. Lion Air Flight 610 (October 29, 2018) and Ethiopian Airlines Flight 302 (March 10, 2019) accidents: Multiple legal actions filed. During 2021, Boeing entered into a Deferred Prosecution Agreement with DOJ and settled a shareholder derivative lawsuit (receiving $219 in Q2 2022). In September 2022, Boeing settled an SEC investigation related to 737 MAX accidents with a civil penalty of $200 paid in October 2022. The document states: \"We cannot reasonably estimate a range of loss, if any, not covered by available insurance that we may incur as a result of any remaining pending lawsuits or other matters related to the accidents and the 737 MAX.\" This indicates ongoing pending lawsuits.\n\n2. Embraer dispute: During 2019, Boeing entered into agreements with Embraer for joint ventures. In 2020, Boeing exercised its right to terminate based on Embraer's failure to meet closing conditions. Embraer disputed this termination, and \"the dispute is currently in arbitration.\" The document states: \"We cannot reasonably estimate a range of loss, if any, that may result from the arbitration, which we currently expect to be completed in late 2023 or early 2024.\"\n\nBoth of these are materially important ongoing legal matters from FY2022, as they are specifically disclosed in the legal proceedings note and involve significant amounts or potential impacts.",
+  "selected_pages": "20,112-113",
+  "cited_pages": [
+    112,
+    113
+  ],
+  "gold_pages": [
+    112
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

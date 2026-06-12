@@ -1,0 +1,24 @@
+{
+  "financebench_id": "financebench_id_00723",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "Does AMEX have an improving operating margin profile as of 2022? If operating margin is not a useful metric for a company like this, then state that and explain why.",
+  "gold_answer": "Performance is not measured through operating margin",
+  "predicted": "No, AMEX does not have an improving operating margin profile as of 2022. Pretax margin (a proxy for operating margin) declined from 25.2% in 2021 to 18.1% in 2022. However, operating margin is not a particularly useful metric for evaluating a company like AMEX because: (1) as a financial services/payments company, AMEX's core operations include significant interest income and expense components that are integral to the business model, not peripheral; (2) credit loss provisions are a major expense item that fluctuates based on credit cycles and macroeconomic conditions; and (3) Return on Average Equity (ROE) is a more appropriate profitability metric for financial services companies. AMEX's ROE was 32.3% in 2022 versus 33.7% in 2021, remaining very strong despite the slight decline. The 2022 margin decline was primarily driven by credit reserve builds and losses on Amex Ventures investments, not operational deterioration.",
+  "reasoning": "To answer whether AMEX has an improving operating margin profile as of 2022, I need to calculate operating margin for 2022 and compare it to prior years. Operating margin is typically calculated as Operating Income / Total Revenues (or a similar metric).\n\nFrom Table 1 (page 44):\n- 2022: Total revenues net of interest expense = $52,862M, Pretax income = $9,585M\n- 2021: Total revenues net of interest expense = $42,380M, Pretax income = $10,689M\n- 2020: Total revenues net of interest expense = $36,087M, Pretax income = $4,296M\n\nCalculating pretax margin (a proxy for operating margin):\n- 2022: $9,585 / $52,862 = 18.1%\n- 2021: $10,689 / $42,380 = 25.2%\n- 2020: $4,296 / $36,087 = 11.9%\n\nThis shows a DECLINING margin from 2021 to 2022 (from 25.2% to 18.1%), not improving.\n\nHowever, I should consider whether operating margin is even the right metric for a financial services company like AMEX. The pages discuss that AMEX is a payments company with credit card, banking, and merchant services. For financial services companies, operating margin may not be the most useful metric because:\n\n1. These companies have significant interest income and expense components that are core to operations\n2. Credit loss provisions are a major expense item that fluctuates based on credit cycles\n3. Return on equity (ROE) is typically a more relevant metric for financial services\n\nFrom Table 1, AMEX's Return on Average Equity was 32.3% in 2022 vs 33.7% in 2021 - a slight decline but still very strong.\n\nThe pages note that 2022 net income declined due to \"credit reserve builds and net losses in our Amex Ventures strategic investment portfolio in the current year compared with sizeable credit reserve releases and significant net gains in our Amex Ventures strategic investment portfolio in the prior year\" (page 45).\n\nSo the answer is: No, operating margin is not improving (it declined from 25.2% to 18.1%), AND operating margin is not the most useful metric for evaluating a financial services company like AMEX.",
+  "selected_pages": "43-53",
+  "cited_pages": [
+    44,
+    45,
+    46
+  ],
+  "gold_pages": [
+    95
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": true,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}

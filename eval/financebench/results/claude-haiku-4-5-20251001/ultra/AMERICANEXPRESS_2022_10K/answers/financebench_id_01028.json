@@ -1,0 +1,25 @@
+{
+  "financebench_id": "financebench_id_01028",
+  "company": "American Express",
+  "doc_name": "AMERICANEXPRESS_2022_10K.pdf",
+  "question": "What are the geographies that American Express primarily operates in as of 2022?",
+  "gold_answer": "United States, EMEA, APAC, and LACC",
+  "predicted": "Based on American Express's 2022 Form 10-K, the company primarily operates in the following geographies: Primary Operating Regions: 1. United States - A major market for the company's consumer and commercial services. 2. International Markets - Jurisdictions representing significant portions of billed business outside the U.S. include: United Kingdom (UK), European Union (EU), Australia, Japan, Canada, and Mexico. 3. Global Network - American Express operates a payments network through relationships with third-party banks and institutions in approximately 103 countries and territories worldwide. Workforce Distribution: As of December 31, 2022, the company employed approximately 77,300 people globally, with approximately 26,000 colleagues in the United States and approximately 51,300 colleagues outside the United States. The company describes itself as a globally integrated payments company with a broad geographic footprint serving diverse customer groups (consumers, small businesses, mid-sized companies, and large corporations) across these regions through various channels including mobile and online applications, direct mail, telephone, and in-house sales teams.",
+  "reasoning": "The user is asking about the geographies that American Express primarily operates in as of 2022. Let me look at the pages I've retrieved to find information about geographic operations. From page 5, I can see: 'Jurisdictions that represent a significant portion of our billed business outside of the United States include the United Kingdom (UK), the European Union (EU), Australia, Japan, Canada and Mexico.' From page 6, I can see information about their global footprint and diverse customer base. From page 4, it mentions they are 'a globally integrated payments company' and 'a leader in providing credit and charge cards to consumers, small businesses, mid-sized companies and large corporations around the world.' Also from page 5: 'We operate a payments network through which we establish and maintain relationships with third-party banks and other institutions in approximately 103 countries and territories'",
+  "verification": "unsupported",
+  "steps": 2,
+  "selected_pages": "1,2,3,4,5,6,7,8,9,10,11,12",
+  "cited_pages": [
+    4,
+    5
+  ],
+  "gold_pages": [
+    154
+  ],
+  "extraction_ok": true,
+  "retrieval_ok": false,
+  "answer_ok": true,
+  "hallucinated": false,
+  "page_hit": false,
+  "label": "AL"
+}
