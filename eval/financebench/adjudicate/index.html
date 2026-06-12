@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>pindex · FinanceBench adjudication</title>
+<style>
+  :root { --bg:#0f1115; --panel:#181b21; --panel2:#1f232b; --text:#d7dae0; --dim:#8a909c;
+          --accent:#6ea8fe; --gold:#e3b341; --pred:#7ee787; --warn:#f85149; --line:#2a2f38; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+         font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+  header { position:sticky; top:0; z-index:10; background:var(--panel); border-bottom:1px solid var(--line);
+           padding:12px 24px; display:flex; align-items:center; gap:16px; }
+  header h1 { font-size:15px; margin:0; font-weight:600; }
+  header .dim { color:var(--dim); font-size:12px; }
+  header .spacer { flex:1; }
+  #apply { background:var(--accent); color:#0b0d10; border:0; border-radius:6px;
+           padding:8px 18px; font-weight:700; font-size:13px; cursor:pointer; }
+  #apply:disabled { background:#3a4250; color:var(--dim); cursor:default; }
+  main { max-width:1100px; margin:0 auto; padding:20px 24px 80px; }
+  details { border:1px solid var(--line); border-radius:8px; margin:10px 0; background:var(--panel); }
+  details > summary { cursor:pointer; padding:10px 14px; font-weight:600; list-style:none;
+                      display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  details > summary::before { content:"▸"; color:var(--dim); transition:transform .12s; }
+  details[open] > summary::before { transform:rotate(90deg); }
+  details .body { padding:4px 16px 14px; border-top:1px solid var(--line); }
+  details.doc > summary { font-size:15px; }
+  details.q { background:var(--panel2); }
+  details.sub { background:#15181d; margin:8px 0; }
+  details.sub > summary { font-weight:500; font-size:13px; color:var(--dim); padding:7px 12px; }
+  .badge { font-size:11px; font-weight:700; border-radius:4px; padding:1px 7px; letter-spacing:.4px; }
+  .b-NAL { background:#3a1d1d; color:var(--warn); }
+  .b-MVA, .b-BE, .b-SEDC { background:#1d2c3a; color:var(--accent); }
+  .b-eff { background:#262b34; color:var(--dim); }
+  .b-halluc { background:#3a2d1d; color:var(--gold); }
+  .b-changed { background:#1d3a26; color:var(--pred); }
+  .lbl { color:var(--dim); font-size:11px; text-transform:uppercase; letter-spacing:.8px; margin:12px 0 4px; }
+  .gold { border-left:3px solid var(--gold); padding-left:12px; }
+  .pred { border-left:3px solid var(--pred); padding-left:12px; }
+  .txt { white-space:pre-wrap; word-break:break-word; }
+  .pagetext { white-space:pre-wrap; word-break:break-word; font:12px/1.5 ui-monospace,Menlo,monospace;
+              color:#b9c0cc; max-height:420px; overflow:auto; padding:10px 12px; }
+  .meta { color:var(--dim); font-size:12px; }
+  .editor { margin-top:14px; padding:12px; border:1px dashed #3a4250; border-radius:8px; background:#14171c; }
+  .editor .row { display:flex; gap:10px; align-items:center; margin-bottom:8px; }
+  select, textarea { background:#0f1115; color:var(--text); border:1px solid var(--line);
+                     border-radius:6px; font:inherit; padding:6px 8px; }
+  textarea { width:100%; min-height:64px; resize:vertical; }
+  #status { position:fixed; bottom:0; left:0; right:0; background:var(--panel); border-top:1px solid var(--line);
+            padding:10px 24px; font-size:13px; display:none; max-height:40vh; overflow:auto; }
+  #status pre { margin:6px 0 0; font-size:12px; color:var(--dim); white-space:pre-wrap; }
+  .ok { color:var(--pred); } .err { color:var(--warn); }
+  a.btn { color:var(--accent); font-size:12px; cursor:pointer; user-select:none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>FinanceBench adjudication</h1>
+  <span class="dim" id="model"></span>
+  <span class="dim" id="count"></span>
+  <span class="spacer"></span>
+  <span class="dim" id="pending"></span>
+  <button id="apply" disabled>Apply Now</button>
+</header>
+<main id="main"><p class="meta">loading…</p></main>
+<div id="status"></div>
+<script>
+const changed = new Map(); // id -> {label, reason}
+const $ = (t, attrs = {}, ...kids) => {
+  const el = document.createElement(t);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') el.className = v;
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v);
+  }
+  el.append(...kids);
+  return el;
+};
+const badge = (cls, text) => $('span', { class: 'badge ' + cls }, text);
+
+function pageBlocks(pages, title) {
+  if (!pages || !pages.length) return $('p', { class: 'meta' }, title + ': page text unavailable (workspace not loaded)');
+  const wrap = $('div');
+  for (const p of pages) {
+    wrap.append($('details', { class: 'sub' },
+      $('summary', {}, `${title} — PDF page ${p.page}`),
+      $('div', { class: 'pagetext' }, p.text)));
+  }
+  return wrap;
+}
+
+function recordBlock(r) {
+  const flags = [badge('b-eff', r.effort), badge('b-' + r.label, r.label)];
+  if (r.hallucinated) flags.push(badge('b-halluc', 'HALLUC'));
+  const body = $('div', { class: 'body' },
+    $('div', { class: 'lbl' }, 'pindex answer'),
+    $('div', { class: 'pred txt' }, r.predicted || '(empty)'),
+    $('div', { class: 'meta', style: 'margin-top:8px' },
+      `cited pages: ${ (r.cited_pages || []).join(', ') || 'none' }` +
+      (r.selected_pages ? ` · selected: ${r.selected_pages}` : '') +
+      (r.verification ? ` · verification: ${r.verification}` : '')));
+  if (r.reasoning) body.append($('details', { class: 'sub' },
+    $('summary', {}, 'agent reasoning'), $('div', { class: 'pagetext' }, r.reasoning)));
+  if (r.label_reason) body.append($('details', { class: 'sub' },
+    $('summary', {}, 'current label reason'), $('div', { class: 'pagetext' }, r.label_reason)));
+  return $('details', { class: 'sub', open: '' },
+    $('summary', {}, ...flags, ` answer at ${r.effort}`), body);
+}
+
+function questionBlock(q) {
+  const labels = [...new Set(q.records.map(r => r.label))];
+  const sum = $('summary', {},
+    $('span', {}, q.id), ...labels.map(l => badge('b-' + l, l)),
+    $('span', { class: 'meta' }, q.records.map(r => r.effort).join(', ')));
+
+  const sel = $('select', {},
+    ...['NAL', 'MVA', 'BE', 'SEDC'].map(l => $('option', { value: l }, l)));
+  sel.value = labels.length === 1 ? labels[0] : 'NAL';
+  const ta = $('textarea', { placeholder:
+    'Why this label (plain text — it gets wrapped into the standard "Label: … Detailed Reason: …" form). Leave empty to set the label only.' });
+  const existing = q.records.find(r => r.label_reason);
+  if (existing && labels.length === 1) ta.value = existing.label_reason;
+  const mark = () => {
+    changed.set(q.id, { label: sel.value, reason: ta.value });
+    sum.querySelector('.b-changed')?.remove();
+    sum.append(badge('b-changed', '→ ' + sel.value));
+    refreshHeader();
+  };
+  sel.addEventListener('change', mark);
+  ta.addEventListener('input', mark);
+
+  const body = $('div', { class: 'body' },
+    $('div', { class: 'lbl' }, 'question'),
+    $('div', { class: 'txt' }, q.question),
+    $('div', { class: 'lbl' }, `gold answer (FinanceBench pages ${ (q.gold_pages || []).join(', ') || 'n/a' }` +
+      (q.gold_pages?.length ? ` → PDF ${q.gold_pages.map(p => p + 1).join(', ')}` : '') + ')'),
+    $('div', { class: 'gold txt' }, q.gold || '(none)'),
+    pageBlocks(q.gold_text, 'gold evidence'),
+    $('div', { class: 'lbl' }, `pindex answers (${q.records.length} effort${q.records.length > 1 ? 's' : ''})`),
+    ...q.records.map(recordBlock),
+    q.cited_text?.length ? $('details', { class: 'sub' },
+      $('summary', {}, `cited page text (union: ${q.cited_text.map(p => p.page).join(', ')})`),
+      pageBlocks(q.cited_text, 'cited')) : '',
+    $('div', { class: 'editor' },
+      $('div', { class: 'row' },
+        $('span', { class: 'lbl', style: 'margin:0' }, 'adjudicate as'), sel,
+        $('span', { class: 'meta' }, `applies to all ${q.records.length} shown effort record(s)`)),
+      ta));
+  return $('details', { class: 'q' }, sum, body);
+}
+
+function refreshHeader() {
+  document.getElementById('pending').textContent =
+    changed.size ? `${changed.size} question(s) staged` : '';
+  document.getElementById('apply').disabled = changed.size === 0;
+}
+
+async function render() {
+  changed.clear(); refreshHeader();
+  const d = await (await fetch('api/data')).json();
+  document.getElementById('model').textContent = d.model || '';
+  const main = document.getElementById('main');
+  main.replaceChildren();
+  if (d.ws_note) main.append($('p', { class: 'meta err' }, d.ws_note));
+  const qs = d.questions || [];
+  document.getElementById('count').textContent = `${qs.length} non-AL question(s)`;
+  const byDoc = new Map();
+  for (const q of qs) {
+    if (!byDoc.has(q.doc)) byDoc.set(q.doc, []);
+    byDoc.get(q.doc).push(q);
+  }
+  for (const [doc, list] of byDoc) {
+    main.append($('details', { class: 'doc', open: '' },
+      $('summary', {}, doc, $('span', { class: 'meta' }, `${list.length} question(s)`)),
+      $('div', { class: 'body' }, ...list.map(questionBlock))));
+  }
+  if (!qs.length) main.append($('p', { class: 'meta' }, 'No non-AL records — nothing to adjudicate.'));
+}
+
+document.getElementById('apply').addEventListener('click', async () => {
+  const btn = document.getElementById('apply');
+  btn.disabled = true; btn.textContent = 'Applying…';
+  const st = document.getElementById('status');
+  st.style.display = 'block';
+  try {
+    const changes = [...changed.entries()].map(([id, c]) => ({ id, label: c.label, reason: c.reason }));
+    const res = await fetch('api/apply', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ changes }),
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const out = await res.json();
+    st.replaceChildren(
+      $('span', { class: 'ok' }, `Applied: ${(out.updated || []).join(' · ')}`),
+      $('pre', {}, out.scoreboard || ''));
+    await render();
+  } catch (e) {
+    st.replaceChildren($('span', { class: 'err' }, 'Apply failed: ' + e.message));
+  } finally {
+    btn.textContent = 'Apply Now'; refreshHeader();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
